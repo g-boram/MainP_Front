@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 export default function Footer() {
-  return <FooterContainer>HeaderContainer</FooterContainer>;
+  return <FooterContainer>HeaderChangeTest</FooterContainer>;
 }
 
 const FooterContainer = styled.div`
