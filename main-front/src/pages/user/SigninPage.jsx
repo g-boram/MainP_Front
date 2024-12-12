@@ -67,6 +67,7 @@ const SigninContainer = styled.div`
   height: 100%;
   justify-content: center;
   align-items: center;
+  margin: 0 auto;
 
   @media (max-width: 600px) {
     gap: 10px;
@@ -79,6 +80,7 @@ const SigninContainer = styled.div`
   }
   @media (min-width: 600px) {
     gap: 10px;
+    width: 50%;
   }
 `;
 
@@ -89,6 +91,7 @@ const ImgBox = styled.div`
   align-items: center;
   height: 600px;
   padding: 10px;
+
   & > img {
     border-radius: 5px;
     width: 100%;
@@ -116,7 +119,6 @@ const ImgBox = styled.div`
 const FormBox = styled.div`
   padding: 50px 20px 20px 20px;
   height: auto;
-
   flex-grow: 1;
 
   @media (max-width: 600px) {

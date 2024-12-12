@@ -1,14 +1,12 @@
 import styled from "@emotion/styled";
-import LeftNavbar from "../../components/manager/LeftNavbar";
+import LeftNavbar from "../../../components/manager/LeftNavbar";
 
-import { useLocation } from "react-router-dom";
-
-export default function ManagerPage() {
+export default function M_BoardPage() {
   return (
     <ManagerContainer>
       <LeftNavbar />
       <ContentWrapper>
-        <h1>ManagerPage</h1>
+        <h1>M_BoardPage</h1>
       </ContentWrapper>
     </ManagerContainer>
   );
