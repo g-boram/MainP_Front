@@ -1,15 +1,19 @@
+*******************************
+***** 매니져 페이지 시작 템플릿 ***** 
+*******************************
+
 import styled from "@emotion/styled";
 import LeftNavbar from "../../components/manager/LeftNavbar";
 
 import { useLocation } from "react-router-dom";
 
 export default function ManagerPage() {
+  const location = useLocation();
+
   return (
     <ManagerContainer>
       <LeftNavbar />
-      <ContentWrapper>
-        <h1>ManagerPage</h1>
-      </ContentWrapper>
+      <ContentWrapper></ContentWrapper>
     </ManagerContainer>
   );
 }
