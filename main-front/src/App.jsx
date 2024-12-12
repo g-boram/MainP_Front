@@ -9,11 +9,14 @@ import HomePage from "./pages/HomePage";
 import ManagerPage from "./pages/manager/ManagerPage";
 import SigninPage from "./pages/user/SigninPage";
 import SignupPage from "./pages/user/SignupPage";
+import Header from "./components/layout/Header";
+import Footer from "./components/layout/Footer";
 
 function App() {
   return (
     <BrowserRouter>
       <ToastContainer autoClose={1000} />
+      <Header />
       <LayoutContainer>
         <Routes>
           {/* 메인 페이지 */}
@@ -32,12 +35,14 @@ function App() {
                   }
                 /> */}
         </Routes>
+        <Footer />
       </LayoutContainer>
     </BrowserRouter>
   );
 }
 
 const LayoutContainer = styled.div`
+  position: relative;
   max-width: 1400px;
   height: 100vh;
   margin: 0 auto;

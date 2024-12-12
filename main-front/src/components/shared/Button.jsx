@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { buttonColorMap, buttonWeakMap, buttonSizeMap } from "@styles/button";
+import { buttonColorMap, buttonWeakMap, buttonSizeMap } from "../../styles/button";
 
 const BaseButton = styled.button(
   {
