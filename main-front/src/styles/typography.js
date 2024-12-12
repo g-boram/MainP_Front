@@ -1,4 +1,4 @@
-import { css } from '@emotion/react'
+import { css } from "@emotion/react";
 
 export const typographyMap = {
   t1: css`
@@ -28,6 +28,4 @@ export const typographyMap = {
   t9: css`
     font-size: 9px;
   `,
-}
-
-export type Typography = keyof typeof typographyMap
+};
