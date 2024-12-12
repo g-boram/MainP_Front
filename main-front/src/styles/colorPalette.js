@@ -34,4 +34,5 @@ export const colorPalette = {
   fontDarkGrey: "#595959",
 
   headerBG: "#000",
+  navbarBG: "#000",
 };

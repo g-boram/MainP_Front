@@ -17,6 +17,7 @@ function App() {
     <BrowserRouter>
       <ToastContainer autoClose={1000} />
       <Header />
+
       <LayoutContainer>
         <Routes>
           {/* 메인 페이지 */}
