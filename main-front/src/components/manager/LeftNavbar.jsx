@@ -17,7 +17,7 @@ export default function LeftNavbar() {
 }
 
 const NavContainer = styled.div`
-  width: 300px;
+  width: 280px;
   padding: 10px;
   display: flex;
   justify-content: center;

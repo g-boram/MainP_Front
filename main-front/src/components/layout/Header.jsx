@@ -8,6 +8,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { isManagerPath } from "../../reduxSlice/isManagerPathSlice";
+import { HEIGHT_LIST } from "../../constants/height";
 
 export default function Header() {
   const location = useLocation();
@@ -63,7 +64,7 @@ const HeaderContainer = styled.div`
 
 const NavbarContainer = styled.div`
   width: 100%;
-  height: 30px;
+  height: ${HEIGHT_LIST.NAVBAR}px;
   display: flex;
   padding: 10px;
   justify-content: center;

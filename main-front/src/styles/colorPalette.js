@@ -35,4 +35,5 @@ export const colorPalette = {
 
   headerBG: "#000",
   navbarBG: "#000",
+  imgBackBG: "#eee",
 };
