@@ -30,7 +30,7 @@ export const colorPalette = {
 
   fontWhite: "#fff",
   fontBlack: "#333",
-  fontGrey: "#626262",
+  fontGrey: "#999",
   fontDarkGrey: "#595959",
 
   headerBG: "#000",
