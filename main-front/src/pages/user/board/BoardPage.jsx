@@ -1,9 +1,11 @@
 import styled from "@emotion/styled";
+import PageTopImgBox from "../../../components/shared/PageTopImgBox";
 
 export default function BoardPage() {
   return (
     <BoardContainer>
       <h1>ManagerPage</h1>
+      <PageTopImgBox imgName={"board"} />
     </BoardContainer>
   );
 }
