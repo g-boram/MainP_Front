@@ -18,5 +18,5 @@ const HomeContainer = styled.div`
   padding: 10px;
   display: flex;
   flex-direction: column;
-  background-color: pink;
+  border: 1px solid grey;
 `;

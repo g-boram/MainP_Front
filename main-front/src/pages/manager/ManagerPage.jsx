@@ -1,8 +1,6 @@
 import styled from "@emotion/styled";
 import LeftNavbar from "../../components/manager/LeftNavbar";
 
-import { useLocation } from "react-router-dom";
-
 export default function ManagerPage() {
   return (
     <ManagerContainer>
@@ -15,10 +13,10 @@ export default function ManagerPage() {
 }
 
 const ManagerContainer = styled.div`
-  min-height: 900px;
+  min-height: 800px;
   padding: 10px;
   display: flex;
-  background-color: pink;
+  padding-top: 60px;
 `;
 
 const ContentWrapper = styled.div`
@@ -26,5 +24,5 @@ const ContentWrapper = styled.div`
   padding: 10px;
   display: flex;
   flex-direction: column;
-  background-color: lightGrey;
+  border: 1px solid grey;
 `;

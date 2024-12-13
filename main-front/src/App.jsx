@@ -49,7 +49,7 @@ function App() {
 
 const LayoutContainer = styled.div`
   position: relative;
-  max-width: 1400px;
+  /* max-width: 1400px; */
   height: 100vh;
   margin: 0 auto;
   padding: 0;
@@ -58,7 +58,7 @@ const LayoutContainer = styled.div`
     min-width: 100vw;
   }
   @media (min-width: 600px) {
-    max-width: 1400px;
+    /* max-width: 1400px; */
   }
 `;
 
