@@ -14,6 +14,7 @@ import SigninPage from "./pages/user/SigninPage";
 import SignupPage from "./pages/user/SignupPage";
 import M_BoardPage from "./pages/manager/board/M_BoardPage";
 import BoardPage from "./pages/user/board/BoardPage";
+import CarPage from "./pages/user/car/CarPage";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/signin" Component={SigninPage} />
           <Route path="/signup" Component={SignupPage} />
           <Route path="/board" Component={BoardPage} />
+          <Route path="/car" Component={CarPage} />
 
           {/* 관리자 페이지 */}
           <Route path="/manager" Component={ManagerPage} />
