@@ -2,11 +2,14 @@ import styled from "@emotion/styled";
 import { HEIGHT_LIST } from "../../../constants/height";
 import CarSearch from "../../../components/shared/CarSearch";
 import EventCarBox from "../../../components/car/EventCarBox";
+import SideMenuBar from "../../../components/shared/SideMenuBar";
 
 export default function CarPage() {
   return (
     <CarListContainer>
-      <LeftCategoryBox>Category</LeftCategoryBox>
+      <LeftCategoryBox>
+        <SideMenuBar />
+      </LeftCategoryBox>
       <RightContentBox>
         <CarSearch />
         <EventCarBox />
@@ -32,8 +35,9 @@ const LeftCategoryBox = styled.div`
   height: 100%;
   min-width: 350px;
   display: flex;
+  align-items: flex-start;
   background-color: #ffd7d7;
-
+  padding-top: 100px;
   @media (max-width: 600px) {
     max-height: 250px;
     padding-top: ${HEIGHT_LIST.HEADER + HEIGHT_LIST.NAVBAR}px;
