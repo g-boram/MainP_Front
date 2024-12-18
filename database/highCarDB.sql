@@ -13,6 +13,9 @@ CREATE TABLE Users (
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+select * from Users;
+
+-- ##### 자동차 테이블 #####
 CREATE TABLE Cars (
     car_id INT AUTO_INCREMENT PRIMARY KEY,
     seller_id INT NOT NULL,
@@ -30,6 +33,35 @@ CREATE TABLE Cars (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (seller_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
+
+-- 자동차 1
+INSERT INTO Cars (seller_id, make, model, year, price, mileage, fuel_type, transmission, color, status, description, image_url)
+VALUES 
+(2, 'Toyota', 'Corolla', 2020, 20000.00, 15000, 'Gasoline', 'Automatic', 'Blue', 'Available', '2020 Toyota Corolla with low mileage.', 'https://example.com/images/corolla.jpg');
+
+-- 자동차 2
+INSERT INTO Cars (seller_id, make, model, year, price, mileage, fuel_type, transmission, color, status, description, image_url)
+VALUES 
+(2, 'Honda', 'Civic', 2018, 18000.00, 30000, 'Gasoline', 'Manual', 'Red', 'Available', '2018 Honda Civic with excellent condition and manual transmission.', 'https://example.com/images/civic.jpg');
+
+-- 자동차 3
+INSERT INTO Cars (seller_id, make, model, year, price, mileage, fuel_type, transmission, color, status, description, image_url)
+VALUES 
+(2, 'Tesla', 'Model 3', 2022, 45000.00, 8000, 'Electric', 'Automatic', 'Black', 'Available', '2022 Tesla Model 3 with electric powertrain and advanced features.', 'https://example.com/images/model3.jpg');
+
+-- 자동차 4
+INSERT INTO Cars (seller_id, make, model, year, price, mileage, fuel_type, transmission, color, status, description, image_url)
+VALUES 
+(2, 'BMW', 'X5', 2021, 60000.00, 12000, 'Diesel', 'Automatic', 'White', 'Sold', '2021 BMW X5 in pristine condition, great for long drives.', 'https://example.com/images/x5.jpg');
+
+-- 자동차 5
+INSERT INTO Cars (seller_id, make, model, year, price, mileage, fuel_type, transmission, color, status, description, image_url)
+VALUES 
+(2, 'Ford', 'Mustang', 2019, 35000.00, 22000, 'Gasoline', 'Automatic', 'Yellow', 'Available', '2019 Ford Mustang with powerful engine and sporty features.', 'https://example.com/images/mustang.jpg');
+
+select * from Cars;
+
+
 
 CREATE TABLE Reviews (
     review_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -55,6 +87,31 @@ CREATE TABLE Orders (
     FOREIGN KEY (buyer_id) REFERENCES Users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (seller_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
+
+-- ##### 게시글 테이블 #####
+-- ## 업데이트(수정) 여부, 삭제시간, 삭제여부 추가하기 
+CREATE TABLE Board (
+    board_id INT AUTO_INCREMENT PRIMARY KEY,           -- 게시글 고유 ID
+    user_id INT NOT NULL,                              -- 작성자 ID (Users 테이블과 연관)
+    title VARCHAR(255) NOT NULL,                       -- 게시글 제목
+    content TEXT NOT NULL,                             -- 게시글 내용
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,     -- 게시글 작성일시
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,  -- 게시글 수정일시
+    status ENUM('ACTIVE', 'INACTIVE') DEFAULT 'ACTIVE', -- 게시글 상태 (활성/비활성)
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE -- 작성자 (Users 테이블과 연관)
+);
+
+
+INSERT INTO Board (title, content, user_id, created_at, updated_at) VALUES 
+('Welcome to the Board', 'This is the first post on this board.', 4, NOW(), NOW()),
+('Upcoming Features', 'We are working on some exciting features. Stay tuned!', 4, NOW(), NOW()),
+('Community Guidelines', 'Please adhere to the guidelines while participating in discussions.', 4, NOW(), NOW()),
+('Maintenance Notice', 'The system will be down for maintenance on Saturday at 2 AM.', 4, NOW(), NOW()),
+('Feature Request', 'Can we have a dark mode option in the next update?', 4, NOW(), NOW());
+
+select * from Board;
+
+
 
 CREATE TABLE Favorites (
     favorite_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -86,6 +143,27 @@ CREATE TABLE Admins (
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
+
+
+-- 사용자 1 (일반 사용자)
+INSERT INTO Users (username, email, password, phone_number, address, role) 
+VALUES 
+('user1', 'user1@example.com', 'user1', '123-456-7890', '123 Main St, Anytown, USA', 'USER');
+
+-- 사용자 2 (판매자)
+INSERT INTO Users (username, email, password, phone_number, address, role) 
+VALUES 
+('seller1', 'seller1@example.com', 'seller1', '987-654-3210', '456 Oak St, Anytown, USA', 'SELLER');
+
+-- 사용자 3 (관리자)
+INSERT INTO Users (username, email, password, phone_number, address, role) 
+VALUES 
+('admin1', 'admin1@example.com', 'admin1', '555-555-5555', '789 Pine St, Anytown, USA', 'ADMIN');
+
+select * from Users;
+
+
+
 
 -- 전체 테이블 목록 보기
 SHOW TABLES;
