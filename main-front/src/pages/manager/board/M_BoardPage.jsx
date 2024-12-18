@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import LeftNavbar from "../../../components/manager/LeftNavbar";
+import BoardForm from "../../../components/manager/board/BoardForm";
 
 export default function M_BoardPage() {
   return (
@@ -7,16 +8,17 @@ export default function M_BoardPage() {
       <LeftNavbar />
       <ContentWrapper>
         <h1>M_BoardPage</h1>
+        <BoardForm />
       </ContentWrapper>
     </ManagerContainer>
   );
 }
 
 const ManagerContainer = styled.div`
-  min-height: 900px;
+  min-height: 800px;
   padding: 10px;
   display: flex;
-  background-color: pink;
+  padding-top: 60px;
 `;
 
 const ContentWrapper = styled.div`
@@ -24,5 +26,5 @@ const ContentWrapper = styled.div`
   padding: 10px;
   display: flex;
   flex-direction: column;
-  background-color: lightGrey;
+  border: 1px solid grey;
 `;
