@@ -6,8 +6,8 @@ export default function BoardForm() {
   const [formData, setFormData] = useState({
     title: "",
     content: "",
-    user_id: 4,
-    status: "Active",
+    userId: 4,
+    status: "ACTIVE",
   });
 
   const handleChange = (e) => {

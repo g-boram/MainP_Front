@@ -25,31 +25,33 @@ export default function Header() {
   dispatch(isManagerPath(isPath));
 
   return (
-    <HeaderContainer>
-      <Flex justify="space-between">
-        <div>Header</div>
-        <div>
-          <StyledLink to="/signin">로그인</StyledLink>
-          <StyledLink to="/signup">회원가입</StyledLink>
-          <StyledLink to="/manager">관리자 페이지</StyledLink>
-        </div>
-      </Flex>
+    <>
       {isManager ? (
         <></>
       ) : (
-        <NavbarContainer>
-          <StyledLink to="/">Nav1</StyledLink>
-          <StyledLink to="/">Nav2</StyledLink>
-          <StyledLink to="/">Nav3</StyledLink>
-          <StyledLink to="/car">자동차 목록</StyledLink>
-          <StyledLink to="/board">공지사항</StyledLink>
-        </NavbarContainer>
+        <UserHeaderContainer>
+          <Flex justify="space-between">
+            <div>Header</div>
+            <div>
+              <StyledLink to="/signin">로그인</StyledLink>
+              <StyledLink to="/signup">회원가입</StyledLink>
+              <StyledLink to="/manager">관리자 페이지</StyledLink>
+            </div>
+          </Flex>
+          <NavbarContainer>
+            <StyledLink to="/">Nav1</StyledLink>
+            <StyledLink to="/">Nav2</StyledLink>
+            <StyledLink to="/">Nav3</StyledLink>
+            <StyledLink to="/car">자동차 목록</StyledLink>
+            <StyledLink to="/board">공지사항</StyledLink>
+          </NavbarContainer>
+        </UserHeaderContainer>
       )}
-    </HeaderContainer>
+    </>
   );
 }
 
-const HeaderContainer = styled.div`
+const UserHeaderContainer = styled.div`
   height: auto;
   width: 100%;
   display: flex;
@@ -80,7 +82,7 @@ const StyledLink = styled(Link)`
   cursor: pointer;
   text-decoration: none;
 
-  &: hover {
+  hover {
     color: white;
   }
 `;
