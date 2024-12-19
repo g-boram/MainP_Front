@@ -15,10 +15,8 @@ export default function M_BoardPage() {
 }
 
 const ManagerContainer = styled.div`
-  min-height: 800px;
-  padding: 10px;
+  min-height: 100vh;
   display: flex;
-  padding-top: 60px;
 `;
 
 const ContentWrapper = styled.div`
