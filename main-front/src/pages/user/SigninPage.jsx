@@ -76,7 +76,7 @@ const SigninContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-top: 200px;
+    padding-top: 180px;
   }
   @media (min-width: 600px) {
     gap: 10px;
@@ -89,7 +89,7 @@ const ImgBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 600px;
+  height: 400px;
   padding: 10px;
 
   & > img {

@@ -1,10 +1,10 @@
-import { colors } from "@/styles/colorPalette";
 import styled from "@emotion/styled";
 
 import Text from "./Text";
 import Dimmed from "./Dimmed";
 import Flex from "./Flex";
 import Button from "./Button";
+import { colorPalette } from "../../styles/colorPalette";
 
 function Alert({ open, title, description, buttonLabel = "확인", isCancle = true, onButtonClick, onCancleClick }) {
   if (open === false) {
@@ -40,7 +40,7 @@ const AlertContainer = styled.div`
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  background-color: ${colors.white};
+  background-color: ${colorPalette.white};
   border-radius: 8px;
   overflow: hidden;
   z-index: var(--alert-zindex);

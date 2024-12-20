@@ -3,58 +3,67 @@ import { css } from "@emotion/react";
 import Flex from "../../components/shared/Flex";
 import Text from "../../components/shared/Text";
 import Form from "../../components/signup/Form";
+import { useNavigate } from "react-router-dom";
+import { useAlertContext } from "../../contexts/AlertContext";
 
 // 회원가입 페이지
 export default function SignupPage() {
-  // const { open } = useAlertContext()
-  // const navigate = useNavigate()
+  const { open } = useAlertContext();
+  const navigate = useNavigate();
 
-  // const handleSubmit = async (formValues) => {
-  //   const { email, password, name, phone, year, month, day, gender } =
-  //     formValues
+  const handleSubmit = (formValues) => {
+    const { email, password, username, phoneNumber, year, month, day, gender } = formValues;
 
-  //   const { user } = await createUserWithEmailAndPassword(auth, email, password)
+    // const { user } = await createUserWithEmailAndPassword(auth, email, password);
+    console.log("formValues : ", email, password, username, phoneNumber, year, month, day, gender);
+    try {
+      const newUser = {
+        email: email,
+        username: username,
+        phoneNumber: phoneNumber,
+        gender: gender,
+        photoURL: "",
+        birth: `${year + month + day}`,
+      };
+      console.log("newUser : ", newUser);
+      //   await updateProfile(user, {
+      //     displayName: name,
+      //   });
+      //   const newUser = {
+      //     uid: user.uid,
+      //     email: user.email,
+      //     displayName: name,
+      //     phone: phone,
+      //     gender: gender,
+      //     photoURL: "",
+      //     birth: { year: year, month: month, day: day },
+      //   };
+      //   await setDoc(doc(collection(store, COLLECTIONS.USER), user.uid), newUser);
 
-  //   try {
-  //     await updateProfile(user, {
-  //       displayName: name,
-  //     })
-
-  //     const newUser = {
-  //       uid: user.uid,
-  //       email: user.email,
-  //       displayName: name,
-  //       phone: phone,
-  //       gender: gender,
-  //       photoURL: '',
-  //       birth: { year: year, month: month, day: day },
-  //     }
-  //     await setDoc(doc(collection(store, COLLECTIONS.USER), user.uid), newUser)
-
-  //     navigate('/signin')
-  //   } catch (e) {
-  //     if (e) {
-  //       if (e.code === 'auth/invalid-credential') {
-  //         open({
-  //           title: '입력한 정보를 다시 확인해주세요',
-  //           isCancle: false,
-  //           onCancleClick: () => {},
-  //           onButtonClick: () => {},
-  //         })
-  //         return
-  //       }
-  //       if (e.code === 'auth/email-already-in-use') {
-  //         open({
-  //           title: '이미 가입된 이메일 입니다.',
-  //           isCancle: false,
-  //           onCancleClick: () => {},
-  //           onButtonClick: () => {},
-  //         })
-  //         return
-  //       }
-  //     }
-  //   }
-  // }
+      // navigate("/signin");
+    } catch (e) {
+      if (e) {
+        if (e.code === "auth/invalid-credential") {
+          open({
+            title: "입력한 정보를 다시 확인해주세요",
+            isCancle: false,
+            onCancleClick: () => {},
+            onButtonClick: () => {},
+          });
+          return;
+        }
+        if (e.code === "auth/email-already-in-use") {
+          open({
+            title: "이미 가입된 이메일 입니다.",
+            isCancle: false,
+            onCancleClick: () => {},
+            onButtonClick: () => {},
+          });
+          return;
+        }
+      }
+    }
+  };
 
   return (
     <SignupContainer>
@@ -65,8 +74,7 @@ export default function SignupPage() {
         <Flex justify="center" align="center" css={formTitle}>
           <Text typography="t1">회원가입</Text>
         </Flex>
-        {/* <Form onSubmit={handleSubmit} /> */}
-        <Form />
+        <Form onSubmit={handleSubmit} />
       </FormBox>
     </SignupContainer>
   );
@@ -100,7 +108,7 @@ const ImgBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 600px;
+  height: 400px;
   padding: 10px;
 
   & > img {

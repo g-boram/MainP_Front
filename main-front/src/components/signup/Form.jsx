@@ -10,21 +10,49 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import validator from "validator";
 import { css } from "@emotion/react";
 import CreatableSelect from "react-select/creatable";
+import axios from "axios";
 
 // 회원가입 폼
 function Form({ onSubmit }) {
+  // 테스트 영역 --------------------------------------------------------------
+  // const [username, setUsername] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [error, setError] = useState("");
+  // const [message, setMessage] = useState("");
+
+  // const handleRegister = async (e) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     const response = await axios.post("http://localhost:8080/auth/register", {
+  //       username,
+  //       email,
+  //       password,
+  //     });
+
+  //     setMessage(response.data.message); // 서버에서 반환한 성공 메시지
+  //     setError("");
+  //   } catch (err) {
+  //     setError("Error during registration");
+  //     setMessage("");
+  //   }
+  // };
+
+  // 테스트 영역 --------------------------------------------------------------
+
   // 입력받을 상태값
   const [formValues, setFormValues] = useState({
     password: "",
     rePassword: "",
-    name: "",
+    username: "",
     email: "",
-    phone: "",
+    phoneNumber: "",
   });
 
-  const [year, setYear] = useState();
-  const [month, setMonth] = useState();
-  const [day, setDay] = useState();
+  const [year, setYear] = useState(undefined);
+  const [month, setMonth] = useState(undefined);
+  const [day, setDay] = useState(undefined);
   const [gender, setGender] = useState(0);
 
   // 입력 되었는지 여부체크
@@ -33,9 +61,9 @@ function Form({ onSubmit }) {
   useEffect(() => {
     setFormValues((preValue) => ({
       ...preValue,
-      year: year?.value,
-      month: month?.value,
-      day: day?.value,
+      year: year?.value || "",
+      month: month?.value ? month.value.toString().padStart(2, "0") : "",
+      day: day?.value ? day.value.toString().padStart(2, "0") : "",
       gender: gender === 0 ? "남" : "여",
     }));
   }, [year, month, day, gender]);
@@ -62,6 +90,29 @@ function Form({ onSubmit }) {
   const isValidate = Object.keys(errors).length === 0;
 
   return (
+    // <>
+    //   <div>
+    //     <h2>Register</h2>
+    //     <form onSubmit={handleRegister}>
+    //       <div>
+    //         <label>Username:</label>
+    //         <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+    //       </div>
+    //       <div>
+    //         <label>Email:</label>
+    //         <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+    //       </div>
+    //       <div>
+    //         <label>Password:</label>
+    //         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+    //       </div>
+    //       <button type="submit">Register</button>
+    //     </form>
+    //     {error && <p style={{ color: "red" }}>{error}</p>}
+    //     {message && <p style={{ color: "green" }}>{message}</p>}
+    //   </div>
+    // </>
+
     <Flex direction="column">
       <Spacing size={10} />
       <TextField
@@ -100,25 +151,25 @@ function Form({ onSubmit }) {
       <Spacing size={10} />
       <TextField
         label="이름"
-        name="name"
+        name="username"
         placeholder="김OO"
-        value={formValues.name}
+        value={formValues.username}
         onChange={handleFormValues}
-        hasError={Boolean(dirty.name) && Boolean(errors.name)}
-        helpMessage={Boolean(dirty.name) ? errors.name : ""}
+        hasError={Boolean(dirty.username) && Boolean(errors.username)}
+        helpMessage={Boolean(dirty.username) ? errors.username : ""}
         onBlur={handleBlur}
       />
       <Spacing size={10} />
 
       <TextField
         label="휴대폰 번호"
-        name="phone"
+        name="phoneNumber"
         type="number"
         placeholder="숫자만 입력해주세요"
-        value={formValues.phone}
+        value={formValues.phoneNumber}
         onChange={handleFormValues}
-        hasError={Boolean(dirty.phone) && Boolean(errors.phone)}
-        helpMessage={Boolean(dirty.phone) ? errors.phone : ""}
+        hasError={Boolean(dirty.phoneNumber) && Boolean(errors.phoneNumber)}
+        helpMessage={Boolean(dirty.phoneNumber) ? errors.phoneNumber : ""}
         onBlur={handleBlur}
       />
       <Spacing size={10} />
@@ -247,11 +298,11 @@ function validate(formValues) {
     errors.rePassword = "비밀번호를 확인해주세요";
   }
 
-  if (formValues.name.length < 2) {
-    errors.name = "이름은 2글자 이상 입력해주세요";
+  if (formValues.username.length < 2) {
+    errors.username = "이름은 2글자 이상 입력해주세요";
   }
-  if (validator.isMobilePhone(formValues.phone) === false) {
-    errors.phone = "핸드폰 번호를 확인해 주세요";
+  if (validator.isMobilePhone(formValues.phoneNumber) === false) {
+    errors.phoneNumber = "핸드폰 번호를 확인해 주세요";
   }
 
   if (formValues.year === undefined) {
