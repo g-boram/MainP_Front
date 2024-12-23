@@ -6,10 +6,27 @@ const BaseButton = styled.button(
   {
     cursor: "pointer",
     fontWeight: "bold",
-    borderRadius: "6px",
+    borderRadius: "0px",
+    border: "none",
   },
   ({ color = "primary", weak }) => (weak ? buttonWeakMap[color] : buttonColorMap[color]),
   ({ size = "small" }) => buttonSizeMap[size],
+  ({ width }) =>
+    width
+      ? css`
+          width: ${width};
+        `
+      : css`
+          width: 100%;
+        `,
+  ({ height }) =>
+    height
+      ? css`
+          height: ${height};
+        `
+      : css`
+          height: 100%;
+        `,
   ({ full }) =>
     full
       ? css`

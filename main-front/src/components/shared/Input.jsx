@@ -2,12 +2,12 @@ import { colorPalette } from "../../styles/colorPalette";
 import styled from "@emotion/styled";
 
 const Input = styled.input`
-  padding: 0 16px;
+  padding: 0 10px;
   font-size: 12px;
-  height: 40px;
+  height: 35px;
   font-weight: 500;
   border: 1px solid ${colorPalette.inputGrey};
-  border-radius: 6px;
+  /* border-radius: 6px; */
   width: 100%;
   box-sizing: border-box;
 

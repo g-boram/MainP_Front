@@ -9,6 +9,7 @@ import Spacing from "../shared/Spacing";
 import Text from "../shared/Text";
 import TextField from "../shared/TextField";
 import styled from "@emotion/styled";
+import axios from "axios";
 
 function Form({ onSubmit }) {
   const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;

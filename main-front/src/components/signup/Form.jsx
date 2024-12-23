@@ -17,14 +17,14 @@ function Form({ onSubmit }) {
   const [formValues, setFormValues] = useState({
     password: "",
     rePassword: "",
-    name: "",
+    username: "",
     email: "",
-    phone: "",
+    phoneNumber: "",
   });
 
-  const [year, setYear] = useState();
-  const [month, setMonth] = useState();
-  const [day, setDay] = useState();
+  const [year, setYear] = useState(undefined);
+  const [month, setMonth] = useState(undefined);
+  const [day, setDay] = useState(undefined);
   const [gender, setGender] = useState(0);
 
   // 입력 되었는지 여부체크
@@ -33,9 +33,9 @@ function Form({ onSubmit }) {
   useEffect(() => {
     setFormValues((preValue) => ({
       ...preValue,
-      year: year?.value,
-      month: month?.value,
-      day: day?.value,
+      year: year?.value || "",
+      month: month?.value ? month.value.toString().padStart(2, "0") : "",
+      day: day?.value ? day.value.toString().padStart(2, "0") : "",
       gender: gender === 0 ? "남" : "여",
     }));
   }, [year, month, day, gender]);
@@ -100,25 +100,25 @@ function Form({ onSubmit }) {
       <Spacing size={10} />
       <TextField
         label="이름"
-        name="name"
+        name="username"
         placeholder="김OO"
-        value={formValues.name}
+        value={formValues.username}
         onChange={handleFormValues}
-        hasError={Boolean(dirty.name) && Boolean(errors.name)}
-        helpMessage={Boolean(dirty.name) ? errors.name : ""}
+        hasError={Boolean(dirty.username) && Boolean(errors.username)}
+        helpMessage={Boolean(dirty.username) ? errors.username : ""}
         onBlur={handleBlur}
       />
       <Spacing size={10} />
 
       <TextField
         label="휴대폰 번호"
-        name="phone"
+        name="phoneNumber"
         type="number"
         placeholder="숫자만 입력해주세요"
-        value={formValues.phone}
+        value={formValues.phoneNumber}
         onChange={handleFormValues}
-        hasError={Boolean(dirty.phone) && Boolean(errors.phone)}
-        helpMessage={Boolean(dirty.phone) ? errors.phone : ""}
+        hasError={Boolean(dirty.phoneNumber) && Boolean(errors.phoneNumber)}
+        helpMessage={Boolean(dirty.phoneNumber) ? errors.phoneNumber : ""}
         onBlur={handleBlur}
       />
       <Spacing size={10} />
@@ -138,11 +138,12 @@ function Form({ onSubmit }) {
             container: (containerStyles) => ({
               ...containerStyles,
               width: "100%",
-              fontSize: "13px",
+              fontSize: "12px",
             }),
             control: (controlStyles) => ({
               ...controlStyles,
               border: "1px solid #e2e2e2",
+              borderRadius: 0,
             }),
             menu: (controlStyles) => ({
               ...controlStyles,
@@ -161,11 +162,12 @@ function Form({ onSubmit }) {
             container: (containerStyles) => ({
               ...containerStyles,
               width: "100%",
-              fontSize: "13px",
+              fontSize: "12px",
             }),
             control: (controlStyles) => ({
               ...controlStyles,
               border: "1px solid #e2e2e2",
+              borderRadius: 0,
             }),
             menu: (controlStyles) => ({
               ...controlStyles,
@@ -184,11 +186,12 @@ function Form({ onSubmit }) {
             container: (containerStyles) => ({
               ...containerStyles,
               width: "100%",
-              fontSize: "13px",
+              fontSize: "12px",
             }),
             control: (controlStyles) => ({
               ...controlStyles,
               border: "1px solid #e2e2e2",
+              borderRadius: 0,
             }),
             menu: (controlStyles) => ({
               ...controlStyles,
@@ -215,7 +218,7 @@ function Form({ onSubmit }) {
       <Flex justify="center">
         <Button
           size="medium"
-          color="pink"
+          color="black"
           full
           disabled={isValidate === false}
           onClick={() => {
@@ -247,11 +250,11 @@ function validate(formValues) {
     errors.rePassword = "비밀번호를 확인해주세요";
   }
 
-  if (formValues.name.length < 2) {
-    errors.name = "이름은 2글자 이상 입력해주세요";
+  if (formValues.username.length < 2) {
+    errors.username = "이름은 2글자 이상 입력해주세요";
   }
-  if (validator.isMobilePhone(formValues.phone) === false) {
-    errors.phone = "핸드폰 번호를 확인해 주세요";
+  if (validator.isMobilePhone(formValues.phoneNumber) === false) {
+    errors.phoneNumber = "핸드폰 번호를 확인해 주세요";
   }
 
   if (formValues.year === undefined) {

@@ -5,12 +5,15 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import store from "./store";
+import { AlertContextProvider } from "./contexts/AlertContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <AlertContextProvider>
+        <App />
+      </AlertContextProvider>
     </Provider>
   </React.StrictMode>
 );

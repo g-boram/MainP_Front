@@ -66,6 +66,14 @@ export const buttonColorMap = {
       transition: 0.5s;
     }
   `,
+  black: css`
+    background-color: ${colorPalette.btnBlack};
+    color: ${colorPalette.white};
+    &:hover {
+      background-color: ${colorPalette.hoverBlack};
+      transition: 0.5s;
+    }
+  `,
 };
 
 export const buttonWeakMap = {
