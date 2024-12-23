@@ -5,43 +5,37 @@ import Text from "../../components/shared/Text";
 import Form from "../../components/signup/Form";
 import { useNavigate } from "react-router-dom";
 import { useAlertContext } from "../../contexts/AlertContext";
+import axios from "axios";
+import { SERVER_URL } from "../../constants/urlList";
 
 // 회원가입 페이지
 export default function SignupPage() {
   const { open } = useAlertContext();
   const navigate = useNavigate();
 
-  const handleSubmit = (formValues) => {
+  const handleSubmit = async (formValues) => {
     const { email, password, username, phoneNumber, year, month, day, gender } = formValues;
 
-    // const { user } = await createUserWithEmailAndPassword(auth, email, password);
-    console.log("formValues : ", email, password, username, phoneNumber, year, month, day, gender);
     try {
       const newUser = {
         email: email,
+        password: password,
         username: username,
         phoneNumber: phoneNumber,
         gender: gender,
         photoURL: "",
         birth: `${year + month + day}`,
       };
-      console.log("newUser : ", newUser);
-      //   await updateProfile(user, {
-      //     displayName: name,
-      //   });
-      //   const newUser = {
-      //     uid: user.uid,
-      //     email: user.email,
-      //     displayName: name,
-      //     phone: phone,
-      //     gender: gender,
-      //     photoURL: "",
-      //     birth: { year: year, month: month, day: day },
-      //   };
-      //   await setDoc(doc(collection(store, COLLECTIONS.USER), user.uid), newUser);
 
-      // navigate("/signin");
+      const res = await axios.post(`${SERVER_URL.LOCAL}/auth/register`, newUser);
+
+      alert("회원가입이 완료되었습니다!");
+
+      navigate("/signin");
     } catch (e) {
+      console.error("Error creating User:", e);
+      alert("Failed to create the User. Please try again.");
+
       if (e) {
         if (e.code === "auth/invalid-credential") {
           open({
@@ -66,17 +60,19 @@ export default function SignupPage() {
   };
 
   return (
-    <SignupContainer>
-      <ImgBox>
-        <img src={"https://cdn.pixabay.com/photo/2019/06/02/10/02/mortar-4246084_1280.jpg"} alt="signin" />
-      </ImgBox>
-      <FormBox>
-        <Flex justify="center" align="center" css={formTitle}>
-          <Text typography="t1">회원가입</Text>
-        </Flex>
-        <Form onSubmit={handleSubmit} />
-      </FormBox>
-    </SignupContainer>
+    <>
+      <SignupContainer>
+        <ImgBox>
+          <Flex justify="center" align="center" css={formTitle}>
+            <Text typography="t1">회원가입</Text>
+          </Flex>
+          <img src={"https://cdn.pixabay.com/photo/2019/06/02/10/02/mortar-4246084_1280.jpg"} alt="signin" />
+        </ImgBox>
+        <FormBox>
+          <Form onSubmit={handleSubmit} />
+        </FormBox>
+      </SignupContainer>
+    </>
   );
 }
 
@@ -95,7 +91,7 @@ const SignupContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-top: 200px;
+    padding-top: 150px;
   }
   @media (min-width: 600px) {
     gap: 10px;
@@ -106,6 +102,7 @@ const SignupContainer = styled.div`
 const ImgBox = styled.div`
   flex-grow: 0;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 400px;

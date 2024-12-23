@@ -48,23 +48,6 @@ function Form({ onSubmit }) {
   // error값이 없는 제출가능한 상태인가
   const isValidate = Object.keys(errors).length === 0;
 
-  const login = async (email, password) => {
-    try {
-      const response = await axios.post("http://localhost:8080/auth/login", {
-        email,
-        password,
-      });
-
-      const token = response.data.token;
-      localStorage.setItem("jwtToken", token); // 토큰을 localStorage에 저장
-
-      alert("Login successful");
-      // 로그인 성공 후 다른 페이지로 리디렉션 등 추가 로직
-    } catch (err) {
-      alert("Invalid credentials");
-    }
-  };
-
   return (
     <div>
       <Flex direction="column">
@@ -100,17 +83,6 @@ function Form({ onSubmit }) {
           }}
         >
           로그인 하기
-        </Button>
-
-        <Spacing size={15} />
-        <Button
-          size="small"
-          color="pink"
-          onClick={() => {
-            login(formValues);
-          }}
-        >
-          테스트
         </Button>
 
         <Spacing size={15} />

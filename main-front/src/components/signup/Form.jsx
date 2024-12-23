@@ -10,37 +10,9 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import validator from "validator";
 import { css } from "@emotion/react";
 import CreatableSelect from "react-select/creatable";
-import axios from "axios";
 
 // 회원가입 폼
 function Form({ onSubmit }) {
-  // 테스트 영역 --------------------------------------------------------------
-  // const [username, setUsername] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [error, setError] = useState("");
-  // const [message, setMessage] = useState("");
-
-  // const handleRegister = async (e) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     const response = await axios.post("http://localhost:8080/auth/register", {
-  //       username,
-  //       email,
-  //       password,
-  //     });
-
-  //     setMessage(response.data.message); // 서버에서 반환한 성공 메시지
-  //     setError("");
-  //   } catch (err) {
-  //     setError("Error during registration");
-  //     setMessage("");
-  //   }
-  // };
-
-  // 테스트 영역 --------------------------------------------------------------
-
   // 입력받을 상태값
   const [formValues, setFormValues] = useState({
     password: "",
@@ -90,29 +62,6 @@ function Form({ onSubmit }) {
   const isValidate = Object.keys(errors).length === 0;
 
   return (
-    // <>
-    //   <div>
-    //     <h2>Register</h2>
-    //     <form onSubmit={handleRegister}>
-    //       <div>
-    //         <label>Username:</label>
-    //         <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
-    //       </div>
-    //       <div>
-    //         <label>Email:</label>
-    //         <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-    //       </div>
-    //       <div>
-    //         <label>Password:</label>
-    //         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-    //       </div>
-    //       <button type="submit">Register</button>
-    //     </form>
-    //     {error && <p style={{ color: "red" }}>{error}</p>}
-    //     {message && <p style={{ color: "green" }}>{message}</p>}
-    //   </div>
-    // </>
-
     <Flex direction="column">
       <Spacing size={10} />
       <TextField
@@ -189,11 +138,12 @@ function Form({ onSubmit }) {
             container: (containerStyles) => ({
               ...containerStyles,
               width: "100%",
-              fontSize: "13px",
+              fontSize: "12px",
             }),
             control: (controlStyles) => ({
               ...controlStyles,
               border: "1px solid #e2e2e2",
+              borderRadius: 0,
             }),
             menu: (controlStyles) => ({
               ...controlStyles,
@@ -212,11 +162,12 @@ function Form({ onSubmit }) {
             container: (containerStyles) => ({
               ...containerStyles,
               width: "100%",
-              fontSize: "13px",
+              fontSize: "12px",
             }),
             control: (controlStyles) => ({
               ...controlStyles,
               border: "1px solid #e2e2e2",
+              borderRadius: 0,
             }),
             menu: (controlStyles) => ({
               ...controlStyles,
@@ -235,11 +186,12 @@ function Form({ onSubmit }) {
             container: (containerStyles) => ({
               ...containerStyles,
               width: "100%",
-              fontSize: "13px",
+              fontSize: "12px",
             }),
             control: (controlStyles) => ({
               ...controlStyles,
               border: "1px solid #e2e2e2",
+              borderRadius: 0,
             }),
             menu: (controlStyles) => ({
               ...controlStyles,
@@ -266,7 +218,7 @@ function Form({ onSubmit }) {
       <Flex justify="center">
         <Button
           size="medium"
-          color="pink"
+          color="black"
           full
           disabled={isValidate === false}
           onClick={() => {

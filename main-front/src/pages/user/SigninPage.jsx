@@ -5,57 +5,99 @@ import Text from "../../components/shared/Text";
 import Form from "../../components/signin/Form";
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
+import { SERVER_URL } from "../../constants/urlList";
+import axios from "axios";
+import { useAlertContext } from "../../contexts/AlertContext";
 
 // 로그인 페이지
 export default function SigninPage() {
-  // const { open } = useAlertContext();
+  const { open } = useAlertContext();
   const navigate = useNavigate();
 
-  // const handleSubmit = useCallback(
-  //   async (formValues) => {
-  //     const { email, password } = formValues
+  const handleSubmit = useCallback(
+    async (formValues) => {
+      const { email, password } = formValues;
+
+      try {
+        const response = await axios.post("http://localhost:8080/auth/login", {
+          email,
+          password,
+        });
+
+        const token = response.data.token;
+        localStorage.setItem("jwtToken", token); // 토큰을 localStorage에 저장
+
+        alert("00님 로그인 성공!");
+        // navigate(-1)
+      } catch (e) {
+        console.log("err : ", e);
+        alert("Invalid credentials");
+
+        if (e) {
+          if (e.code === "auth/invalid-credential") {
+            open({
+              title: "입력한 정보를 다시 확인해주세요",
+              isCancle: false,
+              onCancleClick: () => {},
+              onButtonClick: () => {},
+            });
+            return;
+          }
+        }
+
+        // 일반적인 에러
+        open({
+          title: "잠시 후 다시 시도해주세요.",
+          isCancle: false,
+          onCancleClick: () => {},
+          onButtonClick: () => {},
+        });
+      }
+    },
+    [open]
+  );
 
   //     try {
-  //       await signInWithEmailAndPassword(auth, email, password)
-
-  //       navigate(-1)
+  //       const res = await axios.post(`${SERVER_URL.LOCAL}/auth/login`, loginUser);
+  //       alert("00님 로그인 성공!");
+  //       // navigate(-1)
   //     } catch (e) {
-  //       console.log('err', e)
+  //       console.log("err : ", e);
   //       // firebase 의 에러
   //       if (e) {
-  //         if (e.code === 'auth/invalid-credential') {
+  //         if (e.code === "auth/invalid-credential") {
   //           open({
-  //             title: '입력한 정보를 다시 확인해주세요',
+  //             title: "입력한 정보를 다시 확인해주세요",
   //             isCancle: false,
   //             onCancleClick: () => {},
   //             onButtonClick: () => {},
-  //           })
-  //           return
+  //           });
+  //           return;
   //         }
   //       }
   //       // 일반적인 에러
   //       open({
-  //         title: '잠시 후 다시 시도해주세요.',
+  //         title: "잠시 후 다시 시도해주세요.",
   //         isCancle: false,
   //         onCancleClick: () => {},
   //         onButtonClick: () => {},
-  //       })
+  //       });
   //     }
   //   },
-  //   [open],
-  // )
+  //   [open]
+  // );
 
   return (
     <SigninContainer>
       <ImgBox>
-        <img src={"https://cdn.pixabay.com/photo/2021/02/26/11/51/cosmetics-6051633_1280.jpg"} alt="signin" />
-      </ImgBox>
-      <FormBox>
         <Flex justify="center" align="center" css={formTitle}>
           <Text typography="t1">로그인</Text>
         </Flex>
-        {/* <Form onSubmit={handleSubmit} /> */}
-        <Form />
+        <img src={"https://cdn.pixabay.com/photo/2021/02/26/11/51/cosmetics-6051633_1280.jpg"} alt="signin" />
+      </ImgBox>
+      <FormBox>
+        {/* <Form /> */}
+        <Form onSubmit={handleSubmit} />
       </FormBox>
     </SigninContainer>
   );
@@ -76,7 +118,7 @@ const SigninContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-top: 180px;
+    padding-top: 150px;
   }
   @media (min-width: 600px) {
     gap: 10px;
@@ -87,6 +129,7 @@ const SigninContainer = styled.div`
 const ImgBox = styled.div`
   flex-grow: 0;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 400px;

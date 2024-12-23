@@ -15,6 +15,7 @@ export const colorPalette = {
   btnGrey: "#bbb",
   btnPurple: "#6643b5",
   btnYellow: "#ffd700",
+  btnBlack: "#000",
   btnLightBlue: "#aadbff",
   btnLightPurple: "#b4b4ff",
 
@@ -22,6 +23,7 @@ export const colorPalette = {
   hoverBlue: "#2396f3",
   hoverGreen: "#4caf50",
   hoverPink: "#ea8a8a",
+  hoverBlack: "#333",
 
   inputGrey: "#e2e2e2",
   inputRed: "#f44336",

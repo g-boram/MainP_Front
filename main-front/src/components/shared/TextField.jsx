@@ -29,7 +29,7 @@ const TextField = forwardRef(function TextField({ label, hasError, helpMessage, 
         ) : null}
         {helpMessage ? (
           <Text
-            typography="t7"
+            typography="t8"
             color={labelColor}
             display="inline-block"
             style={{ marginTop: 10, marginBottom: 6, fontSize: 11 }}
