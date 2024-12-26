@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useAlertContext } from "../../contexts/AlertContext";
 import axios from "axios";
 import { SERVER_URL } from "../../constants/urlList";
+import SignUpImg from "../../assert/signupCar.png";
 
 // 회원가입 페이지
 export default function SignupPage() {
@@ -60,22 +61,26 @@ export default function SignupPage() {
   };
 
   return (
-    <>
-      <SignupContainer>
-        <ImgBox>
-          <Flex justify="center" align="center" css={formTitle}>
-            <Text typography="t1">회원가입</Text>
-          </Flex>
-          <img src={"https://cdn.pixabay.com/photo/2019/06/02/10/02/mortar-4246084_1280.jpg"} alt="signin" />
-        </ImgBox>
-        <FormBox>
-          <Form onSubmit={handleSubmit} />
-        </FormBox>
-      </SignupContainer>
-    </>
+    <SignupContainer>
+      <ImgBox>
+        <TitleBox>
+          <Text typography="t1">Register</Text>
+          <Text typography="t3">Desc-1</Text>
+          <Text typography="t7">Desc-2</Text>
+          <Text typography="t7">Desc-3</Text>
+          <Text typography="t7">Desc-4</Text>
+        </TitleBox>
+        <img src={SignUpImg} alt="signup" />
+      </ImgBox>
+      <FormWrapper>
+        <Form onSubmit={handleSubmit} />
+      </FormWrapper>
+    </SignupContainer>
   );
 }
 
+// 넓은 화면: min
+// 모바일 화면: max
 const SignupContainer = styled.div`
   display: flex;
   width: 100%;
@@ -85,69 +90,48 @@ const SignupContainer = styled.div`
   margin: 0 auto;
 
   @media (max-width: 600px) {
-    gap: 10px;
-    height: 100%;
+    height: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-top: 150px;
-  }
-  @media (min-width: 600px) {
-    gap: 10px;
-    width: 50%;
   }
 `;
 
 const ImgBox = styled.div`
   flex-grow: 0;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  height: 400px;
-  padding: 10px;
+  align-items: flex-end;
 
   & > img {
-    border-radius: 5px;
-    width: 100%;
-    height: 100%;
-  }
-
-  @media (max-width: 600px) {
-    height: 150px;
-    width: 96%;
-    padding: 10px;
-    margin-top: 0px;
-
-    & img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  }
-  @media (min-width: 600px) {
-    margin-top: 160px;
-    width: 40%;
+    width: 400px;
+    height: 400px;
   }
 `;
 
-const FormBox = styled.div`
-  padding: 50px 20px 20px 20px;
-  height: auto;
-  flex-grow: 1;
+const TitleBox = styled.div`
+  width: 100%;
+  padding-right: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 
   @media (max-width: 600px) {
-    padding: 20px;
+    margin-top: 100px;
+    padding-right: 20px;
+  }
+`;
+
+const FormWrapper = styled.div`
+  @media (max-width: 600px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     width: 90%;
-  }
-`;
-
-const formTitle = css`
-  flex-shrink: 0;
-  height: 100px;
-
-  @media (max-width: 600px) {
-    height: 60px;
+    margin-bottom: 50px;
   }
 `;
