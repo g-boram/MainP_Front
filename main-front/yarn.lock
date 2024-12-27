@@ -9281,6 +9281,7 @@ __metadata:
     react-scripts: "npm:5.0.1"
     react-select: "npm:^5.9.0"
     react-toastify: "npm:^10.0.6"
+    redux-thunk: "npm:^3.1.0"
     swiper: "npm:^11.0.6"
     typescript: "npm:^5.7.2"
     validator: "npm:^13.12.0"

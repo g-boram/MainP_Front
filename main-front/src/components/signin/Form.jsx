@@ -75,7 +75,7 @@ function Form({ onSubmit }) {
 
         <Spacing size={50} />
         <Button
-          size="small"
+          size="medium"
           color="black"
           disabled={isValidate === false}
           onClick={() => {

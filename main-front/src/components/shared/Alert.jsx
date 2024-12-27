@@ -1,34 +1,33 @@
 import styled from "@emotion/styled";
-
 import Text from "./Text";
 import Dimmed from "./Dimmed";
 import Flex from "./Flex";
 import Button from "./Button";
 import { colorPalette } from "../../styles/colorPalette";
 
-function Alert({ open, title, description, buttonLabel = "확인", isCancle = true, onButtonClick, onCancleClick }) {
-  if (open === false) {
-    return null;
-  }
+function Alert({ open, title, description, buttonLabel = "확인", isCancel = true, onButtonClick, onCancelClick }) {
+  if (!open) return null;
 
   return (
     <Dimmed>
-      <AlertContainer>
-        <Text typography="t6" bold={true} display="block" style={{ marginBottom: 6 }}>
+      <AlertContainer role="alertdialog" aria-labelledby="alert-title" aria-describedby="alert-description">
+        <Text id="alert-title" typography="t6" bold display="block" style={{ marginBottom: 6 }}>
           {title}
         </Text>
-        {description ? <Text typography="t7">{description}</Text> : null}
+        {description && (
+          <Text id="alert-description" typography="t7">
+            {description}
+          </Text>
+        )}
         <Flex justify="flex-end">
-          {isCancle ? (
-            <Button onClick={onCancleClick} weak={true} style={{ marginTop: 12, border: "none" }}>
+          {isCancel && (
+            <StyledButton onClick={onCancelClick} weak>
               취소
-            </Button>
-          ) : (
-            <></>
+            </StyledButton>
           )}
-          <Button onClick={onButtonClick} weak={true} style={{ marginTop: 12, border: "none" }}>
+          <StyledButton onClick={onButtonClick} weak>
             {buttonLabel}
-          </Button>
+          </StyledButton>
         </Flex>
       </AlertContainer>
     </Dimmed>
@@ -43,10 +42,15 @@ const AlertContainer = styled.div`
   background-color: ${colorPalette.white};
   border-radius: 8px;
   overflow: hidden;
-  z-index: var(--alert-zindex);
+  z-index: 11;
   width: 320px;
   padding: 24px;
   box-sizing: border-box;
+`;
+
+const StyledButton = styled(Button)`
+  margin-top: 12px;
+  border: none;
 `;
 
 export default Alert;

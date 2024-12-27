@@ -1,62 +1,53 @@
-import styled from "@emotion/styled";
-import { css } from "@emotion/react";
-import Flex from "../../components/shared/Flex";
+import { registerUser } from "../../api/authService";
+import { useAlertContext } from "../../contexts/AlertContextProvider";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import SignUpImg from "../../assert/signupCar.png";
 import Text from "../../components/shared/Text";
 import Form from "../../components/signup/Form";
-import { useNavigate } from "react-router-dom";
-import { useAlertContext } from "../../contexts/AlertContext";
-import axios from "axios";
-import { SERVER_URL } from "../../constants/urlList";
-import SignUpImg from "../../assert/signupCar.png";
+import styled from "@emotion/styled";
 
 // 회원가입 페이지
 export default function SignupPage() {
   const { open } = useAlertContext();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (formValues) => {
     const { email, password, username, phoneNumber, year, month, day, gender } = formValues;
 
+    const newUser = {
+      email: email,
+      password: password,
+      username: username,
+      phoneNumber: phoneNumber,
+      gender: gender,
+      photoURL: "",
+      birth: `${year + month + day}`,
+    };
+
     try {
-      const newUser = {
-        email: email,
-        password: password,
-        username: username,
-        phoneNumber: phoneNumber,
-        gender: gender,
-        photoURL: "",
-        birth: `${year + month + day}`,
-      };
+      setIsLoading(true);
+      await registerUser(newUser);
 
-      const res = await axios.post(`${SERVER_URL.LOCAL}/auth/register`, newUser);
-
-      alert("회원가입이 완료되었습니다!");
-
-      navigate("/signin");
+      open({
+        title: "회원가입 성공",
+        description: `${username}님, 환영합니다!`,
+        isCancel: false,
+        onButtonClick: () => {
+          navigate("/signin");
+        },
+      });
     } catch (e) {
       console.error("Error creating User:", e);
-      alert("Failed to create the User. Please try again.");
-
-      if (e) {
-        if (e.code === "auth/invalid-credential") {
-          open({
-            title: "입력한 정보를 다시 확인해주세요",
-            isCancle: false,
-            onCancleClick: () => {},
-            onButtonClick: () => {},
-          });
-          return;
-        }
-        if (e.code === "auth/email-already-in-use") {
-          open({
-            title: "이미 가입된 이메일 입니다.",
-            isCancle: false,
-            onCancleClick: () => {},
-            onButtonClick: () => {},
-          });
-          return;
-        }
-      }
+      open({
+        title: "회원가입 실패",
+        description: "관리자에게 문의하세요.",
+        isCancel: false,
+        onButtonClick: () => {},
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
