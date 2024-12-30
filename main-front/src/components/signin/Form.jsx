@@ -49,7 +49,7 @@ function Form({ onSubmit }) {
   const isValidate = Object.keys(errors).length === 0;
 
   return (
-    <div>
+    <FormWrapper>
       <Flex direction="column">
         <Spacing size={10} />
         <TextField
@@ -75,8 +75,8 @@ function Form({ onSubmit }) {
 
         <Spacing size={50} />
         <Button
-          size="small"
-          color="pink"
+          size="medium"
+          color="black"
           disabled={isValidate === false}
           onClick={() => {
             onSubmit(formValues);
@@ -92,7 +92,7 @@ function Form({ onSubmit }) {
           </Text>
         </Link>
       </Flex>
-    </div>
+    </FormWrapper>
   );
 }
 
@@ -120,3 +120,7 @@ const linkStyles = css`
 `;
 
 export default Form;
+
+const FormWrapper = styled.div`
+  width: 100%;
+`;

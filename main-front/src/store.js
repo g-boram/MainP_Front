@@ -1,10 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
 import isManagerPathReducer from "./reduxSlice/isManagerPathSlice";
+import authReducer from "./reduxSlice/authSlice";
 
 export const store = configureStore({
   reducer: {
-    isManagerPath: isManagerPathReducer, // 여러 슬라이스를 등록할 수 있음
+    isManagerPath: isManagerPathReducer,
+    auth: authReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      thunk: true,
+    }),
 });
 
 export default store;

@@ -9,12 +9,15 @@ import Footer from "./components/layout/Footer";
 // import PrivateRoute from "./components/auth/PrivateRoute";
 // import MyPage from "./pages/user/MyPage";
 import HomePage from "./pages/HomePage";
-import ManagerPage from "./pages/manager/ManagerPage";
+import CarPage from "./pages/user/car/CarPage";
 import SigninPage from "./pages/user/SigninPage";
 import SignupPage from "./pages/user/SignupPage";
-import M_BoardPage from "./pages/manager/board/M_BoardPage";
-import BoardPage from "./pages/user/board/BoardPage";
-import CarPage from "./pages/user/car/CarPage";
+import NoticePage from "./pages/user/board/NoticePage";
+
+// [ 관리자 ]
+import ManagerPage from "./pages/manager/ManagerPage";
+import M_NoticePage from "./pages/manager/board/M_NoticePage";
+import M_NoticeCreatePage from "./pages/manager/board/M_NoticeCreatePage";
 
 function App() {
   return (
@@ -28,12 +31,13 @@ function App() {
           <Route path="/" Component={HomePage} />
           <Route path="/signin" Component={SigninPage} />
           <Route path="/signup" Component={SignupPage} />
-          <Route path="/board" Component={BoardPage} />
+          <Route path="/board" Component={NoticePage} />
           <Route path="/car" Component={CarPage} />
 
           {/* 관리자 페이지 */}
           <Route path="/manager" Component={ManagerPage} />
-          <Route path="/manager/board" Component={M_BoardPage} />
+          <Route path="/manager/board/notice" Component={M_NoticePage} />
+          <Route path="/manager/board/notice/create" Component={M_NoticeCreatePage} />
 
           {/* @TODO: 인증이 필요한 페이지 나누기 ex) 관리자,유저의 등급, 로그인 여부 ... */}
           {/* <Route path="/my" element={

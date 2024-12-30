@@ -3,13 +3,13 @@ import Label from "../shared/Label";
 import Button from "../shared/Button";
 import Spacing from "../shared/Spacing";
 import TextField from "../shared/TextField";
+import styled from "@emotion/styled";
+import validator from "validator";
+import CreatableSelect from "react-select/creatable";
 
 import { DAYS, MONTH, YEARS } from "../../constants/birth";
-
 import { useCallback, useEffect, useMemo, useState } from "react";
-import validator from "validator";
 import { css } from "@emotion/react";
-import CreatableSelect from "react-select/creatable";
 
 // 회원가입 폼
 function Form({ onSubmit }) {
@@ -62,173 +62,175 @@ function Form({ onSubmit }) {
   const isValidate = Object.keys(errors).length === 0;
 
   return (
-    <Flex direction="column">
-      <Spacing size={10} />
-      <TextField
-        label="이메일"
-        name="email"
-        placeholder="abc@email.com"
-        value={formValues.email}
-        onChange={handleFormValues}
-        hasError={Boolean(dirty.email) && Boolean(errors.email)}
-        helpMessage={Boolean(dirty.email) ? errors.email : ""}
-        onBlur={handleBlur}
-      />
-
-      <Spacing size={10} />
-      <TextField
-        label="패스워드"
-        name="password"
-        type="password"
-        value={formValues.password}
-        onChange={handleFormValues}
-        hasError={Boolean(dirty.password) && Boolean(errors.password)}
-        helpMessage={Boolean(dirty.password) ? errors.password : ""}
-        onBlur={handleBlur}
-      />
-      <Spacing size={10} />
-      <TextField
-        label="패스워드 재확인"
-        name="rePassword"
-        type="password"
-        value={formValues.rePassword}
-        onChange={handleFormValues}
-        hasError={Boolean(dirty.rePassword) && Boolean(errors.rePassword)}
-        helpMessage={Boolean(dirty.rePassword) ? errors.rePassword : ""}
-        onBlur={handleBlur}
-      />
-      <Spacing size={10} />
-      <TextField
-        label="이름"
-        name="username"
-        placeholder="김OO"
-        value={formValues.username}
-        onChange={handleFormValues}
-        hasError={Boolean(dirty.username) && Boolean(errors.username)}
-        helpMessage={Boolean(dirty.username) ? errors.username : ""}
-        onBlur={handleBlur}
-      />
-      <Spacing size={10} />
-
-      <TextField
-        label="휴대폰 번호"
-        name="phoneNumber"
-        type="number"
-        placeholder="숫자만 입력해주세요"
-        value={formValues.phoneNumber}
-        onChange={handleFormValues}
-        hasError={Boolean(dirty.phoneNumber) && Boolean(errors.phoneNumber)}
-        helpMessage={Boolean(dirty.phoneNumber) ? errors.phoneNumber : ""}
-        onBlur={handleBlur}
-      />
-      <Spacing size={10} />
-
-      <Label
-        label="생년월일"
-        hasError={Boolean(dirty.date) && Boolean(errors.date)}
-        helpMessage={Boolean(dirty.date) ? errors.date : ""}
-      />
-      <Flex>
-        <CreatableSelect
-          placeholder="Year"
-          onChange={(newValue) => setYear(newValue)}
-          options={YEARS}
-          value={year}
-          styles={{
-            container: (containerStyles) => ({
-              ...containerStyles,
-              width: "100%",
-              fontSize: "12px",
-            }),
-            control: (controlStyles) => ({
-              ...controlStyles,
-              border: "1px solid #e2e2e2",
-              borderRadius: 0,
-            }),
-            menu: (controlStyles) => ({
-              ...controlStyles,
-              height: "200px",
-              overflow: "scroll",
-            }),
-          }}
+    <FormWrapper>
+      <Flex direction="column">
+        <Spacing size={10} />
+        <TextField
+          label="이메일"
+          name="email"
+          placeholder="abc@email.com"
+          value={formValues.email}
+          onChange={handleFormValues}
+          hasError={Boolean(dirty.email) && Boolean(errors.email)}
+          helpMessage={Boolean(dirty.email) ? errors.email : ""}
+          onBlur={handleBlur}
         />
-        <Spacing size={10} direction="horizontal" />
-        <CreatableSelect
-          placeholder="Month"
-          onChange={(newValue) => setMonth(newValue)}
-          options={MONTH}
-          value={month}
-          styles={{
-            container: (containerStyles) => ({
-              ...containerStyles,
-              width: "100%",
-              fontSize: "12px",
-            }),
-            control: (controlStyles) => ({
-              ...controlStyles,
-              border: "1px solid #e2e2e2",
-              borderRadius: 0,
-            }),
-            menu: (controlStyles) => ({
-              ...controlStyles,
-              height: "200px",
-              overflow: "scroll",
-            }),
-          }}
-        />
-        <Spacing size={10} direction="horizontal" />
-        <CreatableSelect
-          placeholder="Day"
-          onChange={(newValue) => setDay(newValue)}
-          options={DAYS}
-          value={day}
-          styles={{
-            container: (containerStyles) => ({
-              ...containerStyles,
-              width: "100%",
-              fontSize: "12px",
-            }),
-            control: (controlStyles) => ({
-              ...controlStyles,
-              border: "1px solid #e2e2e2",
-              borderRadius: 0,
-            }),
-            menu: (controlStyles) => ({
-              ...controlStyles,
-              height: "200px",
-              overflow: "scroll",
-            }),
-          }}
-        />
-      </Flex>
 
-      <Spacing size={10} />
-      <Label label="성별" />
-      <Flex>
-        <Button color={gender === 0 ? "success" : "grey"} css={btnGender} onClick={() => setGender(0)}>
-          남
-        </Button>
-        <Spacing size={10} direction="horizontal" />
-        <Button color={gender === 1 ? "pink" : "grey"} css={btnGender} onClick={() => setGender(1)}>
-          여
-        </Button>
-      </Flex>
+        <Spacing size={10} />
+        <TextField
+          label="패스워드"
+          name="password"
+          type="password"
+          value={formValues.password}
+          onChange={handleFormValues}
+          hasError={Boolean(dirty.password) && Boolean(errors.password)}
+          helpMessage={Boolean(dirty.password) ? errors.password : ""}
+          onBlur={handleBlur}
+        />
+        <Spacing size={10} />
+        <TextField
+          label="패스워드 재확인"
+          name="rePassword"
+          type="password"
+          value={formValues.rePassword}
+          onChange={handleFormValues}
+          hasError={Boolean(dirty.rePassword) && Boolean(errors.rePassword)}
+          helpMessage={Boolean(dirty.rePassword) ? errors.rePassword : ""}
+          onBlur={handleBlur}
+        />
+        <Spacing size={10} />
+        <TextField
+          label="이름"
+          name="username"
+          placeholder="김OO"
+          value={formValues.username}
+          onChange={handleFormValues}
+          hasError={Boolean(dirty.username) && Boolean(errors.username)}
+          helpMessage={Boolean(dirty.username) ? errors.username : ""}
+          onBlur={handleBlur}
+        />
+        <Spacing size={10} />
 
-      <Spacing size={50} />
-      <Flex justify="center">
-        <Button
-          size="medium"
-          color="black"
-          full
-          disabled={isValidate === false}
-          onClick={() => {
-            onSubmit(formValues);
-          }}
-        >
-          회원가입 하기
-        </Button>
+        <TextField
+          label="휴대폰 번호"
+          name="phoneNumber"
+          type="number"
+          placeholder="숫자만 입력해주세요"
+          value={formValues.phoneNumber}
+          onChange={handleFormValues}
+          hasError={Boolean(dirty.phoneNumber) && Boolean(errors.phoneNumber)}
+          helpMessage={Boolean(dirty.phoneNumber) ? errors.phoneNumber : ""}
+          onBlur={handleBlur}
+        />
+        <Spacing size={10} />
+
+        <Label
+          label="생년월일"
+          hasError={Boolean(dirty.date) && Boolean(errors.date)}
+          helpMessage={Boolean(dirty.date) ? errors.date : ""}
+        />
+        <Flex>
+          <CreatableSelect
+            placeholder="Year"
+            onChange={(newValue) => setYear(newValue)}
+            options={YEARS}
+            value={year}
+            styles={{
+              container: (containerStyles) => ({
+                ...containerStyles,
+                width: "100%",
+                fontSize: "12px",
+              }),
+              control: (controlStyles) => ({
+                ...controlStyles,
+                border: "1px solid #e2e2e2",
+                borderRadius: 0,
+              }),
+              menu: (controlStyles) => ({
+                ...controlStyles,
+                height: "200px",
+                overflow: "scroll",
+              }),
+            }}
+          />
+          <Spacing size={10} direction="horizontal" />
+          <CreatableSelect
+            placeholder="Month"
+            onChange={(newValue) => setMonth(newValue)}
+            options={MONTH}
+            value={month}
+            styles={{
+              container: (containerStyles) => ({
+                ...containerStyles,
+                width: "100%",
+                fontSize: "12px",
+              }),
+              control: (controlStyles) => ({
+                ...controlStyles,
+                border: "1px solid #e2e2e2",
+                borderRadius: 0,
+              }),
+              menu: (controlStyles) => ({
+                ...controlStyles,
+                height: "200px",
+                overflow: "scroll",
+              }),
+            }}
+          />
+          <Spacing size={10} direction="horizontal" />
+          <CreatableSelect
+            placeholder="Day"
+            onChange={(newValue) => setDay(newValue)}
+            options={DAYS}
+            value={day}
+            styles={{
+              container: (containerStyles) => ({
+                ...containerStyles,
+                width: "100%",
+                fontSize: "12px",
+              }),
+              control: (controlStyles) => ({
+                ...controlStyles,
+                border: "1px solid #e2e2e2",
+                borderRadius: 0,
+              }),
+              menu: (controlStyles) => ({
+                ...controlStyles,
+                height: "200px",
+                overflow: "scroll",
+              }),
+            }}
+          />
+        </Flex>
+
+        <Spacing size={10} />
+        <Label label="성별" />
+        <Flex>
+          <Button color={gender === 0 ? "success" : "grey"} css={btnGender} onClick={() => setGender(0)}>
+            남
+          </Button>
+          <Spacing size={10} direction="horizontal" />
+          <Button color={gender === 1 ? "pink" : "grey"} css={btnGender} onClick={() => setGender(1)}>
+            여
+          </Button>
+        </Flex>
+
+        <Spacing size={50} />
+        <Flex justify="center">
+          <Button
+            size="medium"
+            color="black"
+            full
+            disabled={isValidate === false}
+            onClick={() => {
+              onSubmit(formValues);
+            }}
+          >
+            회원가입 하기
+          </Button>
+        </Flex>
       </Flex>
-    </Flex>
+    </FormWrapper>
   );
 }
 
@@ -272,6 +274,10 @@ function validate(formValues) {
 // CSS
 const btnGender = css`
   height: 40px;
+  width: 100%;
+`;
+
+const FormWrapper = styled.div`
   width: 100%;
 `;
 

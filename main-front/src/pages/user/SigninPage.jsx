@@ -1,180 +1,109 @@
-import styled from "@emotion/styled";
-import { css } from "@emotion/react";
-import Flex from "../../components/shared/Flex";
-import Text from "../../components/shared/Text";
-import Form from "../../components/signin/Form";
-import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { SERVER_URL } from "../../constants/urlList";
-import axios from "axios";
-import { useAlertContext } from "../../contexts/AlertContext";
+import { useAlertContext } from "../../contexts/AlertContextProvider";
+import { useEffect } from "react";
+
+import styled from "@emotion/styled";
+import Form from "../../components/signin/Form";
+import SignInImg from "../../assert/signinCar.png";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../reduxSlice/authSlice";
 
 // 로그인 페이지
 export default function SigninPage() {
   const { open } = useAlertContext();
   const navigate = useNavigate();
 
-  const handleSubmit = useCallback(
-    async (formValues) => {
-      const { email, password } = formValues;
+  const dispatch = useDispatch();
 
-      try {
-        const response = await axios.post("http://localhost:8080/auth/login", {
-          email,
-          password,
-        });
+  const { user, token, isLoading, error } = useSelector((state) => state.auth);
 
-        const token = response.data.token;
-        localStorage.setItem("jwtToken", token); // 토큰을 localStorage에 저장
+  useEffect(() => {
+    if (user) {
+      // 로그인 성공 시
+      open({
+        title: "로그인 성공",
+        description: `00님, 환영합니다!`,
+        onButtonClick: () => {
+          // navigate("/dashboard"); // 로그인 후 대시보드로 이동
+        },
+      });
+    }
 
-        alert("00님 로그인 성공!");
-        // navigate(-1)
-      } catch (e) {
-        console.log("err : ", e);
-        alert("Invalid credentials");
+    if (error) {
+      // 로그인 실패 시
+      open({
+        title: "로그인 실패",
+        description: error.message || error,
+        isCancel: false,
+        onButtonClick: () => {},
+      });
+    }
+  }, [user, error, open, navigate]);
 
-        if (e) {
-          if (e.code === "auth/invalid-credential") {
-            open({
-              title: "입력한 정보를 다시 확인해주세요",
-              isCancle: false,
-              onCancleClick: () => {},
-              onButtonClick: () => {},
-            });
-            return;
-          }
-        }
-
-        // 일반적인 에러
-        open({
-          title: "잠시 후 다시 시도해주세요.",
-          isCancle: false,
-          onCancleClick: () => {},
-          onButtonClick: () => {},
-        });
-      }
-    },
-    [open]
-  );
-
-  //     try {
-  //       const res = await axios.post(`${SERVER_URL.LOCAL}/auth/login`, loginUser);
-  //       alert("00님 로그인 성공!");
-  //       // navigate(-1)
-  //     } catch (e) {
-  //       console.log("err : ", e);
-  //       // firebase 의 에러
-  //       if (e) {
-  //         if (e.code === "auth/invalid-credential") {
-  //           open({
-  //             title: "입력한 정보를 다시 확인해주세요",
-  //             isCancle: false,
-  //             onCancleClick: () => {},
-  //             onButtonClick: () => {},
-  //           });
-  //           return;
-  //         }
-  //       }
-  //       // 일반적인 에러
-  //       open({
-  //         title: "잠시 후 다시 시도해주세요.",
-  //         isCancle: false,
-  //         onCancleClick: () => {},
-  //         onButtonClick: () => {},
-  //       });
-  //     }
-  //   },
-  //   [open]
-  // );
+  const handleSubmit = (formValues) => {
+    const { email, password } = formValues;
+    const req = { email: email, password: password };
+    console.log(req);
+    // 로그인 액션 디스패치
+    dispatch(loginUser({ email, password }));
+  };
 
   return (
     <SigninContainer>
-      <ImgBox>
-        <Flex justify="center" align="center" css={formTitle}>
-          <Text typography="t1">로그인</Text>
-        </Flex>
-        <img src={"https://cdn.pixabay.com/photo/2021/02/26/11/51/cosmetics-6051633_1280.jpg"} alt="signin" />
-      </ImgBox>
-      <FormBox>
-        {/* <Form /> */}
+      <TitleBox>Login</TitleBox>
+      <FormWrapper>
+        <ImgBox>
+          <img src={SignInImg} alt="signin" />
+        </ImgBox>
         <Form onSubmit={handleSubmit} />
-      </FormBox>
+      </FormWrapper>
     </SigninContainer>
   );
 }
 
+// 스타일 컴포넌트
 const SigninContainer = styled.div`
   display: flex;
   width: 100%;
-  height: 100%;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin: 0 auto;
+  height: 100vh;
+`;
 
+const TitleBox = styled.div`
+  height: 150px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  font-weight: bold;
+`;
+
+const FormWrapper = styled.div`
+  @media (min-width: 600px) {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+  }
   @media (max-width: 600px) {
-    gap: 10px;
-    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-top: 150px;
-  }
-  @media (min-width: 600px) {
-    gap: 10px;
-    width: 50%;
-  }
-`;
-
-const ImgBox = styled.div`
-  flex-grow: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 400px;
-  padding: 10px;
-
-  & > img {
-    border-radius: 5px;
-    width: 100%;
-    height: 100%;
-  }
-
-  @media (max-width: 600px) {
-    height: 150px;
-    width: 96%;
-    padding: 10px;
-    margin-top: 0px;
-
-    & img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  }
-  @media (min-width: 600px) {
-    margin-top: 160px;
-    width: 40%;
-  }
-`;
-
-const FormBox = styled.div`
-  padding: 50px 20px 20px 20px;
-  height: auto;
-  flex-grow: 1;
-
-  @media (max-width: 600px) {
-    padding: 20px;
     width: 90%;
   }
 `;
 
-const formTitle = css`
-  flex-shrink: 0;
-  height: 100px;
+const ImgBox = styled.div`
+  height: 300px;
+  width: 300px;
+  margin: 0 auto;
 
-  @media (max-width: 600px) {
-    height: 60px;
+  & > img {
+    width: 100%;
+    height: 100%;
   }
 `;

@@ -4,7 +4,7 @@ import { HEIGHT_LIST } from "../../../constants/height";
 import BoardSearch from "../../../components/shared/BoardSearch";
 import BoardRow from "../../../components/board/BoardRow";
 
-export default function BoardPage() {
+export default function NoticePage() {
   return (
     <BoardContainer>
       <PageTopImgBox

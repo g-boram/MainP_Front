@@ -1,5 +1,4 @@
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
-
 import { createPortal } from "react-dom";
 import Alert from "../components/shared/Alert";
 
@@ -8,35 +7,42 @@ const Context = createContext(undefined);
 export function AlertContextProvider({ children }) {
   const [alertState, setAlertState] = useState({
     open: false,
-    isCancle: false,
     title: null,
     description: null,
+    onButtonClick: () => {},
+    onCancelClick: () => {},
   });
 
-  const $portal_root = document.getElementById("root-portal");
+  let $portal_root = document.getElementById("root-portal");
+  if (!$portal_root) {
+    $portal_root = document.createElement("div");
+    $portal_root.id = "root-portal";
+    document.body.appendChild($portal_root);
+  }
 
   const close = useCallback(() => {
     setAlertState({
       open: false,
-      isCancle: false,
       title: null,
       description: null,
+      onButtonClick: () => {},
+      onCancelClick: () => {},
     });
   }, []);
 
   const open = useCallback(
-    ({ onButtonClick, onCancleClick, ...options }) => {
+    (options) => {
       setAlertState({
         ...options,
+        open: true,
         onButtonClick: () => {
           close();
-          onButtonClick();
+          options.onButtonClick?.();
         },
-        onCancleClick: () => {
+        onCancelClick: () => {
           close();
-          onCancleClick();
+          options.onCancelClick?.();
         },
-        open: true,
       });
     },
     [close]
@@ -47,17 +53,15 @@ export function AlertContextProvider({ children }) {
   return (
     <Context.Provider value={values}>
       {children}
-      {$portal_root != null ? createPortal(<Alert {...alertState} />, $portal_root) : null}
+      {createPortal(<Alert {...alertState} />, $portal_root)}
     </Context.Provider>
   );
 }
 
 export function useAlertContext() {
-  const values = useContext(Context);
-
-  if (values == null) {
-    throw new Error("AlertContext 내부에서 사용해주세요");
+  const context = useContext(Context);
+  if (!context) {
+    throw new Error("useAlertContext must be used within an AlertContextProvider");
   }
-
-  return values;
+  return context;
 }
