@@ -7,17 +7,24 @@ const SERVER_URL = {
 
 // Thunk: 로그인 API 호출 및 상태 업데이트
 export const loginUser = createAsyncThunk("auth/loginUser", async ({ email, password }, thunkAPI) => {
+  console.log(email, password);
   try {
-    const response = await axios.post(`${SERVER_URL.LOCAL}/auth/login`, { email, password });
+    const req = { email: email, password: password };
+    const response = await axios.post(`${SERVER_URL.LOCAL}/auth/login`, req);
+    console.log(response);
+    const token = response.data.token;
 
     // JWT 토큰을 localStorage에 저장
-    const token = response.data.token;
     localStorage.setItem("jwtToken", token);
 
-    return response.data; // response.data 반환
+    // API 응답 구조 확인 후 필요한 데이터를 반환
+    return {
+      user: response.data.user,
+      token: token,
+    };
   } catch (error) {
     console.error("Login Error :", error);
-    return thunkAPI.rejectWithValue(error.response.data);
+    return thunkAPI.rejectWithValue(error.response ? error.response.data : "Something went wrong");
   }
 });
 
@@ -46,6 +53,8 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.user = action.payload.user;
         state.token = action.payload.token;
+
+        console.log("Logged in successfully:", action.payload);
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
