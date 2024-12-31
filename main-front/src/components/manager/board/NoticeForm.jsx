@@ -8,16 +8,26 @@ import BaseButton from "../../shared/Button";
 import CreatableSelect from "react-select/creatable";
 import { MANAGER_CATEGORY } from "../../../constants/category";
 import { colorPalette } from "../../../styles/colorPalette";
+import { useSelector } from "react-redux";
 
 // 관리자-공지사항 폼양식
 export default function NoticeForm() {
-  const [formData, setFormData] = useState({
-    title: "",
-    content: "",
-    userId: 4,
-    status: "ACTIVE",
-    role: "ADMIN",
-  });
+  const { user } = useSelector((state) => state.auth);
+  console.log("user : ", user);
+  const [file, setFile] = useState(null);
+
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0]; // 첫 번째 파일을 선택
+    setFile(selectedFile);
+  };
+
+  // const [formData, setFormData] = useState({
+  //   title: "",
+  //   content: "",
+  //   userId: 4,
+  //   status: "ACTIVE",
+  //   role: "ADMIN",
+  // });
 
   // const handleChange = (e) => {
   //   const { name, value } = e.target;
@@ -46,9 +56,9 @@ export default function NoticeForm() {
     title: "",
     content: "",
     category: "",
-    uid: "",
-    email: "",
-    name: "",
+    userId: 17,
+    status: "ACTIVE",
+    role: "ADMIN",
   });
 
   const handleFormValues = (e) => {
@@ -59,6 +69,53 @@ export default function NoticeForm() {
   };
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const data = {
+      title: formValues.title,
+      content: formValues.content,
+      category: category ? category.value : "other",
+      userId: 17,
+      status: "ACTIVE",
+      role: "ADMIN",
+      imageUrl: "",
+    };
+
+    const formTotalData = new FormData();
+    formTotalData.append("boardReq", JSON.stringify(data));
+    formTotalData.append("file", file); // 선택한 파일을 FormData에 추가
+
+    // console.log("formTotalData.entries()", formTotalData.entries());
+    // FormData 내용 확인하기
+    for (let pair of formTotalData.entries()) {
+      console.log(pair[0] + ": " + pair[1]); // key와 value 출력
+    }
+
+    //Test-------------------------------------------
+    try {
+      const response = await axios.post("http://localhost:8080/board", formTotalData, {
+        headers: {
+          "Content-Type": "multipart/form-data", // multipart/form-data 헤더 설정
+        },
+      });
+      console.log("response: ", response.data);
+      // 서버 응답 처리
+      alert("게시글 등록 완료!");
+      setFormValues({
+        title: "",
+        content: "",
+        category: "",
+        userId: 4,
+        status: "ACTIVE",
+        role: "ADMIN",
+      });
+      setFile(null); // 파일 상태 초기화
+    } catch (e) {
+      console.log("error", e);
+      alert("게시글 등록 실패");
+    }
+    //Test-------------------------------------------
+
     // e.preventDefault();
     // const formData = {
     //   ...formValues,
@@ -161,7 +218,9 @@ export default function NoticeForm() {
 
         <Flex>
           <Label>첨부파일</Label>
-          <InputBox>도커 생성 후 파일 구현 예정</InputBox>
+          <InputBox>
+            <input type="file" name="file" onChange={handleFileChange} />
+          </InputBox>
         </Flex>
       </Flex>
       <Spacing size={50} />
