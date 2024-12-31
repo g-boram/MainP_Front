@@ -9,7 +9,7 @@ import SignUpImg from "../../assert/signupCar.png";
 import Text from "../../components/shared/Text";
 import Form from "../../components/signup/Form";
 import styled from "@emotion/styled";
-import LightDimmed from "../../components/shared/LightDimmed";
+import Dimmed from "../../components/shared/Dimmed";
 
 // 회원가입 페이지
 export default function SignupPage() {
@@ -42,9 +42,9 @@ export default function SignupPage() {
 
   if (isLoading) {
     return (
-      <LightDimmed>
+      <Dimmed>
         <BarLoader color="#000" z-index={11} cssOverride={{ margin: "0 auto", top: "50%" }} />
-      </LightDimmed>
+      </Dimmed>
     );
   }
 

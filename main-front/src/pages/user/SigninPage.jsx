@@ -8,7 +8,7 @@ import { loginUser } from "../../reduxSlice/authSlice";
 import styled from "@emotion/styled";
 import Form from "../../components/signin/Form";
 import SignInImg from "../../assert/signinCar.png";
-import LightDimmed from "../../components/shared/LightDimmed";
+import Dimmed from "../../components/shared/Dimmed";
 
 // ****************************** //
 // 로그인 페이지
@@ -43,9 +43,9 @@ export default function SigninPage() {
 
   if (isLoading) {
     return (
-      <LightDimmed>
+      <Dimmed>
         <BarLoader color="#000" z-index={11} cssOverride={{ margin: "0 auto", top: "50%" }} />
-      </LightDimmed>
+      </Dimmed>
     );
   }
 

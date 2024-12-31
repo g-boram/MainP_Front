@@ -19,6 +19,7 @@ export default function M_NoticePage() {
               text="게시글 등록하기"
               width="120px"
               height="35px"
+              fontSize="14px"
             />
           </NavRow>
         </ContentBox>

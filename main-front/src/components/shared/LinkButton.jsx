@@ -10,9 +10,18 @@ export default function LinkButton({
   text = "",
   width = "40px",
   height = "20px",
+  fontSize = "12px",
 }) {
   return (
-    <StyledLink to={to} color={color} border={border} bgColor={bgColor} width={width} height={height}>
+    <StyledLink
+      to={to}
+      fontSize={fontSize}
+      color={color}
+      border={border}
+      bgColor={bgColor}
+      width={width}
+      height={height}
+    >
       {text}
     </StyledLink>
   );
@@ -43,5 +52,8 @@ const StyledLink = styled(Link)`
   `}
   ${({ border }) => css`
     border: ${border};
+  `}
+  ${({ fontSize }) => css`
+    font-size: ${fontSize};
   `}
 `;

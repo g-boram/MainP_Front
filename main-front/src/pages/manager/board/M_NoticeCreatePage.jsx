@@ -18,7 +18,8 @@ export default function M_NoticeCreatePage() {
             bgColor="black"
             text="게시글 목록"
             width="100px"
-            height="30px"
+            height="25px"
+            fontSize="14px"
           />
         </NavRow>
         <ContentBox>
