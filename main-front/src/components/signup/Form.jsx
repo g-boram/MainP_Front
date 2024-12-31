@@ -57,8 +57,6 @@ function Form({ onSubmit }) {
 
   // error값을 가지고있음
   const errors = useMemo(() => validate(formValues), [formValues]);
-
-  // error값이 없는 제출가능한 상태인가
   const isValidate = Object.keys(errors).length === 0;
 
   return (
@@ -141,15 +139,14 @@ function Form({ onSubmit }) {
                 width: "100%",
                 fontSize: "12px",
               }),
-              control: (controlStyles) => ({
-                ...controlStyles,
-                border: "1px solid #e2e2e2",
-                borderRadius: 0,
+              menu: (menuStyles) => ({
+                ...menuStyles,
+                maxHeight: "200px",
               }),
-              menu: (controlStyles) => ({
-                ...controlStyles,
-                height: "200px",
-                overflow: "scroll",
+              menuList: (menuListStyles) => ({
+                ...menuListStyles,
+                maxHeight: "200px",
+                overflowY: "auto",
               }),
             }}
           />
@@ -165,15 +162,14 @@ function Form({ onSubmit }) {
                 width: "100%",
                 fontSize: "12px",
               }),
-              control: (controlStyles) => ({
-                ...controlStyles,
-                border: "1px solid #e2e2e2",
-                borderRadius: 0,
+              menu: (menuStyles) => ({
+                ...menuStyles,
+                maxHeight: "200px",
               }),
-              menu: (controlStyles) => ({
-                ...controlStyles,
-                height: "200px",
-                overflow: "scroll",
+              menuList: (menuListStyles) => ({
+                ...menuListStyles,
+                maxHeight: "200px",
+                overflowY: "auto",
               }),
             }}
           />
@@ -189,15 +185,14 @@ function Form({ onSubmit }) {
                 width: "100%",
                 fontSize: "12px",
               }),
-              control: (controlStyles) => ({
-                ...controlStyles,
-                border: "1px solid #e2e2e2",
-                borderRadius: 0,
+              menu: (menuStyles) => ({
+                ...menuStyles,
+                maxHeight: "200px",
               }),
-              menu: (controlStyles) => ({
-                ...controlStyles,
-                height: "200px",
-                overflow: "scroll",
+              menuList: (menuListStyles) => ({
+                ...menuListStyles,
+                maxHeight: "200px",
+                overflowY: "auto",
               }),
             }}
           />
@@ -206,7 +201,7 @@ function Form({ onSubmit }) {
         <Spacing size={10} />
         <Label label="성별" />
         <Flex>
-          <Button color={gender === 0 ? "success" : "grey"} css={btnGender} onClick={() => setGender(0)}>
+          <Button color={gender === 0 ? "primary" : "grey"} css={btnGender} onClick={() => setGender(0)}>
             남
           </Button>
           <Spacing size={10} direction="horizontal" />

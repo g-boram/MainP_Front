@@ -37,7 +37,7 @@ const BaseButton = styled.button(
   ({ disabled }) =>
     disabled
       ? css`
-          opacity: 0.26;
+          opacity: 0.3;
           cursor: initial;
         `
       : undefined

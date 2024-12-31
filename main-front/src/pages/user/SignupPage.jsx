@@ -1,19 +1,54 @@
-import { registerUser } from "../../api/authService";
 import { useAlertContext } from "../../contexts/AlertContextProvider";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { BarLoader } from "react-spinners";
+import { registerUser } from "../../reduxSlice/registerSlice";
+
 import SignUpImg from "../../assert/signupCar.png";
 import Text from "../../components/shared/Text";
 import Form from "../../components/signup/Form";
 import styled from "@emotion/styled";
+import LightDimmed from "../../components/shared/LightDimmed";
 
 // 회원가입 페이지
 export default function SignupPage() {
   const { open } = useAlertContext();
-  const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
+  const { message, isLoading, error } = useSelector((state) => state.register);
 
-  const handleSubmit = async (formValues) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (message) {
+      open({
+        title: "감사합니다!",
+        description: `${message}`,
+        onButtonClick: () => {
+          navigate("/signin");
+        },
+      });
+    }
+
+    if (error) {
+      open({
+        title: "회원가입 실패",
+        description: error.message || error,
+        isCancel: false,
+        onButtonClick: () => {},
+      });
+    }
+  }, [message, error, open, navigate]);
+
+  if (isLoading) {
+    return (
+      <LightDimmed>
+        <BarLoader color="#000" z-index={11} cssOverride={{ margin: "0 auto", top: "50%" }} />
+      </LightDimmed>
+    );
+  }
+
+  const handleSubmit = (formValues) => {
     const { email, password, username, phoneNumber, year, month, day, gender } = formValues;
 
     const newUser = {
@@ -26,29 +61,7 @@ export default function SignupPage() {
       birth: `${year + month + day}`,
     };
 
-    try {
-      setIsLoading(true);
-      await registerUser(newUser);
-
-      open({
-        title: "회원가입 성공",
-        description: `${username}님, 환영합니다!`,
-        isCancel: false,
-        onButtonClick: () => {
-          navigate("/signin");
-        },
-      });
-    } catch (e) {
-      console.error("Error creating User:", e);
-      open({
-        title: "회원가입 실패",
-        description: "관리자에게 문의하세요.",
-        isCancel: false,
-        onButtonClick: () => {},
-      });
-    } finally {
-      setIsLoading(false);
-    }
+    dispatch(registerUser(newUser));
   };
 
   return (
@@ -90,7 +103,6 @@ const SignupContainer = styled.div`
 `;
 
 const ImgBox = styled.div`
-  flex-grow: 0;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -100,6 +112,7 @@ const ImgBox = styled.div`
   & > img {
     width: 400px;
     height: 400px;
+    object-fit: contain;
   }
 `;
 
@@ -117,6 +130,7 @@ const TitleBox = styled.div`
 `;
 
 const FormWrapper = styled.div`
+  min-width: 400px;
   @media (max-width: 600px) {
     display: flex;
     flex-direction: column;

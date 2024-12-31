@@ -16,9 +16,7 @@ import LightDimmed from "../../components/shared/LightDimmed";
 export default function SigninPage() {
   const { open } = useAlertContext();
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
-
   const { user, isLoading, error } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -116,5 +114,6 @@ const ImgBox = styled.div`
   & > img {
     width: 100%;
     height: 100%;
+    object-fit: contain;
   }
 `;

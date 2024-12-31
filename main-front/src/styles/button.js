@@ -42,7 +42,7 @@ export const buttonColorMap = {
     background-color: ${colorPalette.btnPink};
     color: ${colorPalette.white};
     &:hover {
-      background-color: #c86b85;
+      background-color: rgb(228, 118, 149);
       transition: 0.5s;
     }
   `,
