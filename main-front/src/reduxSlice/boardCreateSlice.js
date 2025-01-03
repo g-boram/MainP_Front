@@ -2,7 +2,9 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { SERVER_URL } from "../constants/urlList";
 import axios from "axios";
 
+// ****************************** //
 // 게시판 생성 Thunk
+// ****************************** //
 export const createBoard = createAsyncThunk("board/createBoard", async (formTotalData, { rejectWithValue }) => {
   try {
     const response = await axios.post(`${SERVER_URL.LOCAL}/board`, formTotalData, {
@@ -12,18 +14,24 @@ export const createBoard = createAsyncThunk("board/createBoard", async (formTota
     });
     return response.data;
   } catch (error) {
-    return rejectWithValue(error.response.data || "Error creating board");
+    return rejectWithValue(error.response?.data?.message || "An unexpected error occurred");
   }
 });
 
-const boardSlice = createSlice({
-  name: "board",
+const boardCreateSlice = createSlice({
+  name: "boardCreate",
   initialState: {
     isLoading: false,
     board: null,
     error: null,
   },
-  reducers: {}, // 추가 리듀서가 필요하다면 작성
+  reducers: {
+    resetBoardState: (state) => {
+      state.isLoading = false;
+      state.board = null;
+      state.error = null;
+    },
+  }, // 추가 리듀서가 필요하다면 작성
   extraReducers: (builder) => {
     builder
       // createBoard Pending
@@ -44,4 +52,5 @@ const boardSlice = createSlice({
   },
 });
 
-export default boardSlice.reducer;
+export const { resetBoardState } = boardCreateSlice.actions;
+export default boardCreateSlice.reducer;

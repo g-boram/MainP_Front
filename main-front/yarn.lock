@@ -9276,6 +9276,7 @@ __metadata:
     react-icons: "npm:^5.0.1"
     react-infinite-scroll-component: "npm:^6.1.0"
     react-lazy-load-image-component: "npm:^1.6.0"
+    react-paginate: "npm:^8.2.0"
     react-redux: "npm:^9.2.0"
     react-router-dom: "npm:^6.22.0"
     react-scripts: "npm:5.0.1"
@@ -11218,7 +11219,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.6.0, prop-types@npm:^15.6.2, prop-types@npm:^15.8.1":
+"prop-types@npm:^15, prop-types@npm:^15.6.0, prop-types@npm:^15.6.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -11474,6 +11475,17 @@ __metadata:
   peerDependencies:
     react: ^15.x.x || ^16.x.x || ^17.x.x || ^18.x.x
   checksum: 10c0/e0bf069d734c9371cfcea6e9402b6327adf18c6e57c98616f48b38dbbeb5c8d1e9262ad4b8f5626fdd26d5ddfa7c547ff9d17419a9617306195f5fe577f0b430
+  languageName: node
+  linkType: hard
+
+"react-paginate@npm:^8.2.0":
+  version: 8.2.0
+  resolution: "react-paginate@npm:8.2.0"
+  dependencies:
+    prop-types: "npm:^15"
+  peerDependencies:
+    react: ^16 || ^17 || ^18
+  checksum: 10c0/3d436f5e56e6b14b809767718da46f22d4315221c972c4990e7c22de3b8074235852fa2ad00f6849aad50fa0df16aa14adc2243e767fe4851f0c1ba154ef8b15
   languageName: node
   linkType: hard
 

@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { colorPalette } from "../../styles/colorPalette";
 
-export default function BoardRow({ title, content, date }) {
+export default function NoticeBoardRow({ title, content, date }) {
   return (
     <BoardRowWrapper>
       <div id="title">{title}</div>

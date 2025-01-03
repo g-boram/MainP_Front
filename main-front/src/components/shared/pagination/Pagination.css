@@ -1,0 +1,20 @@
+.pagination {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+}
+
+.pagination li {
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.pagination li.active {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.pagination li:hover {
+  color: blue;
+}

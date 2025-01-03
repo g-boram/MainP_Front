@@ -18,6 +18,7 @@ import NoticePage from "./pages/user/board/NoticePage";
 import ManagerPage from "./pages/manager/ManagerPage";
 import M_NoticePage from "./pages/manager/board/M_NoticePage";
 import M_NoticeCreatePage from "./pages/manager/board/M_NoticeCreatePage";
+import MyPage from "./pages/user/MyPage";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/" Component={HomePage} />
           <Route path="/signin" Component={SigninPage} />
           <Route path="/signup" Component={SignupPage} />
+          <Route path="/mypage" Component={MyPage} />
           <Route path="/board" Component={NoticePage} />
           <Route path="/car" Component={CarPage} />
 

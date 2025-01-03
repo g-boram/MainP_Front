@@ -1,8 +1,7 @@
-import styled from "@emotion/styled";
 import LeftNavbar from "../../../components/manager/LeftNavbar";
 import NoticeForm from "../../../components/manager/board/NoticeForm";
 import HeadTitle from "../../../components/manager/HeadTitle";
-import { ContentBox, ContentWrapper, ManagerContainer, NavRow } from "./layoutStyles";
+import { ContentBox, ContentWrapper, ManagerContainer, NavRow } from "../../../styles/managerLayoutStyles";
 import LinkButton from "../../../components/shared/LinkButton";
 
 export default function M_NoticeCreatePage() {
@@ -22,6 +21,7 @@ export default function M_NoticeCreatePage() {
             fontSize="14px"
           />
         </NavRow>
+
         <ContentBox>
           <NoticeForm />
         </ContentBox>

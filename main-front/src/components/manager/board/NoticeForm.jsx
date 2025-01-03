@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import Spacing from "../../shared/Spacing";
 import Flex from "../../shared/Flex";
@@ -7,30 +7,57 @@ import CreatableSelect from "react-select/creatable";
 import { MANAGER_CATEGORY } from "../../../constants/category";
 import { colorPalette } from "../../../styles/colorPalette";
 import { useDispatch, useSelector } from "react-redux";
-import { createBoard } from "../../../api/boardApi";
+
 import { useAlertContext } from "../../../contexts/AlertContextProvider";
 import { useNavigate } from "react-router-dom";
 import { BarLoader } from "react-spinners";
+import { createBoard, resetBoardState } from "../../../reduxSlice/boardCreateSlice";
+import { LoadingOverlay } from "../../../styles/managerLayoutStyles";
 
 // 관리자-공지사항 폼양식
 export default function NoticeForm() {
-  const { user } = useSelector((state) => state.auth);
-  const { open } = useAlertContext();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isLoading, board, error } = useSelector((state) => state.board);
+
+  const { user } = useSelector((state) => state.auth);
+  const { open } = useAlertContext();
+  const { isLoading, board, error } = useSelector((state) => state.boardCreate);
 
   const [file, setFile] = useState(null);
   const [category, setCategory] = useState();
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(true);
   const [formValues, setFormValues] = useState({
     title: "",
     content: "",
     category: "",
     userId: 0,
-    status: "ACTIVE",
-    role: "ADMIN",
   });
+
+  useEffect(() => {
+    if (board) {
+      open({
+        title: "게시글 등록 성공",
+        description: "리스트 페이지로 이동합니다.",
+        isCancel: false,
+        onButtonClick: () => {
+          dispatch(resetBoardState());
+          navigate("/manager/board/notice");
+        },
+      });
+    }
+
+    if (error) {
+      // 로그인 실패 시
+      open({
+        title: "게시글 등록 실패",
+        description: error.message || error,
+        isCancel: false,
+        onButtonClick: () => {
+          dispatch(resetBoardState());
+        },
+      });
+    }
+  }, [board, error, open, dispatch, navigate]);
 
   const handleCheckboxChange = (e) => {
     setIsActive(e.target.checked);
@@ -54,115 +81,107 @@ export default function NoticeForm() {
       title: formValues.title,
       content: formValues.content,
       category: category ? category.value : "other",
-      userId: user ? user.userId : 0,
-      status: formValues.status,
-      role: user ? user.role : "NOT_ADMIN",
+      userId: user ? user.id : 0,
+      status: isActive ? "ACTIVE" : "INACTIVE",
       imageUrl: "",
     };
 
     const formTotalData = new FormData();
     formTotalData.append("boardReq", JSON.stringify(data));
-    formTotalData.append("file", file); // 선택한 파일을 FormData에 추가
+    if (file != null) {
+      formTotalData.append("file", file);
+    }
 
     dispatch(createBoard(formTotalData));
   };
 
   return (
-    <>
-      {isLoading ? (
-        <LoadingContainer>
-          <BarLoader color="#000" z-index={11} cssOverride={{ margin: "0 auto", top: "50%" }} />
-        </LoadingContainer>
-      ) : (
-        <FormContainer>
-          <Flex direction="column">
-            <Spacing size={10} />
-            <Flex align={"center"}>
-              <Label>카테고리</Label>
-              <>
-                <CreatableSelect
-                  placeholder="카테고리를 선택해 주세요  (미선택시 기타로 등록)"
-                  onChange={(newValue) => setCategory(newValue)}
-                  options={MANAGER_CATEGORY}
-                  value={category}
-                  styles={{
-                    container: (containerStyles) => ({
-                      ...containerStyles,
-                      width: "100%",
-                      fontSize: "13px",
-                      border: "1px solid #eee",
-                      borderRadius: 0,
-                    }),
-                    control: (controlStyles) => ({
-                      ...controlStyles,
-                      borderRadius: 0,
-                      border: "1px solid #eee",
-                    }),
-                    menu: (controlStyles) => ({
-                      ...controlStyles,
-                      borderRadius: 0,
-                    }),
-                  }}
-                />
-              </>
-            </Flex>
-            <Spacing size={10} />
-
-            <Flex>
-              <Label>활성화 여부</Label>
-              <CheckBoxRow>
-                <label id="active">바로 등록하기</label>
-                <input id="active" type="checkbox" checked={isActive} onChange={handleCheckboxChange} />
-              </CheckBoxRow>
-            </Flex>
-            <Spacing size={10} />
-
-            <Flex>
-              <Label>제목</Label>
-              <InputBox>
-                <input name="title" id="title" onChange={handleFormValues} value={formValues.title} />
-              </InputBox>
-            </Flex>
-            <Spacing size={10} />
-
-            <Flex>
-              <Label>내용</Label>
-              <TextareaBox>
-                <textarea name="content" id="content" onChange={handleFormValues} value={formValues.content} />
-              </TextareaBox>
-            </Flex>
-            <Spacing size={10} />
-
-            <Flex>
-              <Label>첨부파일</Label>
-              <InputBox>
-                <input type="file" name="file" onChange={handleFileChange} />
-              </InputBox>
-            </Flex>
-          </Flex>
-          <Spacing size={50} />
-          <Flex justify={"center"}>
-            <BaseButton color="black" full onClick={handleSubmit}>
-              게시글 등록
-            </BaseButton>
-          </Flex>
-        </FormContainer>
+    <FormContainer>
+      {true && (
+        <LoadingOverlay>
+          <BarLoader color="#000" z-index={11} />
+        </LoadingOverlay>
       )}
-    </>
+      <Flex direction="column">
+        <Spacing size={10} />
+        <Flex align={"center"}>
+          <Label>카테고리</Label>
+          <>
+            <CreatableSelect
+              placeholder="카테고리를 선택해 주세요  (미선택시 기타로 등록)"
+              onChange={(newValue) => setCategory(newValue)}
+              options={MANAGER_CATEGORY}
+              value={category}
+              styles={{
+                container: (containerStyles) => ({
+                  ...containerStyles,
+                  width: "100%",
+                  fontSize: "13px",
+                  border: "1px solid #eee",
+                  borderRadius: 0,
+                }),
+                control: (controlStyles) => ({
+                  ...controlStyles,
+                  borderRadius: 0,
+                  border: "1px solid #eee",
+                }),
+                menu: (controlStyles) => ({
+                  ...controlStyles,
+                  borderRadius: 0,
+                }),
+              }}
+            />
+          </>
+        </Flex>
+        <Spacing size={10} />
+
+        <Flex>
+          <Label>활성화 여부</Label>
+          <CheckBoxRow>
+            <label id="active">바로 게시하기</label>
+            <input id="active" type="checkbox" checked={isActive} onChange={handleCheckboxChange} />
+          </CheckBoxRow>
+        </Flex>
+        <Spacing size={10} />
+
+        <Flex>
+          <Label>제목</Label>
+          <InputBox>
+            <input name="title" id="title" onChange={handleFormValues} value={formValues.title} />
+          </InputBox>
+        </Flex>
+        <Spacing size={10} />
+
+        <Flex>
+          <Label>내용</Label>
+          <TextareaBox>
+            <textarea name="content" id="content" onChange={handleFormValues} value={formValues.content} />
+          </TextareaBox>
+        </Flex>
+        <Spacing size={10} />
+
+        <Flex>
+          <Label>첨부파일</Label>
+          <InputBox>
+            <input type="file" name="file" onChange={handleFileChange} />
+          </InputBox>
+        </Flex>
+      </Flex>
+      <Spacing size={50} />
+      <Flex justify={"center"}>
+        <BaseButton size="medium" color="black" height={"40px"} full onClick={handleSubmit}>
+          게시글 등록
+        </BaseButton>
+      </Flex>
+    </FormContainer>
   );
 }
-
-const LoadingContainer = styled.div`
-  min-height: 700px;
-  width: 100%;
-  margin: 0 auto;
-  background-color: rgba(0, 0, 0, 0.2);
-  z-index: 10;
-`;
 
 const FormContainer = styled.div`
   height: auto;
   width: 100%;
+  position: relative;
+  z-index: 1;
 `;
 
 const Label = styled.div`
@@ -219,9 +238,9 @@ const CheckBoxRow = styled.div`
   justify-content: flex-end;
 
   & input {
+    height: 20px;
+    width: 20px;
     border: 1px solid #eee;
-    width: 25px;
     padding: 0px 10px;
-    height: 25px;
   }
 `;

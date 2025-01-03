@@ -2,8 +2,11 @@ import styled from "@emotion/styled";
 
 import { colorPalette } from "../../styles/colorPalette";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function LeftNavbar() {
+  const { user } = useSelector((state) => state.auth);
+  console.log("user : ", user);
   return (
     <NavContainer>
       <ImgBox></ImgBox>

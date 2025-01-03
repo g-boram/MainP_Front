@@ -51,8 +51,7 @@ export default function SigninPage() {
 
   const handleSubmit = (formValues) => {
     const { email, password } = formValues;
-    const req = { email: email, password: password };
-    console.log(req);
+
     // 로그인 액션 디스패치
     dispatch(loginUser({ email, password }));
   };
