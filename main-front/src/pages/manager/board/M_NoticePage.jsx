@@ -2,6 +2,15 @@ import styled from "@emotion/styled";
 import LeftNavbar from "../../../components/manager/LeftNavbar";
 import HeadTitle from "../../../components/manager/HeadTitle";
 import LinkButton from "../../../components/shared/LinkButton";
+import PaginationComponent from "../../../components/shared/pagination/PaginationComponent";
+import Flex from "../../../components/shared/Flex";
+import ListHeader from "../../../components/shared/ListHeader";
+import BoardRow from "../../../components/manager/board/BoardRow";
+import FilterButtons from "../../../components/shared/FilterButtons";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPagedBoards, setStatusFilter } from "../../../reduxSlice/boardListSlice";
+import { useEffect } from "react";
+import { BarLoader } from "react-spinners";
 import {
   ContentBox,
   ContentWrapper,
@@ -11,27 +20,32 @@ import {
   LoadingOverlay,
   ManagerContainer,
   NavRow,
+  NotBoardBox,
+  NotBoardOverlay,
+  NotBoardText,
 } from "../../../styles/managerLayoutStyles";
-import BoardRow from "../../../components/manager/board/BoardRow";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchPagedBoards } from "../../../reduxSlice/boardListSlice";
-import { useEffect } from "react";
-import PaginationComponent from "../../../components/shared/pagination/PaginationComponent";
-import { BarLoader } from "react-spinners";
-import Flex from "../../../components/shared/Flex";
-import ListHeader from "../../../components/shared/ListHeader";
 
 export default function M_NoticePage() {
   const dispatch = useDispatch();
-  const { boards, page, totalPages, isLoading, error } = useSelector((state) => state.boardList);
-  console.log("boards: ", boards);
+  const { boards, filterTotalPages, filteredBoards, page, totalPages, isLoading, error, statusFilter } = useSelector(
+    (state) => state.boardList
+  );
+  console.log("filteredBoards: ", filteredBoards);
+  console.log("filterTotalPages: ", filterTotalPages);
+  console.log("page: ", page);
 
   useEffect(() => {
     dispatch(fetchPagedBoards({ page: 0, size: 10, sort: "boardId,desc" })); // 초기 페이지 로드
   }, [dispatch]);
 
+  const handleFilterChange = (filter) => {
+    dispatch(setStatusFilter(filter)); // 필터 상태 변경
+  };
+
   const handlePageChange = (newPage) => {
-    dispatch(fetchPagedBoards({ page: newPage }));
+    dispatch(fetchPagedBoards({ page: newPage, size: 10, sort: "boardId,desc" })).then(() => {
+      // 페이지 변경 후 필터 적용
+    });
   };
 
   return (
@@ -46,11 +60,13 @@ export default function M_NoticePage() {
               color="white"
               bgColor="black"
               text="게시글 등록하기"
-              width="120px"
-              height="35px"
-              fontSize="14px"
+              width="100px"
+              height="30px"
+              fontSize="12px"
             />
           </NavRow>
+          {/* 필터 버튼 */}
+          <FilterButtons currentFilter={statusFilter} onFilterChange={handleFilterChange} />
           <NoticeListWrapper>
             {isLoading && (
               <LoadingOverlay>
@@ -67,20 +83,26 @@ export default function M_NoticePage() {
             {!isLoading && !error && (
               <Flex direction="column">
                 <ListHeader
-                  height="35px"
-                  bgColor="#fff"
+                  height="30px"
                   borderB="#000"
                   borderT="#000"
                   fontSize="13px"
-                  rowTitle={["No.-10", "제목-100", "내용-100", "작성자-25", "작성일-25"]}
+                  bgColor="#eeeeee"
+                  rowTitle={["No.-10", "제목-100", "내용-100", "작성자-25", "작성일-20", "게시상태-20"]}
                 />
-                {boards.map((board) => (
-                  <BoardRow {...board} />
-                ))}
+                {filteredBoards && filteredBoards.length > 0 ? (
+                  filteredBoards.map((board) => <BoardRow {...board} key={board.boardId} />)
+                ) : (
+                  <NotBoardOverlay>
+                    <NotBoardBox>
+                      <NotBoardText>게시글이 없습니다.</NotBoardText>
+                    </NotBoardBox>
+                  </NotBoardOverlay>
+                )}
               </Flex>
             )}
           </NoticeListWrapper>
-          <PaginationComponent pageCount={totalPages} onPageChange={handlePageChange} />
+          <PaginationComponent onPageChange={handlePageChange} />
         </ContentBox>
       </ContentWrapper>
     </ManagerContainer>
@@ -88,10 +110,9 @@ export default function M_NoticePage() {
 }
 
 const NoticeListWrapper = styled.div`
-  max-height: 400px;
+  min-height: 400px;
   width: 100%;
   overflow-y: hidden;
   position: relative;
   z-index: 1;
-  background-color: #eee;
 `;

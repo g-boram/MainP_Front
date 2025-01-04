@@ -97,7 +97,7 @@ export default function NoticeForm() {
 
   return (
     <FormContainer>
-      {true && (
+      {isLoading && (
         <LoadingOverlay>
           <BarLoader color="#000" z-index={11} />
         </LoadingOverlay>
