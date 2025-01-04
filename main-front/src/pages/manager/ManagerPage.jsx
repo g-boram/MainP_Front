@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import LeftNavbar from "../../components/manager/LeftNavbar";
+import { ContentWrapper, ManagerContainer } from "../../styles/managerLayoutStyles";
 
 export default function ManagerPage() {
   return (
@@ -11,16 +12,3 @@ export default function ManagerPage() {
     </ManagerContainer>
   );
 }
-
-const ManagerContainer = styled.div`
-  min-height: 100vh;
-  display: flex;
-`;
-
-const ContentWrapper = styled.div`
-  width: 100%;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid grey;
-`;

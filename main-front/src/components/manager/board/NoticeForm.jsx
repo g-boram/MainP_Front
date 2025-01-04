@@ -1,55 +1,71 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import { css } from "@emotion/react";
 import Spacing from "../../shared/Spacing";
 import Flex from "../../shared/Flex";
 import BaseButton from "../../shared/Button";
 import CreatableSelect from "react-select/creatable";
 import { MANAGER_CATEGORY } from "../../../constants/category";
 import { colorPalette } from "../../../styles/colorPalette";
+import { useDispatch, useSelector } from "react-redux";
+
+import { useAlertContext } from "../../../contexts/AlertContextProvider";
+import { useNavigate } from "react-router-dom";
+import { BarLoader } from "react-spinners";
+import { createBoard, resetBoardState } from "../../../reduxSlice/boardCreateSlice";
+import { LoadingOverlay } from "../../../styles/managerLayoutStyles";
 
 // 관리자-공지사항 폼양식
 export default function NoticeForm() {
-  const [formData, setFormData] = useState({
-    title: "",
-    content: "",
-    userId: 4,
-    status: "ACTIVE",
-    role: "ADMIN",
-  });
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFormData((prev) => ({ ...prev, [name]: value }));
-  // };
+  const { user } = useSelector((state) => state.auth);
+  const { open } = useAlertContext();
+  const { isLoading, board, error } = useSelector((state) => state.boardCreate);
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   console.log("formData", formData);
-
-  //   try {
-  //     const response = await axios.post("http://localhost:8080/board", formData);
-  //     alert("Board created successfully!");
-  //     setFormData({ title: "", content: "", ...formData }); // Reset form
-  //   } catch (error) {
-  //     console.error("Error creating board:", error);
-  //     alert("Failed to create the board. Please try again.");
-  //   }
-  // };
-
-  // teest
-  // const user = useUser()
-  // const navigate = useNavigate()
+  const [file, setFile] = useState(null);
   const [category, setCategory] = useState();
+  const [isActive, setIsActive] = useState(true);
   const [formValues, setFormValues] = useState({
     title: "",
     content: "",
     category: "",
-    uid: "",
-    email: "",
-    name: "",
+    userId: 0,
   });
+
+  useEffect(() => {
+    if (board) {
+      open({
+        title: "게시글 등록 성공",
+        description: "리스트 페이지로 이동합니다.",
+        isCancel: false,
+        onButtonClick: () => {
+          dispatch(resetBoardState());
+          navigate("/manager/board/notice");
+        },
+      });
+    }
+
+    if (error) {
+      // 로그인 실패 시
+      open({
+        title: "게시글 등록 실패",
+        description: error.message || error,
+        isCancel: false,
+        onButtonClick: () => {
+          dispatch(resetBoardState());
+        },
+      });
+    }
+  }, [board, error, open, dispatch, navigate]);
+
+  const handleCheckboxChange = (e) => {
+    setIsActive(e.target.checked);
+  };
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
+  };
 
   const handleFormValues = (e) => {
     setFormValues((prevFormValues) => ({
@@ -59,51 +75,33 @@ export default function NoticeForm() {
   };
 
   const handleSubmit = async (e) => {
-    // e.preventDefault();
-    // const formData = {
-    //   ...formValues,
-    //   uid: user?.uid,
-    //   email: user?.email,
-    //   name: user?.displayName,
-    //   category: category ? category.value : "info",
-    // };
-    // try {
-    //   await addBoard(formData);
-    //   setFormValues({
-    //     title: "",
-    //     content: "",
-    //     category: "",
-    //     uid: "",
-    //     email: "",
-    //     name: "",
-    //   });
-    //   toast.success("게시글 등록 완료!");
-    //   navigate("/manager/data/setBoardData");
-    // } catch (e) {
-    //   console.log("error", e);
-    // }
+    e.preventDefault();
+
+    const data = {
+      title: formValues.title,
+      content: formValues.content,
+      category: category ? category.value : "other",
+      userId: user ? user.id : 0,
+      status: isActive ? "ACTIVE" : "INACTIVE",
+      imageUrl: "",
+    };
+
+    const formTotalData = new FormData();
+    formTotalData.append("boardReq", JSON.stringify(data));
+    if (file != null) {
+      formTotalData.append("file", file);
+    }
+
+    dispatch(createBoard(formTotalData));
   };
-
-  // function InputField({ label, id, ...props }) {
-  //   return (
-  //     <FormGroup>
-  //       <label htmlFor={id}>{label}</label>
-  //       <FormControlInput id={id} {...props} />
-  //     </FormGroup>
-  //   );
-  // }
-
-  // function TextareaField({ label, id, ...props }) {
-  //   return (
-  //     <FormGroup>
-  //       <label htmlFor={id}>{label}</label>
-  //       <FormControlTextArea id={id} {...props}></FormControlTextArea>
-  //     </FormGroup>
-  //   );
-  // }
 
   return (
     <FormContainer>
+      {isLoading && (
+        <LoadingOverlay>
+          <BarLoader color="#000" z-index={11} />
+        </LoadingOverlay>
+      )}
       <Flex direction="column">
         <Spacing size={10} />
         <Flex align={"center"}>
@@ -139,7 +137,10 @@ export default function NoticeForm() {
 
         <Flex>
           <Label>활성화 여부</Label>
-          <InputBox>체크박스 구현예정 ex. 활성화, 비활성화...</InputBox>
+          <CheckBoxRow>
+            <label id="active">바로 게시하기</label>
+            <input id="active" type="checkbox" checked={isActive} onChange={handleCheckboxChange} />
+          </CheckBoxRow>
         </Flex>
         <Spacing size={10} />
 
@@ -161,12 +162,14 @@ export default function NoticeForm() {
 
         <Flex>
           <Label>첨부파일</Label>
-          <InputBox>도커 생성 후 파일 구현 예정</InputBox>
+          <InputBox>
+            <input type="file" name="file" onChange={handleFileChange} />
+          </InputBox>
         </Flex>
       </Flex>
       <Spacing size={50} />
       <Flex justify={"center"}>
-        <BaseButton color="black" full onClick={handleSubmit}>
+        <BaseButton size="medium" color="black" height={"40px"} full onClick={handleSubmit}>
           게시글 등록
         </BaseButton>
       </Flex>
@@ -177,6 +180,8 @@ export default function NoticeForm() {
 const FormContainer = styled.div`
   height: auto;
   width: 100%;
+  position: relative;
+  z-index: 1;
 `;
 
 const Label = styled.div`
@@ -218,7 +223,24 @@ const InputBox = styled.div`
   & input {
     border: 1px solid #eee;
     width: 100%;
-    padding: 0px 10px;
+    padding: 5px;
     height: 35px;
+  }
+`;
+
+const CheckBoxRow = styled.div`
+  height: 35px;
+  width: 100%;
+  gap: 10px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  & input {
+    height: 20px;
+    width: 20px;
+    border: 1px solid #eee;
+    padding: 0px 10px;
   }
 `;

@@ -1,12 +1,13 @@
 import styled from "@emotion/styled";
 import PageTopImgBox from "../../../components/shared/PageTopImgBox";
-import { HEIGHT_LIST } from "../../../constants/height";
 import BoardSearch from "../../../components/shared/BoardSearch";
-import BoardRow from "../../../components/board/BoardRow";
+import NoticeBoardRow from "../../../components/board/NoticeBoardRow";
+
+import { PageContainer } from "../../../styles/pageLayoutStyles";
 
 export default function NoticePage() {
   return (
-    <BoardContainer>
+    <PageContainer>
       <PageTopImgBox
         imgName={"board"}
         title={"공지사항"}
@@ -14,18 +15,11 @@ export default function NoticePage() {
       />
       <BoardSearch />
       <BoardListContainer>
-        <BoardRow title={"title"} content={"content"} date={"date"} />
+        <NoticeBoardRow title={"title"} content={"content"} date={"date"} />
       </BoardListContainer>
-    </BoardContainer>
+    </PageContainer>
   );
 }
-
-const BoardContainer = styled.div`
-  height: 100%;
-  width: 100%;
-  margin: 0 auto;
-  padding-top: ${HEIGHT_LIST.HEADER + HEIGHT_LIST.NAVBAR}px;
-`;
 
 const BoardListContainer = styled.div`
   width: 1200px;

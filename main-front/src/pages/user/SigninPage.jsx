@@ -1,30 +1,31 @@
 import { useNavigate } from "react-router-dom";
 import { useAlertContext } from "../../contexts/AlertContextProvider";
 import { useEffect } from "react";
+import { BarLoader } from "react-spinners";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../reduxSlice/authSlice";
 
 import styled from "@emotion/styled";
 import Form from "../../components/signin/Form";
 import SignInImg from "../../assert/signinCar.png";
-import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../../reduxSlice/authSlice";
+import Dimmed from "../../components/shared/Dimmed";
 
+// ****************************** //
 // 로그인 페이지
+// ****************************** //
 export default function SigninPage() {
   const { open } = useAlertContext();
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
-
-  const { user, token, isLoading, error } = useSelector((state) => state.auth);
+  const { user, isLoading, error } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (user) {
-      // 로그인 성공 시
       open({
         title: "로그인 성공",
-        description: `00님, 환영합니다!`,
+        description: `${user.username} 님, 환영합니다!`,
         onButtonClick: () => {
-          // navigate("/dashboard"); // 로그인 후 대시보드로 이동
+          navigate("/");
         },
       });
     }
@@ -40,10 +41,17 @@ export default function SigninPage() {
     }
   }, [user, error, open, navigate]);
 
+  if (isLoading) {
+    return (
+      <Dimmed>
+        <BarLoader color="#000" z-index={11} cssOverride={{ margin: "0 auto", top: "50%" }} />
+      </Dimmed>
+    );
+  }
+
   const handleSubmit = (formValues) => {
     const { email, password } = formValues;
-    const req = { email: email, password: password };
-    console.log(req);
+
     // 로그인 액션 디스패치
     dispatch(loginUser({ email, password }));
   };
@@ -105,5 +113,6 @@ const ImgBox = styled.div`
   & > img {
     width: 100%;
     height: 100%;
+    object-fit: contain;
   }
 `;

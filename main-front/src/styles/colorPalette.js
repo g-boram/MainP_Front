@@ -1,5 +1,3 @@
-import { css } from "@emotion/react";
-
 export const colorPalette = {
   red: "#f44336",
   blue: "#2396f3",
@@ -11,7 +9,7 @@ export const colorPalette = {
   btnRed: "#f44336",
   btnBlue: "#2396f3",
   btnGreen: "#aadbff",
-  btnPink: "#de9eb2",
+  btnPink: "#fc78a1",
   btnGrey: "#bbb",
   btnPurple: "#6643b5",
   btnYellow: "#ffd700",

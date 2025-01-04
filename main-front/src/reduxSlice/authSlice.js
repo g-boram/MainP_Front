@@ -1,23 +1,21 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { SERVER_URL } from "../constants/urlList";
 
-const SERVER_URL = {
-  LOCAL: "http://localhost:8080", // 서버 URL
-};
-
+// 로그인
 // Thunk: 로그인 API 호출 및 상태 업데이트
 export const loginUser = createAsyncThunk("auth/loginUser", async ({ email, password }, thunkAPI) => {
-  console.log(email, password);
   try {
     const req = { email: email, password: password };
     const response = await axios.post(`${SERVER_URL.LOCAL}/auth/login`, req);
-    console.log(response);
+
     const token = response.data.token;
+    const user = response.data.user;
 
     // JWT 토큰을 localStorage에 저장
-    localStorage.setItem("jwtToken", token);
+    sessionStorage.setItem("jwtToken", token);
+    sessionStorage.setItem("user", JSON.stringify(user));
 
-    // API 응답 구조 확인 후 필요한 데이터를 반환
     return {
       user: response.data.user,
       token: token,
@@ -28,11 +26,14 @@ export const loginUser = createAsyncThunk("auth/loginUser", async ({ email, pass
   }
 });
 
+const sessionToken = JSON.parse(sessionStorage.getItem("token"));
+const sessionUser = JSON.parse(sessionStorage.getItem("user"));
+
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    user: null,
-    token: null,
+    user: sessionUser ? sessionUser : null,
+    token: sessionToken ? sessionToken : null,
     isLoading: false,
     error: null,
   },
@@ -40,7 +41,8 @@ const authSlice = createSlice({
     logout(state) {
       state.user = null;
       state.token = null;
-      localStorage.removeItem("jwtToken");
+      sessionStorage.removeItem("jwtToken");
+      sessionStorage.removeItem("user");
     },
   },
   extraReducers: (builder) => {
