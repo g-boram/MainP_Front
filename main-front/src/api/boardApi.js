@@ -1,16 +1,16 @@
 import axios from "axios";
 import { SERVER_URL } from "../constants/urlList";
 
-export const createBoard = async (formTotalData) => {
+// 게시판 수정
+export const updateBoard = async (formData) => {
   try {
-    const response = await axios.post(`${SERVER_URL.LOCAL}/board`, formTotalData, {
+    const response = await axios.put(`${SERVER_URL.LOCAL}/board`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
     return response.data;
   } catch (error) {
-    console.error("Error creating board:", error);
-    throw error;
+    throw error.response ? error.response.data : error;
   }
 };

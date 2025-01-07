@@ -19,6 +19,8 @@ import ManagerPage from "./pages/manager/ManagerPage";
 import M_NoticePage from "./pages/manager/board/M_NoticePage";
 import M_NoticeCreatePage from "./pages/manager/board/M_NoticeCreatePage";
 import MyPage from "./pages/user/MyPage";
+import M_NoticeDetailPage from "./pages/manager/board/M_NoticeDetailPage";
+import M_NoticeUpdatePage from "./pages/manager/board/M_NoticeUpdatePage";
 
 function App() {
   return (
@@ -40,6 +42,8 @@ function App() {
           <Route path="/manager" Component={ManagerPage} />
           <Route path="/manager/board/notice" Component={M_NoticePage} />
           <Route path="/manager/board/notice/create" Component={M_NoticeCreatePage} />
+          <Route path="/manager/board/notice/detail" Component={M_NoticeDetailPage} />
+          <Route path="/manager/board/notice/update" Component={M_NoticeUpdatePage} />
 
           {/* @TODO: 인증이 필요한 페이지 나누기 ex) 관리자,유저의 등급, 로그인 여부 ... */}
           {/* <Route path="/my" element={

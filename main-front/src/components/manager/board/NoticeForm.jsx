@@ -208,7 +208,8 @@ const TextareaBox = styled.div`
   & textarea {
     border: 1px solid #eee;
     width: 100%;
-    padding: 10px 10px;
+    font-size: 12px;
+    padding: 10px;
     min-height: 300px;
   }
 `;
@@ -217,14 +218,15 @@ const InputBox = styled.div`
   height: 35px;
   width: 100%;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 
   & input {
     border: 1px solid #eee;
     width: 100%;
-    padding: 5px;
+    padding: 0 10px;
     height: 35px;
+    font-size: 12px;
   }
 `;
 
@@ -232,7 +234,7 @@ const CheckBoxRow = styled.div`
   height: 35px;
   width: 100%;
   gap: 10px;
-  font-size: 14px;
+  font-size: 12px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -241,6 +243,6 @@ const CheckBoxRow = styled.div`
     height: 20px;
     width: 20px;
     border: 1px solid #eee;
-    padding: 0px 10px;
+    padding: 0px 20px;
   }
 `;

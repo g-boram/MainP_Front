@@ -1,10 +1,10 @@
 import LeftNavbar from "../../../components/manager/LeftNavbar";
-import NoticeForm from "../../../components/manager/board/NoticeForm";
 import HeadTitle from "../../../components/manager/HeadTitle";
-import { ContentBox, ContentWrapper, ManagerContainer, NavRow } from "../../../styles/managerLayoutStyles";
 import LinkButton from "../../../components/shared/LinkButton";
+import NoticeUpdateForm from "../../../components/manager/board/NoticeUpdateForm";
+import { ContentBox, ContentWrapper, ManagerContainer, NavRow } from "../../../styles/managerLayoutStyles";
 
-export default function M_NoticeCreatePage() {
+export default function M_NoticeUpdatePage() {
   return (
     <ManagerContainer>
       <LeftNavbar />
@@ -23,7 +23,7 @@ export default function M_NoticeCreatePage() {
         </NavRow>
 
         <ContentBox>
-          <NoticeForm />
+          <NoticeUpdateForm />
         </ContentBox>
       </ContentWrapper>
     </ManagerContainer>

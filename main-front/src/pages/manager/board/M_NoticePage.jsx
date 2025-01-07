@@ -24,15 +24,15 @@ import {
   NotBoardOverlay,
   NotBoardText,
 } from "../../../styles/managerLayoutStyles";
+import { useNavigate } from "react-router-dom";
 
 export default function M_NoticePage() {
   const dispatch = useDispatch();
-  const { boards, filterTotalPages, filteredBoards, page, totalPages, isLoading, error, statusFilter } = useSelector(
+
+  const { filterTotalPages, filteredBoards, page, totalPages, isLoading, error, statusFilter } = useSelector(
     (state) => state.boardList
   );
   console.log("filteredBoards: ", filteredBoards);
-  console.log("filterTotalPages: ", filterTotalPages);
-  console.log("page: ", page);
 
   useEffect(() => {
     dispatch(fetchPagedBoards({ page: 0, size: 10, sort: "boardId,desc" })); // 초기 페이지 로드
@@ -88,7 +88,7 @@ export default function M_NoticePage() {
                   borderT="#000"
                   fontSize="13px"
                   bgColor="#eeeeee"
-                  rowTitle={["No.-10", "제목-100", "내용-100", "작성자-25", "작성일-20", "게시상태-20"]}
+                  rowTitle={["No.-10", "제목-100", "내용-100", "작성자-30", "작성일-20", "게시상태-20", "-22"]}
                 />
                 {filteredBoards && filteredBoards.length > 0 ? (
                   filteredBoards.map((board) => <BoardRow {...board} key={board.boardId} />)
@@ -110,7 +110,7 @@ export default function M_NoticePage() {
 }
 
 const NoticeListWrapper = styled.div`
-  min-height: 400px;
+  min-height: 450px;
   width: 100%;
   overflow-y: hidden;
   position: relative;
