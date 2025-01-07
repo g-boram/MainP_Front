@@ -1,9 +1,15 @@
 import styled from "@emotion/styled";
 import { colorPalette } from "../../../styles/colorPalette";
 import { useNavigate } from "react-router-dom";
+import { useAlertContext } from "../../../contexts/AlertContextProvider";
+import { deleteBoard } from "../../../api/boardApi";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function BoardRow(board) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { open } = useAlertContext();
   const { boardId, title, content, createdAt, status, username } = board;
 
   const handleDetailPage = () => {
@@ -12,6 +18,31 @@ export default function BoardRow(board) {
 
   const handleUpdatePage = () => {
     navigate("/manager/board/notice/update", { state: { ...board } });
+  };
+
+  const confirmDelete = () => {
+    open({
+      title: "게시글 삭제",
+      description: "해당 게시글을 삭제하시겠습니까?",
+      isCancel: true,
+      onButtonClick: () => {
+        handleDeleteBoard();
+      },
+    });
+  };
+  const handleDeleteBoard = async () => {
+    try {
+      await deleteBoard(boardId, dispatch);
+
+      open({
+        title: "게시글 삭제",
+        description: "게시글이 삭제되었습니다.",
+        isCancel: false,
+        onButtonClick: () => {},
+      });
+    } catch (error) {
+      console.log("Delete Board Error: ", error);
+    }
   };
 
   return (
@@ -26,8 +57,10 @@ export default function BoardRow(board) {
       <div id="username">{username}</div>
       <div id="createdAt">{createdAt.slice(0, 10)}</div>
       <div id="status">{status === "ACTIVE" ? "활성화" : "비활성화"}</div>
-      <UpdateBtn onClick={handleUpdatePage}>수정</UpdateBtn>
-      <DeleteBtn>삭제</DeleteBtn>
+      <div id="btnBox">
+        <UpdateBtn onClick={handleUpdatePage}>수정</UpdateBtn>
+        <DeleteBtn onClick={confirmDelete}>삭제</DeleteBtn>
+      </div>
     </BoardRowWrapper>
   );
 }
@@ -66,7 +99,7 @@ const BoardRowWrapper = styled.div`
     color: ${colorPalette.fontDarkGrey};
   }
   #status {
-    width: 22%;
+    width: 20%;
     font-size: 12px;
     color: ${({ status }) => (status === "ACTIVE" ? "green" : "red")};
     border-radius: 5px;
@@ -74,9 +107,12 @@ const BoardRowWrapper = styled.div`
     text-align: center;
   }
   #createdAt {
-    width: 25%;
+    width: 20%;
     font-size: 12px;
     color: ${colorPalette.fontGrey};
+  }
+  #btnBox {
+    width: 20%;
   }
 
   :hover {
@@ -85,9 +121,8 @@ const BoardRowWrapper = styled.div`
 `;
 
 const UpdateBtn = styled.button`
-  width: 120px;
-  height: 85%;
-  margin-top: 3px;
+  height: 30px;
+  padding: 3px 10px;
   font-size: 12px;
   background-color: ${colorPalette.btnBlue};
   border: none;
@@ -102,16 +137,15 @@ const UpdateBtn = styled.button`
 `;
 
 const DeleteBtn = styled.button`
-  width: 120px;
-  height: 85%;
-  margin-top: 3px;
+  height: 30px;
+  padding: 3px 10px;
   font-size: 12px;
   background-color: ${colorPalette.btnRed};
   border: none;
   border-radius: 5px;
   cursor: pointer;
   color: #fff;
-  margin-left: 10px;
+  margin-left: 5px;
 
   :hover {
     font-weight: bold;

@@ -22,7 +22,7 @@ export default function M_NoticeDetailPage() {
             fontSize="12px"
           />
         </NavRow>
-        <Spacing size={50} />
+        {/* <Spacing size={50} /> */}
         <ContentBox>
           <BoardDetailForm />
         </ContentBox>

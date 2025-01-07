@@ -10,28 +10,25 @@ import FilterButtons from "../../../components/shared/FilterButtons";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPagedBoards, setStatusFilter } from "../../../reduxSlice/boardListSlice";
 import { useEffect } from "react";
-import { BarLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners";
 import {
+  ClearLoadingOverlay,
   ContentBox,
   ContentWrapper,
   ErrorBox,
   ErrorOverlay,
   ErrorText,
-  LoadingOverlay,
   ManagerContainer,
   NavRow,
   NotBoardBox,
   NotBoardOverlay,
   NotBoardText,
 } from "../../../styles/managerLayoutStyles";
-import { useNavigate } from "react-router-dom";
 
 export default function M_NoticePage() {
   const dispatch = useDispatch();
 
-  const { filterTotalPages, filteredBoards, page, totalPages, isLoading, error, statusFilter } = useSelector(
-    (state) => state.boardList
-  );
+  const { filteredBoards, isLoading, error, statusFilter } = useSelector((state) => state.boardList);
   console.log("filteredBoards: ", filteredBoards);
 
   useEffect(() => {
@@ -43,9 +40,7 @@ export default function M_NoticePage() {
   };
 
   const handlePageChange = (newPage) => {
-    dispatch(fetchPagedBoards({ page: newPage, size: 10, sort: "boardId,desc" })).then(() => {
-      // 페이지 변경 후 필터 적용
-    });
+    dispatch(fetchPagedBoards({ page: newPage, size: 10, sort: "boardId,desc" })).then(() => {});
   };
 
   return (
@@ -69,9 +64,9 @@ export default function M_NoticePage() {
           <FilterButtons currentFilter={statusFilter} onFilterChange={handleFilterChange} />
           <NoticeListWrapper>
             {isLoading && (
-              <LoadingOverlay>
-                <BarLoader color="#000" z-index={11} />
-              </LoadingOverlay>
+              <ClearLoadingOverlay>
+                <ClipLoader color="#000" z-index={11} />
+              </ClearLoadingOverlay>
             )}
             {error && (
               <ErrorOverlay>
@@ -88,7 +83,7 @@ export default function M_NoticePage() {
                   borderT="#000"
                   fontSize="13px"
                   bgColor="#eeeeee"
-                  rowTitle={["No.-10", "제목-100", "내용-100", "작성자-30", "작성일-20", "게시상태-20", "-22"]}
+                  rowTitle={["No.-10", "제목-100", "내용-100", "작성자-20", "작성일-20", "게시상태-20", "-20"]}
                 />
                 {filteredBoards && filteredBoards.length > 0 ? (
                   filteredBoards.map((board) => <BoardRow {...board} key={board.boardId} />)
