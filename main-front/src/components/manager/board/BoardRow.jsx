@@ -3,7 +3,7 @@ import { colorPalette } from "../../../styles/colorPalette";
 import { useNavigate } from "react-router-dom";
 import { useAlertContext } from "../../../contexts/AlertContextProvider";
 import { deleteBoard } from "../../../api/boardApi";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 export default function BoardRow(board) {
   const navigate = useNavigate();

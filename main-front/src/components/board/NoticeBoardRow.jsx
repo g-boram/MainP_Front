@@ -1,12 +1,15 @@
 import styled from "@emotion/styled";
 import { colorPalette } from "../../styles/colorPalette";
+import Flex from "../shared/Flex";
 
-export default function NoticeBoardRow({ title, content, date }) {
+export default function NoticeBoardRow({ title, content, createdAt }) {
   return (
     <BoardRowWrapper>
-      <div id="title">{title}</div>
+      <Flex justify={"space-between"} align={"center"}>
+        <div id="title">{title}</div>
+        <div id="date">{createdAt}</div>
+      </Flex>
       <div id="content">{content}</div>
-      <div id="date">{date}</div>
     </BoardRowWrapper>
   );
 }
@@ -14,10 +17,10 @@ export default function NoticeBoardRow({ title, content, date }) {
 const BoardRowWrapper = styled.div`
   height: 150px;
   padding: 10px;
-  width: 100%;
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid #eee;
+  cursor: pointer;
 
   #title {
     font-size: 18px;

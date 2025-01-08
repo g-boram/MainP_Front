@@ -4,6 +4,7 @@ import authReducer from "./reduxSlice/authSlice";
 import registerReducer from "./reduxSlice/registerSlice";
 import boardCreateReducer from "./reduxSlice/boardCreateSlice";
 import boardListReducer from "./reduxSlice/boardListSlice";
+import paginationReducer from "./reduxSlice/paginationSlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,12 +13,13 @@ export const store = configureStore({
     register: registerReducer,
     boardCreate: boardCreateReducer,
     boardList: boardListReducer,
+    pagination: paginationReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [], // Add specific action types here if necessary
-        ignoredPaths: ["board.file"], // Example path to ignore
+        ignoredActions: [],
+        ignoredPaths: ["board.file"],
       },
     }),
 });
