@@ -26,3 +26,14 @@ export const deleteBoard = async (boardId, dispatch) => {
     throw error.response ? error.response.data : error;
   }
 };
+
+// 게시판 삭제
+export const detailBoardById = async (boardId) => {
+  try {
+    const response = await axios.get(`${SERVER_URL.LOCAL}/board/${boardId}`);
+
+    return response.data;
+  } catch (error) {
+    throw error.response ? error.response.data : error;
+  }
+};

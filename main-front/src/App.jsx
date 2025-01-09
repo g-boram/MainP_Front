@@ -13,6 +13,7 @@ import CarPage from "./pages/user/car/CarPage";
 import SigninPage from "./pages/user/SigninPage";
 import SignupPage from "./pages/user/SignupPage";
 import NoticePage from "./pages/user/board/NoticePage";
+import NoticeDetailPage from "./pages/user/board/NoticeDetailPage";
 
 // [ 관리자 ]
 import ManagerPage from "./pages/manager/ManagerPage";
@@ -35,7 +36,8 @@ function App() {
           <Route path="/signin" Component={SigninPage} />
           <Route path="/signup" Component={SignupPage} />
           <Route path="/mypage" Component={MyPage} />
-          <Route path="/board" Component={NoticePage} />
+          <Route path="/board/notice" Component={NoticePage} />
+          <Route path="/board/notice/detail/:id" Component={NoticeDetailPage} />
           <Route path="/car" Component={CarPage} />
 
           {/* 관리자 페이지 */}

@@ -8,8 +8,8 @@ import ListHeader from "../../../components/shared/ListHeader";
 import BoardRow from "../../../components/manager/board/BoardRow";
 import FilterButtons from "../../../components/shared/FilterButtons";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPagedBoards, setStatusFilter } from "../../../reduxSlice/boardListSlice";
-import { useEffect } from "react";
+import { fetchPagedBoards, filterByCategoryAndStatus, setStatusFilter } from "../../../reduxSlice/boardListSlice";
+import { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
 import {
   ClearLoadingOverlay,
@@ -24,23 +24,51 @@ import {
   NotBoardOverlay,
   NotBoardText,
 } from "../../../styles/managerLayoutStyles";
+import BoardCategoryButtons from "../../../components/shared/BoardCategoryButtons";
 
 export default function M_NoticePage() {
   const dispatch = useDispatch();
-
+  const [category, setCategory] = useState("ALL");
+  const [boardData, setBoardData] = useState([]);
   const { filteredBoards, isLoading, error, statusFilter } = useSelector((state) => state.boardList);
-  console.log("filteredBoards: ", filteredBoards);
 
+  // 게시글 데이터 로딩 및 필터 적용
   useEffect(() => {
-    dispatch(fetchPagedBoards({ page: 0, size: 10, sort: "boardId,desc" })); // 초기 페이지 로드
+    dispatch(fetchPagedBoards({ page: 0, size: 10, sort: "boardId,desc" }))
+      .unwrap()
+      .then(() => {
+        // 데이터 로드 후 필터링 적용
+        dispatch(filterByCategoryAndStatus());
+      })
+      .catch((error) => console.error("Failed to fetch boards:", error));
   }, [dispatch]);
 
+  useEffect(() => {
+    setBoardData(filteredBoards);
+  }, [filteredBoards]);
+
+  useEffect(() => {
+    if (category === "ALL") {
+      setBoardData(filteredBoards); // If category is "ALL", show all data
+    } else if (category === "공지사항") {
+      setBoardData(boardData.filter((data) => data.category === "notice"));
+    } else if (category === "이벤트") {
+      setBoardData(boardData.filter((data) => data.category === "event"));
+    } else if (category === "기타") {
+      setBoardData(boardData.filter((data) => data.category === "other"));
+    }
+  }, [category, boardData, filteredBoards]);
   const handleFilterChange = (filter) => {
-    dispatch(setStatusFilter(filter)); // 필터 상태 변경
+    dispatch(setStatusFilter(filter));
   };
 
   const handlePageChange = (newPage) => {
-    dispatch(fetchPagedBoards({ page: newPage, size: 10, sort: "boardId,desc" })).then(() => {});
+    dispatch(fetchPagedBoards({ page: newPage, size: 10, sort: "boardId,desc" }))
+      .unwrap()
+      .then(() => {
+        dispatch(filterByCategoryAndStatus()); // 페이지 변경 후 필터 적용
+      })
+      .catch((err) => console.error("Error fetching page:", err));
   };
 
   return (
@@ -62,6 +90,7 @@ export default function M_NoticePage() {
           </NavRow>
           {/* 필터 버튼 */}
           <FilterButtons currentFilter={statusFilter} onFilterChange={handleFilterChange} />
+          <BoardCategoryButtons currentFilter={category} onFilterChange={setCategory} />
           <NoticeListWrapper>
             {isLoading && (
               <ClearLoadingOverlay>
@@ -83,10 +112,19 @@ export default function M_NoticePage() {
                   borderT="#000"
                   fontSize="13px"
                   bgColor="#eeeeee"
-                  rowTitle={["No.-10", "제목-100", "내용-100", "작성자-20", "작성일-20", "게시상태-20", "-20"]}
+                  rowTitle={[
+                    "No.-10",
+                    "카테고리-20",
+                    "제목-100",
+                    "내용-100",
+                    "작성자-20",
+                    "작성일-20",
+                    "게시상태-20",
+                    "-18",
+                  ]}
                 />
-                {filteredBoards && filteredBoards.length > 0 ? (
-                  filteredBoards.map((board) => <BoardRow {...board} key={board.boardId} />)
+                {boardData && boardData.length > 0 ? (
+                  boardData.map((board) => <BoardRow {...board} key={board.boardId} />)
                 ) : (
                   <NotBoardOverlay>
                     <NotBoardBox>

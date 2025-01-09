@@ -10,7 +10,7 @@ export default function BoardRow(board) {
   const dispatch = useDispatch();
 
   const { open } = useAlertContext();
-  const { boardId, title, content, createdAt, status, username } = board;
+  const { boardId, category, title, content, createdAt, status, username } = board;
 
   const handleDetailPage = () => {
     navigate("/manager/board/notice/detail", { state: { ...board } });
@@ -48,6 +48,7 @@ export default function BoardRow(board) {
   return (
     <BoardRowWrapper status={status}>
       <div id="boardId">{boardId}</div>
+      <div id="category">{category}</div>
       <div id="title" onClick={handleDetailPage}>
         {title}
       </div>
@@ -88,6 +89,9 @@ const BoardRowWrapper = styled.div`
     width: 10%;
   }
   #username {
+    width: 20%;
+  }
+  #category {
     width: 20%;
   }
   #title {

@@ -19,20 +19,21 @@ export default function NoticePage() {
 
   const [currentItems, setCurrentItems] = useState([]);
 
-  const { categoryBoards, isLoading, error } = useSelector((state) => state.boardList);
+  const { categoryBoards, isLoading } = useSelector((state) => state.boardList);
   const { currentPage, itemsPerPage } = useSelector((state) => state.pagination);
-  console.log("categoryBoards :", categoryBoards);
 
   useEffect(() => {
-    dispatch(fetchPagedBoards({ page: 0, size: 10, sort: "boardId,desc" }));
-    dispatch(setCategoryBoard("notice"));
-  }, []);
+    const fetchBoards = async () => {
+      await dispatch(fetchPagedBoards({ page: 0, size: 10, sort: "boardId,desc" }));
+      dispatch(setCategoryBoard("notice"));
+    };
+
+    fetchBoards();
+  }, [dispatch]);
 
   useEffect(() => {
-    // 페이징 데이터를 설정
     dispatch(setTotalItems(categoryBoards.length));
 
-    // 현재 페이지 데이터 계산
     const startIndex = currentPage * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     setCurrentItems(categoryBoards.slice(startIndex, endIndex));
@@ -52,7 +53,7 @@ export default function NoticePage() {
             <ClipLoader color="#000" z-index={11} />
           </ClearLoadingOverlay>
         )}
-        {currentItems && currentItems ? (
+        {currentItems && currentItems.length !== 0 ? (
           currentItems.map((board) => (
             <>
               <NoticeBoardRow key={board.id} {...board} />

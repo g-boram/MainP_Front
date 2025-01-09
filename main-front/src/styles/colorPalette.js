@@ -38,4 +38,6 @@ export const colorPalette = {
   imgBackBG: "#eee",
 
   notice_form: "black",
+
+  routeBox_Base: "#eee",
 };

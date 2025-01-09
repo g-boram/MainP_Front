@@ -1,14 +1,22 @@
 import styled from "@emotion/styled";
 import { colorPalette } from "../../styles/colorPalette";
 import Flex from "../shared/Flex";
+import { useNavigate } from "react-router-dom";
+import Badge from "../shared/Badge";
+import Spacing from "../shared/Spacing";
 
-export default function NoticeBoardRow({ title, content, createdAt }) {
+export default function NoticeBoardRow({ boardId, title, content, createdAt }) {
+  const navigate = useNavigate();
   return (
-    <BoardRowWrapper>
+    <BoardRowWrapper onClick={() => navigate(`/board/notice/detail/${boardId}`)}>
       <Flex justify={"space-between"} align={"center"}>
-        <div id="title">{title}</div>
+        <Flex align="center">
+          <Badge label={"공지"} />
+          <div id="title">{title}</div>
+        </Flex>
         <div id="date">{createdAt}</div>
       </Flex>
+      <Spacing size={20} />
       <div id="content">{content}</div>
     </BoardRowWrapper>
   );
@@ -32,6 +40,7 @@ const BoardRowWrapper = styled.div`
     font-size: 14px;
     color: ${colorPalette.fontDarkGrey};
     height: 100%;
+    overflow: hidden;
   }
   #date {
     font-size: 12px;

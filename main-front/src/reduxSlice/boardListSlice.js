@@ -31,39 +31,56 @@ const boardListSlice = createSlice({
     filterTotalPages: 0,
     isLoading: false,
     error: null,
-    category: "notice",
+    category: "ALL", // 기본적으로 "ALL"을 사용
     statusFilter: "ALL",
   },
   reducers: {
     setStatusFilter: (state, action) => {
       state.statusFilter = action.payload;
-
-      // 상태 변경 시 필터 적용
+      // 필터링 적용
       state.filteredBoards = state.boards.filter((board) => {
-        if (action.payload === "ALL") return true;
-        if (action.payload === "활성화") return board.status === "ACTIVE";
-        if (action.payload === "비활성화") return board.status === "INACTIVE";
-        return true;
+        const matchesStatus =
+          action.payload === "ALL" ||
+          (action.payload === "활성화" && board.status === "ACTIVE") ||
+          (action.payload === "비활성화" && board.status === "INACTIVE");
+
+        const matchesCategory = state.category === "ALL" || board.category === state.category;
+
+        return matchesStatus && matchesCategory;
+      });
+      state.filterTotalPages = Math.ceil(state.filteredBoards.length / 10);
+    },
+    setCategoryBoard: (state, action) => {
+      state.category = action.payload;
+      // 필터링 적용
+      state.filteredBoards = state.boards.filter((board) => {
+        const matchesCategory = action.payload === "ALL" || board.category === action.payload;
+        const matchesStatus =
+          state.statusFilter === "ALL" ||
+          (state.statusFilter === "활성화" && board.status === "ACTIVE") ||
+          (state.statusFilter === "비활성화" && board.status === "INACTIVE");
+
+        return matchesCategory && matchesStatus;
+      });
+      state.filterTotalPages = Math.ceil(state.filteredBoards.length / 10);
+    },
+    filterByCategoryAndStatus: (state) => {
+      // 필터링 로직
+      state.filteredBoards = state.boards.filter((board) => {
+        const matchesStatus =
+          state.statusFilter === "ALL" ||
+          (state.statusFilter === "활성화" && board.status === "ACTIVE") ||
+          (state.statusFilter === "비활성화" && board.status === "INACTIVE");
+
+        const matchesCategory = state.category === "ALL" || board.category === state.category;
+
+        return matchesStatus && matchesCategory;
       });
 
       state.filterTotalPages = Math.ceil(state.filteredBoards.length / 10);
     },
-    setActiveBoard: (state, action) => {
-      state.filterTotalPages = Math.ceil(state.activeBoards.length / 10);
-    },
-    setCategoryBoard: (state, action) => {
-      state.isLoading = true;
-      state.categoryBoards = state.activeBoards.filter((board) => {
-        if (action.payload === "notice") return board.category === "notice";
-        if (action.payload === "event") return board.category === "event";
-        if (action.payload === "other") return board.category === "other";
-        return true;
-      });
-
-      state.filterTotalPages = Math.ceil(state.categoryBoards.length / 10);
-      state.isLoading = false;
-    },
   },
+
   extraReducers: (builder) => {
     builder
       // Pending 상태
@@ -80,12 +97,16 @@ const boardListSlice = createSlice({
         state.totalPages = action.payload.totalPages;
         state.filterTotalPages = action.payload.totalPages;
 
-        // 데이터 로드 후 현재 필터 적용
+        // 데이터 로드 후 필터링 적용
         state.filteredBoards = state.boards.filter((board) => {
-          if (state.statusFilter === "ALL") return true;
-          if (state.statusFilter === "활성화") return board.status === "ACTIVE";
-          if (state.statusFilter === "비활성화") return board.status === "INACTIVE";
-          return true;
+          const matchesStatus =
+            state.statusFilter === "ALL" ||
+            (state.statusFilter === "활성화" && board.status === "ACTIVE") ||
+            (state.statusFilter === "비활성화" && board.status === "INACTIVE");
+
+          const matchesCategory = state.category === "ALL" || board.category === state.category;
+
+          return matchesStatus && matchesCategory;
         });
       })
       // Rejected 상태
@@ -96,5 +117,5 @@ const boardListSlice = createSlice({
   },
 });
 
-export const { setStatusFilter, setActiveBoard, setCategoryBoard } = boardListSlice.actions;
+export const { setStatusFilter, setCategoryBoard, filterByCategoryAndStatus } = boardListSlice.actions;
 export default boardListSlice.reducer;
