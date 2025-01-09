@@ -1,23 +1,34 @@
 import styled from "@emotion/styled";
 import { colorPalette } from "../../styles/colorPalette";
+import Flex from "../shared/Flex";
+import { useNavigate } from "react-router-dom";
+import Badge from "../shared/Badge";
+import Spacing from "../shared/Spacing";
 
-export default function NoticeBoardRow({ title, content, date }) {
+export default function NoticeBoardRow({ boardId, title, content, createdAt }) {
+  const navigate = useNavigate();
   return (
-    <BoardRowWrapper>
-      <div id="title">{title}</div>
+    <BoardRowWrapper onClick={() => navigate(`/board/notice/detail/${boardId}`)}>
+      <Flex justify={"space-between"} align={"center"}>
+        <Flex align="center">
+          <Badge label={"공지"} />
+          <div id="title">{title}</div>
+        </Flex>
+        <div id="date">{createdAt}</div>
+      </Flex>
+      <Spacing size={20} />
       <div id="content">{content}</div>
-      <div id="date">{date}</div>
     </BoardRowWrapper>
   );
 }
 
 const BoardRowWrapper = styled.div`
-  height: 150px;
+  height: 140px;
   padding: 10px;
-  width: 100%;
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid #eee;
+  cursor: pointer;
 
   #title {
     font-size: 18px;
@@ -26,9 +37,12 @@ const BoardRowWrapper = styled.div`
     margin: 10px 0;
   }
   #content {
-    font-size: 14px;
+    font-size: 12px;
     color: ${colorPalette.fontDarkGrey};
     height: 100%;
+    padding: 10px 0;
+    overflow: hidden;
+    white-space: pre-line;
   }
   #date {
     font-size: 12px;

@@ -1,16 +1,16 @@
 import LeftNavbar from "../../../components/manager/LeftNavbar";
-import NoticeForm from "../../../components/manager/board/NoticeForm";
 import HeadTitle from "../../../components/manager/HeadTitle";
-import { ContentBox, ContentWrapper, ManagerContainer, NavRow } from "../../../styles/managerLayoutStyles";
 import LinkButton from "../../../components/shared/LinkButton";
+import BoardDetailForm from "../../../components/manager/board/BoardDetailForm";
+import { ContentBox, ContentWrapper, ManagerContainer, NavRow } from "../../../styles/managerLayoutStyles";
 
-export default function M_NoticeCreatePage() {
+export default function M_NoticeDetailPage() {
   return (
     <ManagerContainer>
       <LeftNavbar />
       <ContentWrapper>
         <ContentBox>
-          <HeadTitle title={"공지사항 등록"} desc={"공지사항 게시글 등록하기 "}></HeadTitle>
+          <HeadTitle title={"공지사항 상세보기"} desc={"공지사항 게시글 상세보기 "}></HeadTitle>
           <NavRow>
             <LinkButton
               to="/manager/board/notice"
@@ -22,7 +22,7 @@ export default function M_NoticeCreatePage() {
               fontSize="12px"
             />
           </NavRow>
-          <NoticeForm />
+          <BoardDetailForm />
         </ContentBox>
       </ContentWrapper>
     </ManagerContainer>

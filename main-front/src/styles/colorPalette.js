@@ -6,9 +6,9 @@ export const colorPalette = {
   black: "#000",
   grey: "#f0efef",
 
-  btnRed: "#f44336",
+  btnRed: "#b8352b",
   btnBlue: "#2396f3",
-  btnGreen: "#aadbff",
+  btnGreen: "#3d9269",
   btnPink: "#fc78a1",
   btnGrey: "#bbb",
   btnPurple: "#6643b5",
@@ -38,4 +38,6 @@ export const colorPalette = {
   imgBackBG: "#eee",
 
   notice_form: "black",
+
+  routeBox_Base: "#eee",
 };

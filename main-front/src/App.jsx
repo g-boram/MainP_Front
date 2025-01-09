@@ -13,12 +13,15 @@ import CarPage from "./pages/user/car/CarPage";
 import SigninPage from "./pages/user/SigninPage";
 import SignupPage from "./pages/user/SignupPage";
 import NoticePage from "./pages/user/board/NoticePage";
+import NoticeDetailPage from "./pages/user/board/NoticeDetailPage";
 
 // [ 관리자 ]
 import ManagerPage from "./pages/manager/ManagerPage";
 import M_NoticePage from "./pages/manager/board/M_NoticePage";
 import M_NoticeCreatePage from "./pages/manager/board/M_NoticeCreatePage";
 import MyPage from "./pages/user/MyPage";
+import M_NoticeDetailPage from "./pages/manager/board/M_NoticeDetailPage";
+import M_NoticeUpdatePage from "./pages/manager/board/M_NoticeUpdatePage";
 
 function App() {
   return (
@@ -33,13 +36,16 @@ function App() {
           <Route path="/signin" Component={SigninPage} />
           <Route path="/signup" Component={SignupPage} />
           <Route path="/mypage" Component={MyPage} />
-          <Route path="/board" Component={NoticePage} />
+          <Route path="/board/notice" Component={NoticePage} />
+          <Route path="/board/notice/detail/:id" Component={NoticeDetailPage} />
           <Route path="/car" Component={CarPage} />
 
           {/* 관리자 페이지 */}
           <Route path="/manager" Component={ManagerPage} />
           <Route path="/manager/board/notice" Component={M_NoticePage} />
           <Route path="/manager/board/notice/create" Component={M_NoticeCreatePage} />
+          <Route path="/manager/board/notice/detail" Component={M_NoticeDetailPage} />
+          <Route path="/manager/board/notice/update" Component={M_NoticeUpdatePage} />
 
           {/* @TODO: 인증이 필요한 페이지 나누기 ex) 관리자,유저의 등급, 로그인 여부 ... */}
           {/* <Route path="/my" element={

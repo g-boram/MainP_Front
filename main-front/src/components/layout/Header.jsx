@@ -2,7 +2,7 @@
 
 import { Z_INDEX_LIST } from "../../constants/zIndex";
 import { colorPalette } from "../../styles/colorPalette";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { isManagerPath } from "../../reduxSlice/isManagerPathSlice";
@@ -21,6 +21,7 @@ export default function Header() {
   const { user } = useSelector((state) => state.auth);
 
   const location = useLocation();
+  const navigate = useNavigate();
   const isManager = useSelector((state) => state.isManagerPath.isManager); // 상태 가져오기
   const dispatch = useDispatch(); // 액션 디스패치
 
@@ -40,8 +41,8 @@ export default function Header() {
         <></>
       ) : (
         <UserHeaderContainer>
-          <Flex justify="space-between">
-            <div>Header</div>
+          <HeaderBox>
+            <LogoBox onClick={() => navigate("/")}>Logo</LogoBox>
             <div>
               {user == null ? (
                 <Flex>
@@ -61,19 +62,18 @@ export default function Header() {
                         마이페이지
                       </BaseButton>
                     </Link>
-                    <Spacing size={20} direction="width" />
                   </Flex>
-                  {user.role === "ADMIN" ? <StyledLink to="/manager">관리자 페이지</StyledLink> : <></>}
+                  {user.role === "ADMIN" ? <ManagerLink to="/manager">관리자 페이지</ManagerLink> : <></>}
                 </LoginUserBox>
               )}
             </div>
-          </Flex>
+          </HeaderBox>
           <NavbarContainer>
             <StyledLink to="/">Nav1</StyledLink>
             <StyledLink to="/">Nav2</StyledLink>
             <StyledLink to="/">Nav3</StyledLink>
             <StyledLink to="/car">자동차 목록</StyledLink>
-            <StyledLink to="/board">공지사항</StyledLink>
+            <StyledLink to="/board/notice">공지사항</StyledLink>
           </NavbarContainer>
         </UserHeaderContainer>
       )}
@@ -86,23 +86,44 @@ const UserHeaderContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding: 10px;
   color: ${colorPalette.fontWhite};
   z-index: ${Z_INDEX_LIST.HEADER};
   background-color: ${colorPalette.headerBG};
-  margin-bottom: 10px;
   position: fixed;
+
+  @media (max-width: 600px) {
+    padding: 0px;
+  }
 `;
 
+const HeaderBox = styled.div`
+  height: ${HEIGHT_LIST.HEADER}px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  @media (max-width: 600px) {
+    justify-content: space-around;
+    align-items: center;
+  }
+`;
 const NavbarContainer = styled.div`
   width: 100%;
   height: ${HEIGHT_LIST.NAVBAR}px;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 10px;
   color: ${colorPalette.fontWhite};
   background-color: ${colorPalette.navbarBG};
+
+  @media (max-width: 600px) {
+    font-size: 12px;
+  }
+`;
+
+const LogoBox = styled.div`
+  margin-left: 20px;
+  cursor: pointer;
 `;
 
 const TextRow = styled.div`
@@ -115,9 +136,14 @@ const TextRow = styled.div`
   color: #fff;
   margin-right: 10px;
 `;
+
 const LoginUserBox = styled.div`
   display: flex;
   justify-content: space-between;
+
+  @media (max-width: 600px) {
+    font-size: 11px;
+  }
 `;
 
 const StyledLink = styled(Link)`
@@ -129,7 +155,27 @@ const StyledLink = styled(Link)`
   align-items: center;
   cursor: pointer;
   text-decoration: none;
+  @media (max-width: 600px) {
+    margin: 0px 20px;
+  }
+  hover {
+    color: #bbb;
+  }
+`;
 
+const ManagerLink = styled(Link)`
+  color: #eee;
+  font-weight: bold;
+  margin: 0px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 20px;
+  text-decoration: none;
+  cursor: pointer;
+  @media (max-width: 600px) {
+    display: none;
+  }
   hover {
     color: #bbb;
   }

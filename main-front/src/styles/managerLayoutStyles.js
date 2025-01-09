@@ -1,20 +1,22 @@
 import styled from "@emotion/styled";
 
 export const ManagerContainer = styled.div`
-  min-height: 100vh;
   display: flex;
+  width: 100vw;
 `;
 
 export const ContentWrapper = styled.div`
-  width: 100%;
-  padding: 10px;
+  width: 1200px;
+  min-height: 100vh;
+  padding-left: 250px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
 `;
 
 export const ContentBox = styled.div`
   width: 100%;
-  max-height: 800px;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 `;
@@ -23,6 +25,18 @@ export const NavRow = styled.div`
   display: flex;
   justify-content: flex-end;
   margin: 10px 0;
+`;
+
+export const ClearLoadingOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
 `;
 
 export const LoadingOverlay = styled.div`
