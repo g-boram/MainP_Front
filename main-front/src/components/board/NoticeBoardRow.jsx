@@ -23,7 +23,7 @@ export default function NoticeBoardRow({ boardId, title, content, createdAt }) {
 }
 
 const BoardRowWrapper = styled.div`
-  height: 150px;
+  height: 140px;
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -37,10 +37,12 @@ const BoardRowWrapper = styled.div`
     margin: 10px 0;
   }
   #content {
-    font-size: 14px;
+    font-size: 12px;
     color: ${colorPalette.fontDarkGrey};
     height: 100%;
+    padding: 10px 0;
     overflow: hidden;
+    white-space: pre-line;
   }
   #date {
     font-size: 12px;

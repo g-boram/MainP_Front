@@ -35,9 +35,10 @@ const boardListSlice = createSlice({
     statusFilter: "ALL",
   },
   reducers: {
+    // 상태값 변경 : ALL, ACTIVE, INACTIVE
     setStatusFilter: (state, action) => {
       state.statusFilter = action.payload;
-      // 필터링 적용
+
       state.filteredBoards = state.boards.filter((board) => {
         const matchesStatus =
           action.payload === "ALL" ||
@@ -50,37 +51,12 @@ const boardListSlice = createSlice({
       });
       state.filterTotalPages = Math.ceil(state.filteredBoards.length / 10);
     },
-    setCategoryBoard: (state, action) => {
-      state.category = action.payload;
-      // 필터링 적용
-      state.filteredBoards = state.boards.filter((board) => {
-        const matchesCategory = action.payload === "ALL" || board.category === action.payload;
-        const matchesStatus =
-          state.statusFilter === "ALL" ||
-          (state.statusFilter === "활성화" && board.status === "ACTIVE") ||
-          (state.statusFilter === "비활성화" && board.status === "INACTIVE");
-
-        return matchesCategory && matchesStatus;
-      });
-      state.filterTotalPages = Math.ceil(state.filteredBoards.length / 10);
-    },
-    filterByCategoryAndStatus: (state) => {
-      // 필터링 로직
-      state.filteredBoards = state.boards.filter((board) => {
-        const matchesStatus =
-          state.statusFilter === "ALL" ||
-          (state.statusFilter === "활성화" && board.status === "ACTIVE") ||
-          (state.statusFilter === "비활성화" && board.status === "INACTIVE");
-
-        const matchesCategory = state.category === "ALL" || board.category === state.category;
-
-        return matchesStatus && matchesCategory;
-      });
-
-      state.filterTotalPages = Math.ceil(state.filteredBoards.length / 10);
+    // 커스텀 페이지네이션 총 페이지 수
+    setTotalPages: (state, action) => {
+      state.filterTotalPages = Math.ceil(action.payload / 10);
     },
   },
-
+  // 초기값 통신 리듀서
   extraReducers: (builder) => {
     builder
       // Pending 상태
@@ -117,5 +93,5 @@ const boardListSlice = createSlice({
   },
 });
 
-export const { setStatusFilter, setCategoryBoard, filterByCategoryAndStatus } = boardListSlice.actions;
+export const { setStatusFilter, setTotalPages } = boardListSlice.actions;
 export default boardListSlice.reducer;

@@ -1,13 +1,16 @@
 import styled from "@emotion/styled";
 import LeftNavbar from "../../components/manager/LeftNavbar";
-import { ContentWrapper, ManagerContainer } from "../../styles/managerLayoutStyles";
+import { ContentBox, ContentWrapper, ManagerContainer } from "../../styles/managerLayoutStyles";
+import Flex from "../../components/shared/Flex";
 
 export default function ManagerPage() {
   return (
     <ManagerContainer>
       <LeftNavbar />
       <ContentWrapper>
-        <h1>ManagerPage</h1>
+        <ContentBox>
+          <h1>ManagerPage</h1>
+        </ContentBox>
       </ContentWrapper>
     </ManagerContainer>
   );

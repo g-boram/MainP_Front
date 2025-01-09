@@ -16,7 +16,7 @@ export default function ListHeader({
         const title = row.split("-");
 
         return (
-          <HeadTitle width={title[1]} fontSize={fontSize} color={color}>
+          <HeadTitle width={`${title[1]}px`} fontSize={fontSize} color={color}>
             {title[0]}
           </HeadTitle>
         );
@@ -51,7 +51,7 @@ const HeadTitle = styled.div`
   padding: 0 10px;
 
   ${({ width }) => css`
-    width: ${width}%;
+    width: ${width};
   `}
   ${({ fontSize }) => css`
     font-size: ${fontSize};

@@ -35,14 +35,17 @@ export default function LeftNavbar() {
 }
 
 const NavContainer = styled.div`
-  width: 280px;
-  padding: 10px;
+  width: 200px;
+  padding: 0 10px;
+  height: 100vh;
   display: flex;
+  position: fixed;
+  flex-shrink: 0;
+  z-index: 10;
   justify-content: space-around;
   align-items: center;
   flex-direction: column;
   background-color: black;
-  /* border-right: 1px solid #000; */
   color: ${colorPalette.fontBlack};
 `;
 
@@ -66,9 +69,8 @@ const BottomLinkBox = styled.div`
   width: 100%;
   height: 60px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
-  margin-top: 20px;
 `;
 
 const StyledLink = styled(Link)`

@@ -64,6 +64,7 @@ export default function NoticeDetailPage() {
 
 const BoardListContainer = styled.div`
   position: relative;
+  min-height: 800px;
   width: 1200px;
   margin: 0px auto;
   display: flex;
@@ -93,6 +94,7 @@ const Header = styled.div`
 
 const Content = styled.div`
   padding: 100px 0 0 0;
+  white-space: pre-line;
 `;
 
 const ErrorWrapper = styled.div`

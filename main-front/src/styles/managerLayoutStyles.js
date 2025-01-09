@@ -1,20 +1,22 @@
 import styled from "@emotion/styled";
 
 export const ManagerContainer = styled.div`
-  min-height: 100vh;
   display: flex;
+  width: 100vw;
 `;
 
 export const ContentWrapper = styled.div`
-  width: 100%;
-  padding: 10px;
+  width: 1200px;
+  min-height: 100vh;
+  padding-left: 250px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
 `;
 
 export const ContentBox = styled.div`
   width: 100%;
-  max-height: 800px;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 `;

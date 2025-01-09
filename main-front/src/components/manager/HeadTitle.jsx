@@ -17,6 +17,7 @@ export default function HeadTitle({ title, desc, line }) {
 }
 
 const TitleContainer = styled.div`
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;

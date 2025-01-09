@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   currentPage: 0, // 현재 페이지 (0-based index)
-  itemsPerPage: 10, // 페이지당 아이템 수
+  itemsPerPage: 5, // 페이지당 아이템 수
   totalItems: 0, // 총 아이템 수
 };
 

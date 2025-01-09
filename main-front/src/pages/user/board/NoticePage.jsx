@@ -7,7 +7,7 @@ import CustomPagination from "../../../components/shared/pagination/CustomPagina
 import { PageContainer } from "../../../styles/pageLayoutStyles";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { fetchPagedBoards, setCategoryBoard } from "../../../reduxSlice/boardListSlice";
+import { fetchPagedBoards } from "../../../reduxSlice/boardListSlice";
 import { ClearLoadingOverlay } from "../../../styles/managerLayoutStyles";
 import { ClipLoader } from "react-spinners";
 import { TbClipboardSearch } from "react-icons/tb";
@@ -19,25 +19,25 @@ export default function NoticePage() {
 
   const [currentItems, setCurrentItems] = useState([]);
 
-  const { categoryBoards, isLoading } = useSelector((state) => state.boardList);
+  const { filteredBoards, isLoading } = useSelector((state) => state.boardList);
   const { currentPage, itemsPerPage } = useSelector((state) => state.pagination);
 
   useEffect(() => {
     const fetchBoards = async () => {
       await dispatch(fetchPagedBoards({ page: 0, size: 10, sort: "boardId,desc" }));
-      dispatch(setCategoryBoard("notice"));
     };
 
     fetchBoards();
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(setTotalItems(categoryBoards.length));
+    const setNoticeData = filteredBoards.filter((board) => board.category === "notice" && board.status === "ACTIVE");
+    dispatch(setTotalItems(setNoticeData.length));
 
     const startIndex = currentPage * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    setCurrentItems(categoryBoards.slice(startIndex, endIndex));
-  }, [currentPage, itemsPerPage, categoryBoards, dispatch]);
+    setCurrentItems(setNoticeData.slice(startIndex, endIndex));
+  }, [currentPage, itemsPerPage, filteredBoards, dispatch]);
 
   return (
     <PageContainer>
@@ -70,7 +70,7 @@ export default function NoticePage() {
       </BoardListContainer>
       <CustomPagination
         currentPage={currentPage}
-        totalItems={categoryBoards.length}
+        totalItems={filteredBoards.length}
         itemsPerPage={itemsPerPage}
         onPageChange={(page) => dispatch(setPage(page))}
       />
@@ -84,6 +84,10 @@ const BoardListContainer = styled.div`
   display: flex;
   flex-direction: column;
   border-top: 1px solid black;
+
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;
 
 const NotBoardWrapper = styled.div`

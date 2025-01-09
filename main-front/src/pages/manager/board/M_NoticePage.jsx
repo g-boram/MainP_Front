@@ -8,7 +8,7 @@ import ListHeader from "../../../components/shared/ListHeader";
 import BoardRow from "../../../components/manager/board/BoardRow";
 import FilterButtons from "../../../components/shared/FilterButtons";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPagedBoards, filterByCategoryAndStatus, setStatusFilter } from "../../../reduxSlice/boardListSlice";
+import { fetchPagedBoards, setStatusFilter } from "../../../reduxSlice/boardListSlice";
 import { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
 import {
@@ -34,13 +34,7 @@ export default function M_NoticePage() {
 
   // 게시글 데이터 로딩 및 필터 적용
   useEffect(() => {
-    dispatch(fetchPagedBoards({ page: 0, size: 10, sort: "boardId,desc" }))
-      .unwrap()
-      .then(() => {
-        // 데이터 로드 후 필터링 적용
-        dispatch(filterByCategoryAndStatus());
-      })
-      .catch((error) => console.error("Failed to fetch boards:", error));
+    dispatch(fetchPagedBoards({ page: 0, size: 10, sort: "boardId,desc" }));
   }, [dispatch]);
 
   useEffect(() => {
@@ -51,32 +45,27 @@ export default function M_NoticePage() {
     if (category === "ALL") {
       setBoardData(filteredBoards); // If category is "ALL", show all data
     } else if (category === "공지사항") {
-      setBoardData(boardData.filter((data) => data.category === "notice"));
+      setBoardData(filteredBoards.filter((data) => data.category === "notice"));
     } else if (category === "이벤트") {
-      setBoardData(boardData.filter((data) => data.category === "event"));
+      setBoardData(filteredBoards.filter((data) => data.category === "event"));
     } else if (category === "기타") {
-      setBoardData(boardData.filter((data) => data.category === "other"));
+      setBoardData(filteredBoards.filter((data) => data.category === "other"));
     }
-  }, [category, boardData, filteredBoards]);
+  }, [category, filteredBoards]);
   const handleFilterChange = (filter) => {
     dispatch(setStatusFilter(filter));
   };
 
   const handlePageChange = (newPage) => {
-    dispatch(fetchPagedBoards({ page: newPage, size: 10, sort: "boardId,desc" }))
-      .unwrap()
-      .then(() => {
-        dispatch(filterByCategoryAndStatus()); // 페이지 변경 후 필터 적용
-      })
-      .catch((err) => console.error("Error fetching page:", err));
+    dispatch(fetchPagedBoards({ page: newPage, size: 10, sort: "boardId,desc" }));
   };
 
   return (
     <ManagerContainer>
       <LeftNavbar />
       <ContentWrapper>
-        <HeadTitle title={"공지사항 목록"} desc={"공지사항 게시글 작업 페이지"}></HeadTitle>
         <ContentBox>
+          <HeadTitle title={"공지사항 목록"} desc={"공지사항 게시글 작업 페이지"}></HeadTitle>
           <NavRow>
             <LinkButton
               to="/manager/board/notice/create"
@@ -113,14 +102,14 @@ export default function M_NoticePage() {
                   fontSize="13px"
                   bgColor="#eeeeee"
                   rowTitle={[
-                    "No.-10",
-                    "카테고리-20",
-                    "제목-100",
-                    "내용-100",
-                    "작성자-20",
-                    "작성일-20",
-                    "게시상태-20",
-                    "-18",
+                    "ID.-40",
+                    "카테고리-80",
+                    "제목-340",
+                    "내용-470",
+                    "작성자-80",
+                    "작성일-100",
+                    "게시상태-80",
+                    "-130",
                   ]}
                 />
                 {boardData && boardData.length > 0 ? (
@@ -143,9 +132,6 @@ export default function M_NoticePage() {
 }
 
 const NoticeListWrapper = styled.div`
-  min-height: 450px;
-  width: 100%;
-  overflow-y: hidden;
+  min-height: 500px;
   position: relative;
-  z-index: 1;
 `;

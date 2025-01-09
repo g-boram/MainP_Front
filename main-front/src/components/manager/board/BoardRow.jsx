@@ -80,30 +80,33 @@ const BoardRowWrapper = styled.div`
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    padding: 0 10px;
     white-space: nowrap;
     text-overflow: ellipsis;
   }
 
   #boardId {
-    width: 10%;
+    width: 50px;
   }
   #username {
-    width: 20%;
+    width: 80px;
   }
   #category {
-    width: 20%;
+    width: 100px;
   }
   #title {
-    width: 100%;
+    width: 300px;
     font-weight: bold;
+    display: flex;
+    justify-content: flex-start;
   }
   #content {
-    width: 100%;
+    width: 400px;
     color: ${colorPalette.fontDarkGrey};
+    display: flex;
+    justify-content: flex-start;
   }
   #status {
-    width: 20%;
+    width: 80px;
     font-size: 12px;
     color: ${({ status }) => (status === "ACTIVE" ? "green" : "red")};
     border-radius: 5px;
@@ -111,12 +114,12 @@ const BoardRowWrapper = styled.div`
     text-align: center;
   }
   #createdAt {
-    width: 20%;
+    width: 100px;
     font-size: 12px;
     color: ${colorPalette.fontGrey};
   }
   #btnBox {
-    width: 20%;
+    width: 130px;
   }
 
   :hover {

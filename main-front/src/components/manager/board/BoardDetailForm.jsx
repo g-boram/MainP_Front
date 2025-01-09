@@ -84,13 +84,13 @@ const Label = styled.div`
   font-size: 14px;
   padding-left: 10px;
   font-weight: bold;
-  background-color: #f4f4f4;
+  background-color: #fafafa;
   color: ${colorPalette.fontBlack};
   border-left: 3px solid ${colorPalette.notice_form};
 `;
 
 const ContentLabel = styled.div`
-  height: 35px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -103,14 +103,15 @@ const ContentLabel = styled.div`
 
 const ContentBox = styled.div`
   min-height: 300px;
-  width: 98%;
   margin-top: 10px;
+  margin-bottom: 100px;
   padding: 10px;
   font-size: 14px;
   display: flex;
   justify-content: flex-start;
   color: ${colorPalette.fontBlack};
-  background-color: #f4f4f4;
+  border: 1px solid #eee;
+  white-space: pre-line;
 `;
 
 const ValueRow = styled.div`
