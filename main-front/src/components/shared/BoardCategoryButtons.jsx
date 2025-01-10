@@ -1,4 +1,4 @@
-const BoardCategoryButtons = ({ currentFilter, onFilterChange }) => {
+const BoardCategoryButtons = ({ currentFilter, setCategory }) => {
   const category = ["ALL", "공지사항", "이벤트", "기타"]; // 필터 조건
 
   return (
@@ -13,7 +13,7 @@ const BoardCategoryButtons = ({ currentFilter, onFilterChange }) => {
             border: "1px solid black",
             cursor: "pointer",
           }}
-          onClick={() => onFilterChange(cate)} // 클릭 시 필터 변경
+          onClick={() => setCategory(cate)} // 클릭 시 필터 변경
         >
           {cate}
         </button>

@@ -87,7 +87,7 @@ function Form({ onSubmit }) {
 
         <Spacing size={15} />
         <Link to="/signup" css={linkStyles}>
-          <Text typography="t8" color="black">
+          <Text typography="t11" color="black">
             이메일 계정 만들러 가기
           </Text>
         </Link>

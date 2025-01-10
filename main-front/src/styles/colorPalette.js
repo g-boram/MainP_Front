@@ -39,5 +39,5 @@ export const colorPalette = {
 
   notice_form: "black",
 
-  routeBox_Base: "#eee",
+  routeBox_Base: "#fff",
 };

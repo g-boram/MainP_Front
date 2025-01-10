@@ -22,11 +22,15 @@ import M_NoticeCreatePage from "./pages/manager/board/M_NoticeCreatePage";
 import MyPage from "./pages/user/MyPage";
 import M_NoticeDetailPage from "./pages/manager/board/M_NoticeDetailPage";
 import M_NoticeUpdatePage from "./pages/manager/board/M_NoticeUpdatePage";
+import EventPage from "./pages/user/board/EventPage";
+import EventDetailPage from "./pages/user/board/EventDetailPage";
+import ScrollToTop from "./components/shared/ScrollToTop";
 
 function App() {
   return (
     <BrowserRouter>
       <ToastContainer autoClose={1000} />
+      <ScrollToTop />
       <Header />
 
       <LayoutContainer>
@@ -37,7 +41,9 @@ function App() {
           <Route path="/signup" Component={SignupPage} />
           <Route path="/mypage" Component={MyPage} />
           <Route path="/board/notice" Component={NoticePage} />
+          <Route path="/board/event" Component={EventPage} />
           <Route path="/board/notice/detail/:id" Component={NoticeDetailPage} />
+          <Route path="/board/event/detail/:id" Component={EventDetailPage} />
           <Route path="/car" Component={CarPage} />
 
           {/* 관리자 페이지 */}

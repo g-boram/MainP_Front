@@ -68,11 +68,11 @@ export default function SignupPage() {
     <SignupContainer>
       <ImgBox>
         <TitleBox>
-          <Text typography="t1">Register</Text>
-          <Text typography="t3">Desc-1</Text>
-          <Text typography="t7">Desc-2</Text>
-          <Text typography="t7">Desc-3</Text>
-          <Text typography="t7">Desc-4</Text>
+          <Text typography="t30">Register</Text>
+          <Text typography="t22">Desc-1</Text>
+          <Text typography="t13">Desc-2</Text>
+          <Text typography="t13">Desc-3</Text>
+          <Text typography="t13">Desc-4</Text>
         </TitleBox>
         <img src={SignUpImg} alt="signup" />
       </ImgBox>
