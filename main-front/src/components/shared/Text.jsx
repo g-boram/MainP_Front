@@ -5,7 +5,7 @@ import styled from "@emotion/styled";
 
 const Text = styled.span(
   ({ color = "black", display, textAlign, fontWeight, bold }) => ({
-    color: colorPalette[color],
+    color,
     display,
     textAlign,
     fontWeight: bold ? "bold" : fontWeight,

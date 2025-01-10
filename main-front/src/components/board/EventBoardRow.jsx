@@ -1,22 +1,23 @@
 import styled from "@emotion/styled";
-import Flex from "../shared/Flex";
-import Badge from "../shared/Badge";
-import { useNavigate } from "react-router-dom";
 import { colorPalette } from "../../styles/colorPalette";
+import Flex from "../shared/Flex";
+import { useNavigate } from "react-router-dom";
+import Badge from "../shared/Badge";
 
-export default function NoticeBoardRow({ boardId, title, content, createdAt, imageUrl }) {
+export default function EventBoardRow({ boardId, title, content, createdAt, imageUrl, status }) {
   const navigate = useNavigate();
   return (
-    <BoardRowWrapper onClick={() => navigate(`/board/notice/detail/${boardId}`)}>
+    <BoardRowWrapper onClick={() => navigate(`/board/event/detail/${boardId}`)}>
       <Flex justify={"space-between"} align={"flex-start"} direction="column">
         <Flex align="center">
-          <Badge label={"공지"} />
+          <Badge label={"이벤트"} color={status === "ACTIVE" ? "#1a831d" : "#c3453c"} />
           <div id="title">{title}</div>
         </Flex>
         <div id="content">{content}</div>
       </Flex>
       <Flex>
-        {/* {imageUrl && <ImgBox src={imageUrl} alt="Event_Img" />} */}
+        {imageUrl && <ImgBox src={imageUrl} alt="Event_Img" />}
+
         <div id="date">{createdAt.slice(0, 10)}</div>
       </Flex>
     </BoardRowWrapper>
@@ -64,12 +65,12 @@ const BoardRowWrapper = styled.div`
   }
 `;
 
-// const ImgBox = styled.img`
-//   width: 150px;
-//   height: 140px;
-//   margin-right: 10px;
-//   border-radius: 5px;
-//   @media (max-width: 600px) {
-//     display: none;
-//   }
-// `;
+const ImgBox = styled.img`
+  width: 150px;
+  height: 140px;
+  margin-right: 10px;
+  border-radius: 5px;
+  @media (max-width: 600px) {
+    display: none;
+  }
+`;

@@ -13,7 +13,7 @@ function Label({ label, hasError, helpMessage }) {
       ) : null}
       {helpMessage ? (
         <Text
-          typography="t7"
+          typography="t13"
           color={labelColor}
           display="inline-block"
           style={{ marginTop: 10, marginBottom: 6, fontSize: 11 }}

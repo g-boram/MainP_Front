@@ -71,9 +71,9 @@ export default function Header() {
           <NavbarContainer>
             <StyledLink to="/">Nav1</StyledLink>
             <StyledLink to="/">Nav2</StyledLink>
-            <StyledLink to="/">Nav3</StyledLink>
             <StyledLink to="/car">자동차 목록</StyledLink>
             <StyledLink to="/board/notice">공지사항</StyledLink>
+            <StyledLink to="/board/event">이벤트</StyledLink>
           </NavbarContainer>
         </UserHeaderContainer>
       )}

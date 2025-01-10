@@ -23,13 +23,13 @@ const TextField = forwardRef(function TextField({ label, hasError, helpMessage, 
     <div>
       <Flex align={"center"} justify={"space-between"}>
         {label ? (
-          <Text typography="t7" color={labelColor} display="inline-block" style={{ marginTop: 10, marginBottom: 6 }}>
+          <Text typography="t13" color={labelColor} display="inline-block" style={{ marginTop: 10, marginBottom: 6 }}>
             {label}
           </Text>
         ) : null}
         {helpMessage ? (
           <Text
-            typography="t8"
+            typography="t11"
             color={labelColor}
             display="inline-block"
             style={{ marginTop: 10, marginBottom: 6, fontSize: 11 }}

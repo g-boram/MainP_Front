@@ -36,7 +36,7 @@ const ImgContainer = styled.div`
   color: ${({ fontColor }) => fontColor};
 
   > img {
-    height: 300px;
+    height: 250px;
     width: 100%;
     object-fit: cover;
   }

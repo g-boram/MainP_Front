@@ -101,24 +101,24 @@ function CarBox() {
       </ImgWrapper>
 
       <Flex direction="column" css={nameStyle}>
-        <Text typography="t7">{car.brand_name}</Text>
+        <Text typography="t13">{car.brand_name}</Text>
         <Spacing size={5} />
-        <Text typography="t5" bold>
+        <Text typography="t17" bold>
           {car.name}
         </Text>
       </Flex>
 
       <DescRow>
         {/* desc 넣기 3가지? */}
-        <Text typography="t8">{car.name}</Text>
-        <Text typography="t8">{car.name}</Text>
-        <Text typography="t8">{car.name}</Text>
+        <Text typography="t11">{car.name}</Text>
+        <Text typography="t11">{car.name}</Text>
+        <Text typography="t11">{car.name}</Text>
       </DescRow>
 
       <Flex justify={"flex-end"}>
         <FaStar fill="#ffdb00" />
         <Spacing size={5} direction={"horizontal"} />
-        <Text typography="t7" bold>
+        <Text typography="t13" bold>
           {car.rating}
         </Text>
       </Flex>
@@ -130,7 +130,7 @@ function CarBox() {
       </Flex>
 
       <Flex justify={"space-between"}>
-        <Text typography="t6" color="red" bold>
+        <Text typography="t15" color="red" bold>
           {addDelimiter(Number(car.price) - Number(car.totalSale))} / 24개월
         </Text>
       </Flex>
