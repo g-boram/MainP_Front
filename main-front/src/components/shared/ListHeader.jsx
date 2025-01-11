@@ -48,7 +48,6 @@ const HeadTitle = styled.div`
   width: 100%;
   justify-content: center;
   align-items: center;
-  padding: 0 10px;
 
   ${({ width }) => css`
     width: ${width};

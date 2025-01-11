@@ -13,6 +13,7 @@ import { ClipLoader } from "react-spinners";
 import { LoadingOverlay } from "../../../styles/managerLayoutStyles";
 import { updateBoard } from "../../../api/boardApi";
 import { css } from "@emotion/react";
+import { toast } from "react-toastify";
 
 // 관리자-공지사항 폼양식
 export default function NoticeUpdateForm() {
@@ -58,9 +59,18 @@ export default function NoticeUpdateForm() {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const confirmUpdate = (e) => {
     e.preventDefault();
 
+    open({
+      title: "게시글 수정",
+      description: "게시글을 수정 하시겠습니까?",
+      isCancel: true,
+      onButtonClick: () => handleSubmit(),
+    });
+  };
+
+  const handleSubmit = async () => {
     const updateData = {
       title: formValues.title,
       content: formValues.content,
@@ -78,24 +88,13 @@ export default function NoticeUpdateForm() {
     }
 
     try {
-      const response = await updateBoard(formData);
+      await updateBoard(formData);
 
-      open({
-        title: "게시글 수정 성공",
-        description: "리스트 페이지로 이동합니다.",
-        isCancel: false,
-        onButtonClick: () => {
-          navigate("/manager/board/notice");
-        },
-      });
-      console.log(response.message);
+      toast.success("📋 게시글 수정 완료!");
+      navigate("/manager/board/notice");
     } catch (error) {
-      open({
-        title: "게시글 수정 실패",
-        description: error.message || error,
-        isCancel: false,
-        onButtonClick: () => {},
-      });
+      toast.error("게시글 수정 실패! 관리자 문의 바랍니다.");
+      console.log(error.message || error);
     }
   };
 
@@ -206,7 +205,7 @@ export default function NoticeUpdateForm() {
           </Flex>
           <Spacing size={50} />
           <Flex justify={"center"}>
-            <BaseButton size="medium" color="black" height={"40px"} full onClick={handleSubmit}>
+            <BaseButton size="medium" color="black" height={"40px"} full onClick={confirmUpdate}>
               게시글 수정
             </BaseButton>
           </Flex>

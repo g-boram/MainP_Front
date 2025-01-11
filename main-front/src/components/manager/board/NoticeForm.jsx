@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { BarLoader } from "react-spinners";
 import { createBoard, resetBoardState } from "../../../reduxSlice/boardCreateSlice";
 import { LoadingOverlay } from "../../../styles/managerLayoutStyles";
+import { toast } from "react-toastify";
 
 // 관리자-공지사항 폼양식
 export default function NoticeForm() {
@@ -35,27 +36,14 @@ export default function NoticeForm() {
 
   useEffect(() => {
     if (board) {
-      open({
-        title: "게시글 등록 성공",
-        description: "리스트 페이지로 이동합니다.",
-        isCancel: false,
-        onButtonClick: () => {
-          dispatch(resetBoardState());
-          navigate("/manager/board/notice");
-        },
-      });
+      dispatch(resetBoardState());
+      toast.success("📋 게시글 등록 완료!");
+      navigate("/manager/board/notice");
     }
 
     if (error) {
-      // 로그인 실패 시
-      open({
-        title: "게시글 등록 실패",
-        description: error.message || error,
-        isCancel: false,
-        onButtonClick: () => {
-          dispatch(resetBoardState());
-        },
-      });
+      toast.error("📋 등록 실패! 관리자 문의 바랍니다.");
+      dispatch(resetBoardState());
     }
   }, [board, error, open, dispatch, navigate]);
 
@@ -74,9 +62,16 @@ export default function NoticeForm() {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const confirmCreate = () => {
+    open({
+      title: "게시글 등록",
+      description: "게시글을 등록 하시겠습니까?",
+      isCancel: true,
+      onButtonClick: () => handleSubmit(),
+    });
+  };
 
+  const handleSubmit = async () => {
     const data = {
       title: formValues.title,
       content: formValues.content,
@@ -169,7 +164,7 @@ export default function NoticeForm() {
       </Flex>
       <Spacing size={50} />
       <Flex justify={"center"}>
-        <BaseButton size="medium" color="black" height={"40px"} full onClick={handleSubmit}>
+        <BaseButton size="medium" color="black" height={"40px"} full onClick={confirmCreate}>
           게시글 등록
         </BaseButton>
       </Flex>

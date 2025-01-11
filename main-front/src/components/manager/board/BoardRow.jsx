@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAlertContext } from "../../../contexts/AlertContextProvider";
 import { deleteBoard } from "../../../api/boardApi";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 export default function BoardRow(board) {
   const navigate = useNavigate();
@@ -33,14 +34,9 @@ export default function BoardRow(board) {
   const handleDeleteBoard = async () => {
     try {
       await deleteBoard(boardId, dispatch);
-
-      open({
-        title: "게시글 삭제",
-        description: "게시글이 삭제되었습니다.",
-        isCancel: false,
-        onButtonClick: () => {},
-      });
+      toast.success("📋 게시글 삭제 완료!");
     } catch (error) {
+      toast.error("📋 삭제 실패! 관리자 문의 바랍니다.");
       console.log("Delete Board Error: ", error);
     }
   };

@@ -13,8 +13,8 @@ export default function LeftNavbar() {
     <NavContainer>
       <ImgBox></ImgBox>
       <LinkMenuBox>
-        <StyledLink to="/manager/board/notice">공지사항</StyledLink>
-        <StyledLink to="/manager">Nav 1</StyledLink>
+        <StyledLink to="/manager/board/notice">공지사항 관리</StyledLink>
+        <StyledLink to="/manager/car">차량 관리</StyledLink>
         <StyledLink to="/manager">Nav 2</StyledLink>
         <StyledLink to="/manager">Nav 3</StyledLink>
         <StyledLink to="/manager">Nav 4</StyledLink>
