@@ -6,11 +6,17 @@ import { css } from "@emotion/react";
 export default function CarColorList({ color, setColor }) {
   return (
     <Container>
-      {CAR_COLOR.map((color) => (
+      {CAR_COLOR.map((colorOption) => (
         <ColorListWrapper>
-          <ColorBox key={color.id} bgColor={color.hex} />
-          <Name>{color.name}</Name>
-          <input name="color" type="radio" onClick={() => setColor(color.hex)} />
+          <ColorBox key={colorOption.id} bgColor={colorOption.hex} />
+          <Name>{colorOption.name}</Name>
+          <input
+            name="color"
+            type="radio"
+            value={colorOption.hex}
+            checked={color === colorOption.hex} // 전달받은 color와 비교
+            onChange={() => setColor(colorOption.hex)} // 변경 시 호출
+          />
         </ColorListWrapper>
       ))}
     </Container>

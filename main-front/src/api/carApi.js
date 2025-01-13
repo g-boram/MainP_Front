@@ -31,10 +31,10 @@ export const createCar = async (formData) => {
   }
 };
 
-// // 차량 수정
-export const updateCar = async (formData) => {
+// 차량 수정
+export const updateCar = async ({ carId, formTotalData }) => {
   try {
-    const response = await axios.put(`${SERVER_URL.LOCAL}/board`, formData, {
+    const response = await axios.put(`${SERVER_URL.LOCAL}/car/${carId}`, formTotalData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -45,10 +45,10 @@ export const updateCar = async (formData) => {
   }
 };
 
-// // 차량 삭제
-export const deleteBoard = async (boardId, dispatch) => {
+// 차량 삭제
+export const deleteCar = async (carId) => {
   try {
-    const response = await axios.delete(`${SERVER_URL.LOCAL}/board/${boardId}`);
+    const response = await axios.delete(`${SERVER_URL.LOCAL}/car/${carId}`);
 
     return response.data;
   } catch (error) {

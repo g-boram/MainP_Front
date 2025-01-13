@@ -8,16 +8,20 @@ import Badge from "../../shared/Badge";
 import CarIconOption from "./CarIconOption";
 import CarDetailInfoBox from "./CarDetailInfoBox";
 import CarSellerInfoBox from "./CarSellerInfoBox";
+import BaseButton from "../../shared/Button";
 import { css } from "@emotion/react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CAR_OPTION_FUELTYPE } from "../../../constants/carOption";
 import { ClearLoadingOverlay } from "../../../styles/managerLayoutStyles";
 import { ClipLoader } from "react-spinners";
-import BaseButton from "../../shared/Button";
+import { useAlertContext } from "../../../contexts/AlertContextProvider";
+import { toast } from "react-toastify";
+import { deleteCar } from "../../../api/carApi";
 
 export default function CarDetailForm() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { open } = useAlertContext();
 
   const {
     carId,
@@ -37,6 +41,27 @@ export default function CarDetailForm() {
   } = location.state;
 
   const fuel = CAR_OPTION_FUELTYPE.filter((f) => f.value === fuelType);
+
+  const confirmDelete = () => {
+    open({
+      title: "게시글 삭제",
+      description: "게시글을 삭제 하시겠습니까?",
+      isCancel: true,
+      onButtonClick: () => handleSubmit(),
+    });
+  };
+
+  const handleSubmit = async () => {
+    try {
+      await deleteCar(carId);
+
+      toast.success("🚓 차량 게시글 삭제 완료!");
+      navigate("/manager/car");
+    } catch (error) {
+      toast.error("차량 게시글 삭제 실패! 관리자 문의 바랍니다.");
+      console.log(error.message || error);
+    }
+  };
 
   return (
     <FormContainer>
@@ -175,7 +200,7 @@ export default function CarDetailForm() {
               수정
             </BaseButton>
             <Spacing size={10} direction="width" />
-            <BaseButton size="small" color="error" height={"40px"} width={"100px"} onClick={() => {}}>
+            <BaseButton size="small" color="error" height={"40px"} width={"100px"} onClick={() => confirmDelete()}>
               삭제
             </BaseButton>
           </Flex>

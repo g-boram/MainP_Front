@@ -4,7 +4,6 @@ import Spacing from "../../shared/Spacing";
 import Flex from "../../shared/Flex";
 import BaseButton from "../../shared/Button";
 import CreatableSelect from "react-select/creatable";
-import CarMakeCascadingSelect from "./CarMakeCascadingSelect";
 import CarColorList from "./CarColorList";
 
 import { colorPalette } from "../../../styles/colorPalette";
@@ -14,7 +13,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { BarLoader } from "react-spinners";
 import { LoadingOverlay } from "../../../styles/managerLayoutStyles";
 import { css } from "@emotion/react";
-import { createCar, updateCar } from "../../../api/carApi";
+import { updateCar } from "../../../api/carApi";
 import { toast } from "react-toastify";
 import { CAR_OPTION_FUELTYPE, CAR_OPTION_TRANSMISSION, findCountryByCar, YEARS } from "../../../constants/carOption";
 
@@ -22,14 +21,12 @@ export default function CarUpdateForm() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { user } = useSelector((state) => state.auth);
   const { open } = useAlertContext();
 
+  const [carId, setCarId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const [country, setCountry] = useState("");
-  const [manufacturer, setManufacturer] = useState("");
-  const [model, setModel] = useState("");
   const [year, setYear] = useState("");
   const [color, setColor] = useState("");
   const [fuelType, setFuelType] = useState("");
@@ -67,6 +64,7 @@ export default function CarUpdateForm() {
         description: location.state.description,
         imageUrl: location.state.imageUrl,
       });
+      setCarId(location.state.carId);
       setYear(location.state.year);
       setColor(location.state.color);
       setFuelType(location.state.fuelType);
@@ -125,7 +123,7 @@ export default function CarUpdateForm() {
     }
 
     try {
-      await updateCar(formTotalData);
+      await updateCar({ carId, formTotalData });
 
       setIsLoading(false);
       toast.success("🚓 차량 수정 완료!");
@@ -161,16 +159,15 @@ export default function CarUpdateForm() {
         </LoadingOverlay>
       )}
       <Flex direction="column">
-        {/* 나라 / 제조사 / 모델 */}
         <Flex align={"center"}>
-          <CarMakeCascadingSelect
-            country={country}
-            manufacturer={manufacturer}
-            model={model}
-            setCountry={setCountry}
-            setManufacturer={setManufacturer}
-            setModel={setModel}
-          />
+          <Label>나라</Label>
+          <ValueRow>{country}</ValueRow>
+          <Spacing size={20} direction={"width"} />
+          <Label>제조사</Label>
+          <ValueRow>{formValues.make}</ValueRow>
+          <Spacing size={20} direction={"width"} />
+          <Label>모델</Label>
+          <ValueRow>{formValues.model}</ValueRow>
         </Flex>
         <Spacing size={10} />
 
@@ -200,7 +197,6 @@ export default function CarUpdateForm() {
         <Spacing size={10} />
 
         <Flex align={"center"}>
-          {/* 연료 종류 */}
           <Label>연료 종류</Label>
           <CreatableSelect
             placeholder="연료"
@@ -213,7 +209,6 @@ export default function CarUpdateForm() {
           />
           <Spacing size={20} direction={"width"} />
 
-          {/* 변속기 종류 */}
           <Label>변속기 종류</Label>
           <CreatableSelect
             placeholder="변속기"
@@ -253,7 +248,11 @@ export default function CarUpdateForm() {
         <Spacing size={10} />
 
         <Flex>
-          <Label>첨부파일</Label>
+          <>
+            <Label>현재 첨부파일</Label>
+            <ValueRow>{formValues.imageUrl}</ValueRow>
+          </>
+          <Label>변경 첨부파일</Label>
           <InputBox>
             <input type="file" name="file" onChange={handleFileChange} />
           </InputBox>
@@ -262,7 +261,7 @@ export default function CarUpdateForm() {
       <Spacing size={50} />
       <Flex justify={"center"}>
         <BaseButton size="medium" color="black" height={"40px"} full onClick={confirmCreate}>
-          차량 등록하기
+          차량 수정하기
         </BaseButton>
       </Flex>
     </FormContainer>
@@ -321,6 +320,17 @@ const InputBox = styled.div`
     font-size: 12px;
     text-align: end;
   }
+`;
+
+const ValueRow = styled.div`
+  height: 35px;
+  width: 100%;
+  color: ${colorPalette.fontDarkGrey};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  padding-right: 10px;
 `;
 
 const activeBtn = css`
