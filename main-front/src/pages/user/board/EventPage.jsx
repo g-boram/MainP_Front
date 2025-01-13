@@ -7,7 +7,7 @@ import Flex from "../../../components/shared/Flex";
 
 import { PageContainer } from "../../../styles/pageLayoutStyles";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { fetchPagedBoards } from "../../../reduxSlice/boardListSlice";
 import { ClearLoadingOverlay } from "../../../styles/managerLayoutStyles";
 import { ClipLoader } from "react-spinners";
@@ -32,23 +32,25 @@ export default function EventPage() {
     fetchBoards();
   }, [dispatch]);
 
-  const ingEventData = () => {
+  // Memoize ingEventData
+  const ingEventData = useCallback(() => {
     const setEventData = filteredBoards.filter((board) => board.category === "event" && board.status === "ACTIVE");
     dispatch(setTotalItems(setEventData.length));
 
     const startIndex = currentPage * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     setCurrentItems(setEventData.slice(startIndex, endIndex));
-  };
+  }, [filteredBoards, dispatch, currentPage, itemsPerPage]);
 
-  const finishEventData = () => {
+  // Memoize finishEventData
+  const finishEventData = useCallback(() => {
     const setEventData = filteredBoards.filter((board) => board.category === "event" && board.status === "INACTIVE");
     dispatch(setTotalItems(setEventData.length));
 
     const startIndex = currentPage * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     setCurrentItems(setEventData.slice(startIndex, endIndex));
-  };
+  }, [filteredBoards, dispatch, currentPage, itemsPerPage]);
 
   useEffect(() => {
     if (activeTab === "ing") {
@@ -56,7 +58,7 @@ export default function EventPage() {
     } else {
       finishEventData();
     }
-  }, [activeTab, currentItems, filteredBoards, currentPage, itemsPerPage]);
+  }, [activeTab, ingEventData, finishEventData]);
 
   return (
     <PageContainer>

@@ -2,41 +2,28 @@ import styled from "@emotion/styled";
 import LeftNavbar from "../../../components/manager/LeftNavbar";
 import HeadTitle from "../../../components/manager/HeadTitle";
 import LinkButton from "../../../components/shared/LinkButton";
-import PaginationComponent from "../../../components/shared/pagination/PaginationComponent";
 import Flex from "../../../components/shared/Flex";
 import ListHeader from "../../../components/shared/ListHeader";
-import BoardRow from "../../../components/manager/board/BoardRow";
-import FilterButtons from "../../../components/shared/FilterButtons";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchPagedBoards, setStatusFilter } from "../../../reduxSlice/boardListSlice";
+import CarRow from "../../../components/manager/car/CarRow";
+import CarFilterBtn from "../../../components/manager/car/CarFilterBtn";
 import { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
 import {
   ClearLoadingOverlay,
   ContentBox,
   ContentWrapper,
-  ErrorBox,
-  ErrorOverlay,
-  ErrorText,
   ManagerContainer,
   NavRow,
-  NotBoardBox,
-  NotBoardOverlay,
-  NotBoardText,
 } from "../../../styles/managerLayoutStyles";
-import BoardCategoryButtons from "../../../components/shared/BoardCategoryButtons";
 import { BaseIconBox } from "../../../styles/miniComponentStyles";
 import { TbClipboardSearch } from "react-icons/tb";
-import CarRow from "../../../components/manager/car/CarRow";
 import { getCarListAll } from "../../../api/carApi";
-import CarFilterBtn from "../../../components/manager/car/CarFilterBtn";
 
 export default function M_CarPage() {
   const [carData, setCarData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    // 전체 데이터 가져오기
     const allData = async () => {
       const data = await getCarListAll();
       setCarData(data.data);

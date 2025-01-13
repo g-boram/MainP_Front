@@ -29,6 +29,7 @@ import M_CarPage from "./pages/manager/car/M_CarPage";
 import M_CarCreatePage from "./pages/manager/car/M_\bCarCreatePage";
 import M_CarDetailPage from "./pages/manager/car/M_CarDetailPage";
 import M_CarUpdatePage from "./pages/manager/car/M_\bCarUpdatePage";
+import CarDetailPage from "./pages/user/car/CarDetailPage";
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
           <Route path="/board/notice/detail/:id" Component={NoticeDetailPage} />
           <Route path="/board/event/detail/:id" Component={EventDetailPage} />
           <Route path="/car" Component={CarPage} />
+          <Route path="/car/detail" Component={CarDetailPage} />
 
           {/* 관리자 페이지 */}
           <Route path="/manager" Component={ManagerPage} />

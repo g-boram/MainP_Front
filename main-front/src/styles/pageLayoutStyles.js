@@ -7,3 +7,9 @@ export const PageContainer = styled.div`
   margin: 0 auto;
   padding-top: ${HEIGHT_LIST.HEADER + HEIGHT_LIST.NAVBAR}px;
 `;
+
+export const PageWrapper = styled.div`
+  width: 1200px;
+  margin: 50px auto;
+  min-height: 100%;
+`;

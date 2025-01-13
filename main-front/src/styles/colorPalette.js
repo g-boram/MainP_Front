@@ -29,6 +29,7 @@ export const colorPalette = {
   inputGreen: "#4caf50",
 
   fontWhite: "#fff",
+  fontRed: "#d42424",
   fontBlack: "#333",
   fontGrey: "#999",
   fontDarkGrey: "#595959",

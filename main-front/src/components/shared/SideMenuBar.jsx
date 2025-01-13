@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 
-export default function SideMenuBar() {
+export default function SideMenuBar({ setIsLoading, setCarData }) {
   // 여러 개의 활성화된 항목을 저장
   const [activeIndices, setActiveIndices] = useState([]);
 
-  const items = [
+  const filterTitle = [
     {
       title: "제조사",
       content: <div></div>,
@@ -53,7 +53,7 @@ export default function SideMenuBar() {
   return (
     <Container>
       <Accordion>
-        {items.map((item, index) => {
+        {filterTitle.map((item, index) => {
           const isActive = activeIndices.includes(index);
           return (
             <AccordionItem key={index}>
@@ -75,12 +75,11 @@ export default function SideMenuBar() {
   );
 }
 
-// Styled Components
 const Container = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 340px;
+  width: 100%;
 `;
 
 const Accordion = styled.ul`
@@ -88,48 +87,38 @@ const Accordion = styled.ul`
   margin: 0;
   padding: 0;
   background-color: white;
-  border-radius: 3px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  width: 350px;
+  width: 300px;
 `;
 
 const AccordionItem = styled.li`
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #eee;
   &:last-of-type {
     border-bottom: none;
   }
 `;
 
-const AccordionTitle = styled.h2`
+const AccordionTitle = styled.div`
   padding: 15px 20px;
   margin: 0;
   max-width: 350px;
-  font-size: 18px;
-  color: #52616b;
+  font-size: 14px;
+  color: #000;
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-
-  &:hover {
-    color: #354f52;
-    background-color: #f0f4f8;
-  }
 `;
 
 const AccIcon = styled.span`
-  font-size: 20px;
-  font-weight: bold;
-  color: #8d99ae;
+  font-size: 14px;
 `;
 
 const AccordionContent = styled.div`
   padding: 15px 20px;
-  font-size: 16px;
+  font-size: 14px;
   min-height: 100px;
   max-height: 500px;
   color: #6c757d;
-  background-color: #f8f9fa;
   line-height: 1.5;
 `;
