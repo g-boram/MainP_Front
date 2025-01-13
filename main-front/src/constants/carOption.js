@@ -13,6 +13,11 @@ export const CAR_MANUFACTURERE = {
   Honda: ["Civic", "Accord"],
 };
 
+// 키 값 찾기
+export function findCountryByCar(car) {
+  return Object.entries(CAR_COUNTRY).find(([key, values]) => values.includes(car))?.[0]; // 키 반환 (값이 없으면 undefined)
+}
+
 // 연료 종류
 export const CAR_OPTION_FUELTYPE = [
   { label: "가솔린", value: "GASOLINE" },

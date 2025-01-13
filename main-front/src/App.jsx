@@ -27,6 +27,8 @@ import EventDetailPage from "./pages/user/board/EventDetailPage";
 import ScrollToTop from "./components/shared/ScrollToTop";
 import M_CarPage from "./pages/manager/car/M_CarPage";
 import M_CarCreatePage from "./pages/manager/car/M_\bCarCreatePage";
+import M_CarDetailPage from "./pages/manager/car/M_CarDetailPage";
+import M_CarUpdatePage from "./pages/manager/car/M_\bCarUpdatePage";
 
 function App() {
   return (
@@ -63,6 +65,8 @@ function App() {
           <Route path="/manager/board/notice/update" Component={M_NoticeUpdatePage} />
           <Route path="/manager/car" Component={M_CarPage} />
           <Route path="/manager/car/create" Component={M_CarCreatePage} />
+          <Route path="/manager/car/detail" Component={M_CarDetailPage} />
+          <Route path="/manager/car/update" Component={M_CarUpdatePage} />
 
           {/* @TODO: 인증이 필요한 페이지 나누기 ex) 관리자,유저의 등급, 로그인 여부 ... */}
           {/* <Route path="/my" element={

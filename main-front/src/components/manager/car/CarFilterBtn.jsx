@@ -1,26 +1,19 @@
 import styled from "@emotion/styled";
 import BaseButton from "../../shared/Button";
-import { useState } from "react";
-import { getFilterCarList } from "../../../api/carApi";
-import Flex from "../../shared/Flex";
-import { IoMdSearch } from "react-icons/io";
-import { colorPalette } from "../../../styles/colorPalette";
-import { css } from "@emotion/react";
 import Spacing from "../../shared/Spacing";
 import CreatableSelect from "react-select/creatable";
+import CarColorList from "./CarColorList";
+import { useState } from "react";
+import { getFilterCarList } from "../../../api/carApi";
+import { IoMdSearch } from "react-icons/io";
+import { colorPalette } from "../../../styles/colorPalette";
 import {
   CAR_F_FUELTYPE,
   CAR_F_MILEAGE,
   CAR_F_PRICE,
   CAR_F_TRANSMISSION,
   CAR_F_YEARS,
-  CAR_MILEAGE,
-  CAR_OPTION_FUELTYPE,
-  CAR_OPTION_TRANSMISSION,
-  CAR_PRICE,
-  YEARS,
 } from "../../../constants/carOption";
-import CarColorList from "./CarColorList";
 
 export default function CarFilterBtn({ setIsLoading, setCarData }) {
   const [isAvailable, setIsAvailable] = useState(1);
@@ -68,7 +61,6 @@ export default function CarFilterBtn({ setIsLoading, setCarData }) {
     setIsLoading(true);
     try {
       const response = await getFilterCarList(data);
-      console.log("response", response);
       setCarData(response.data);
     } catch (error) {
       console.error("Failed to fetch cars", error);

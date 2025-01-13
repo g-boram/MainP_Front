@@ -1,40 +1,14 @@
 import styled from "@emotion/styled";
 import { colorPalette } from "../../../styles/colorPalette";
 import { useNavigate } from "react-router-dom";
-import { useAlertContext } from "../../../contexts/AlertContextProvider";
-import { deleteBoard } from "../../../api/boardApi";
-import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
-import { useState } from "react";
 
 export default function CarRow(car) {
   const navigate = useNavigate();
 
-  const { open } = useAlertContext();
   const { carId, color, make, model, fuelType, mileage, price, sellerId, createdAt, status, transmission, year } = car;
 
   const handleDetailPage = () => {
     navigate("/manager/car/detail", { state: { ...car } });
-  };
-
-  const confirmDelete = () => {
-    open({
-      title: "게시글 삭제",
-      description: "해당 게시글을 삭제하시겠습니까?",
-      isCancel: true,
-      onButtonClick: () => {
-        handleDeleteBoard();
-      },
-    });
-  };
-  const handleDeleteBoard = async () => {
-    // try {
-    //   await deleteBoard(boardId, dispatch);
-    //   toast.success("📋 게시글 삭제 완료!");
-    // } catch (error) {
-    //   toast.error("📋 삭제 실패! 관리자 문의 바랍니다.");
-    //   console.log("Delete Board Error: ", error);
-    // }
   };
 
   return (

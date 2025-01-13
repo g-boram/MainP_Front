@@ -43,7 +43,6 @@ export default function M_CarPage() {
     };
     allData();
   }, []);
-  console.log("carData", carData);
 
   return (
     <ManagerContainer>
@@ -115,6 +114,7 @@ export default function M_CarPage() {
 
 const CarListWrapper = styled.div`
   height: 500px;
+  /* overflow-y: scroll; */
 `;
 
 const NotDataWrapper = styled.div`
