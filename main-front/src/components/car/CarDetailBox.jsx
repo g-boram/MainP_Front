@@ -10,18 +10,15 @@ import CarSellerInfoBox from "../manager/car/CarSellerInfoBox";
 import CarIconOption from "../manager/car/CarIconOption";
 
 import { css } from "@emotion/react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { CAR_OPTION_FUELTYPE } from "../../constants/carOption";
 import { ClearLoadingOverlay } from "../../styles/managerLayoutStyles";
 import { ClipLoader } from "react-spinners";
-import { useAlertContext } from "../../contexts/AlertContextProvider";
-import { toast } from "react-toastify";
-import { deleteCar } from "../../api/carApi";
+import { MdOutlineImageNotSupported } from "react-icons/md";
+import CarDetailTimer from "./CarDetailTimer";
 
 export default function CarDetailBox() {
   const location = useLocation();
-  const navigate = useNavigate();
-  const { open } = useAlertContext();
 
   const {
     carId,
@@ -38,38 +35,24 @@ export default function CarDetailBox() {
     year,
     imageUrl,
     sellerId,
+    eventName,
+    eventEndTime,
+    hashTags,
   } = location.state;
 
   const fuel = CAR_OPTION_FUELTYPE.filter((f) => f.value === fuelType);
 
-  const confirmDelete = () => {
-    open({
-      title: "게시글 삭제",
-      description: "게시글을 삭제 하시겠습니까?",
-      isCancel: true,
-      onButtonClick: () => handleSubmit(),
-    });
-  };
-
-  const handleSubmit = async () => {
-    try {
-      await deleteCar(carId);
-
-      toast.success("🚓 차량 게시글 삭제 완료!");
-      navigate("/manager/car");
-    } catch (error) {
-      toast.error("차량 게시글 삭제 실패! 관리자 문의 바랍니다.");
-      console.log(error.message || error);
-    }
-  };
-
+  console.log("hashTags", hashTags);
   return (
     <FormContainer>
       {location.state ? (
         <MainContainer>
           {/* 왼쪽 고정 영역 */}
           <FixedBox>
-            <CarImgBox>{imageUrl ? <img src={imageUrl} alt="carImg" /> : <div>사진 없음 처리하기</div>}</CarImgBox>
+            {eventName ? <CarDetailTimer eventEndTime={eventEndTime} eventName={eventName} /> : <></>}
+            <CarImgBox>
+              {imageUrl ? <img src={imageUrl} alt="carImg" /> : <MdOutlineImageNotSupported size={50} color="#ddd" />}
+            </CarImgBox>
             <CarDetailInfoBox />
             <CarSellerInfoBox id={sellerId} />
           </FixedBox>
@@ -77,7 +60,9 @@ export default function CarDetailBox() {
           {/* 오른쪽 스크롤 영역 */}
           <ScrollBox>
             <TopIconRow>
-              <Flex>left</Flex>
+              <TopRowLeft>
+                {hashTags && hashTags?.length !== 0 ? hashTags.map((tag) => <TagText>#{tag}</TagText>) : <></>}
+              </TopRowLeft>
               <Flex>right</Flex>
             </TopIconRow>
             <CarMainTitleRow>
@@ -208,12 +193,18 @@ const FixedBox = styled.div`
 
 const CarImgBox = styled.div`
   background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 400px;
   margin-bottom: 10px;
+  border-radius: 15px;
+  position: relative;
 
   > img {
     width: 100%;
+    border-radius: 15px;
     object-fit: contain;
   }
 `;
@@ -236,7 +227,6 @@ const TopIconRow = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
-  background-color: #eee;
 `;
 
 const CarMainTitleRow = styled.div`
@@ -320,17 +310,34 @@ const OnCovenantBtn = styled.div`
   cursor: pointer;
 `;
 
+const TopRowLeft = styled.div`
+  width: 350px;
+  max-height: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+const TagText = styled.div`
+  font-size: 14px;
+  color: #333;
+  margin-right: 20px;
+`;
+
 const CarDataBox = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 230px;
   border-bottom: 1px solid #eee;
 `;
+
 const DescBox = styled.div`
   white-space: pre-line;
   font-size: 12px;
   min-height: 150px;
 `;
+
 const FormContainer = styled.div`
   min-height: 600px;
   width: 100%;

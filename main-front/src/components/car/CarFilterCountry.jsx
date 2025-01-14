@@ -1,12 +1,13 @@
 import styled from "@emotion/styled";
 import Spacing from "../shared/Spacing";
+import Flex from "../shared/Flex";
 import { colorPalette } from "../../styles/colorPalette";
 import { CAR_COUNTRY, CAR_MANUFACTURERE } from "../../constants/carOption";
+import { RiResetRightLine } from "react-icons/ri";
 import { GoCheck } from "react-icons/go";
 import { useState } from "react";
-import Flex from "../shared/Flex";
 
-const CarMakeCascadingSelect = ({ country, manufacturer, model, setCountry, setManufacturer, setModel }) => {
+const CarFilterCountry = ({ country, manufacturer, model, setCountry, setManufacturer, setModel }) => {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedManufacturer, setSelectedManufacturer] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
@@ -38,8 +39,23 @@ const CarMakeCascadingSelect = ({ country, manufacturer, model, setCountry, setM
     setSelectedModel(e.target.value);
   };
 
+  // 초기화
+  const handleReset = (e) => {
+    setCountry("");
+    setSelectedCountry("");
+
+    setManufacturer("");
+    setSelectedManufacturer("");
+
+    setModel("");
+    setSelectedModel("");
+  };
+
   return (
     <RowWrapper>
+      <Flex justify="flex-end">
+        <RiResetRightLine style={{ cursor: "pointer" }} onClick={handleReset} />
+      </Flex>
       <FlexRow>
         <Label>
           <Box />
@@ -171,11 +187,6 @@ const FlexRow = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-
-  > select {
-    font-size: "13px";
-    width: 100%;
-  }
 `;
 
 const Box = styled.div`
@@ -212,4 +223,4 @@ const OptionBox = styled.div`
   }
 `;
 
-export default CarMakeCascadingSelect;
+export default CarFilterCountry;

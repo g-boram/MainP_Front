@@ -58,7 +58,7 @@ export default function CarPage() {
 }
 
 const CarListContainer = styled.div`
-  height: 100%;
+  min-height: 100%;
   margin: 0 auto;
   width: 1400px;
   display: flex;

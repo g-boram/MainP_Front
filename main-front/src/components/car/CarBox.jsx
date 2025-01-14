@@ -4,16 +4,57 @@ import noCarImg from "../../assert/NotCarBoxImg.png";
 import { CAR_OPTION_FUELTYPE } from "../../constants/carOption";
 import { colorPalette } from "../../styles/colorPalette";
 import { useNavigate } from "react-router-dom";
+import { TfiTimer } from "react-icons/tfi";
+import { useEffect, useState } from "react";
 
 export default function CarBox(car) {
-  const { make, model, fuelType, mileage, price, description, transmission, year, imageUrl } = car;
+  const { make, model, fuelType, mileage, price, description, transmission, year, imageUrl, eventName, eventEndTime } =
+    car;
 
   const navigate = useNavigate();
   const fuel = CAR_OPTION_FUELTYPE.filter((f) => f.value === fuelType);
 
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
+  function calculateTimeLeft() {
+    const endTime = new Date(eventEndTime).getTime(); // 종료 시간
+    const now = new Date().getTime(); // 현재 시간
+    const difference = endTime - now;
+
+    if (difference > 0) {
+      return {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / (1000 * 60)) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
+      };
+    } else {
+      return null; // 시간이 종료되었음을 표시
+    }
+  }
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <CarContainer onClick={() => navigate("/car/detail", { state: { ...car } })}>
-      <ImgWrapper>{imageUrl ? <img src={imageUrl} alt="carImg" /> : <img src={noCarImg} alt="NocarImg" />}</ImgWrapper>
+      <ImgWrapper>
+        {imageUrl ? <img src={imageUrl} alt="carImg" /> : <img src={noCarImg} alt="NocarImg" />}
+        {eventName ? (
+          <Container>
+            <TfiTimer size={18} color="#fff" />
+            <div id="eventName">{eventName}</div>
+            {timeLeft.days} 일 {timeLeft.hours} 시간 {timeLeft.minutes} 분 {timeLeft.seconds} 초
+          </Container>
+        ) : (
+          <></>
+        )}
+      </ImgWrapper>
       <CarWrapper>
         <NameText>
           {make} {model} {fuel[0].label} {transmission}
@@ -54,6 +95,7 @@ const ImgWrapper = styled.div`
   background-color: #eee;
   border-radius: 10px;
   margin-bottom: 20px;
+  position: relative;
   & img {
     border-radius: 10px;
     width: 100%;
@@ -99,4 +141,30 @@ const GreyText = styled.div`
   margin: 5px 0;
   display: flex;
   justify-content: space-between;
+`;
+
+const Container = styled.div`
+  position: absolute;
+  bottom: 0px;
+  width: 250px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000;
+  border-radius: 0 0 10px 10px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  opacity: 0.7;
+  z-index: 10;
+
+  #eventName {
+    font-size: 14px;
+    margin: 0 10px;
+    background-color: #fff;
+    color: #000;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
 `;

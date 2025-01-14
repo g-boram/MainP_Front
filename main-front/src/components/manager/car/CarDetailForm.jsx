@@ -8,6 +8,7 @@ import Badge from "../../shared/Badge";
 import CarIconOption from "./CarIconOption";
 import CarDetailInfoBox from "./CarDetailInfoBox";
 import CarSellerInfoBox from "./CarSellerInfoBox";
+import CarDetailTimer from "../../car/CarDetailTimer";
 import BaseButton from "../../shared/Button";
 import { css } from "@emotion/react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -17,6 +18,7 @@ import { ClipLoader } from "react-spinners";
 import { useAlertContext } from "../../../contexts/AlertContextProvider";
 import { toast } from "react-toastify";
 import { deleteCar } from "../../../api/carApi";
+import { MdOutlineImageNotSupported } from "react-icons/md";
 
 export default function CarDetailForm() {
   const location = useLocation();
@@ -38,6 +40,9 @@ export default function CarDetailForm() {
     year,
     imageUrl,
     sellerId,
+    eventName,
+    eventEndTime,
+    hashTags,
   } = location.state;
 
   const fuel = CAR_OPTION_FUELTYPE.filter((f) => f.value === fuelType);
@@ -70,7 +75,10 @@ export default function CarDetailForm() {
           <MainContainer>
             {/* 왼쪽 고정 영역 */}
             <FixedBox>
-              <CarImgBox>{imageUrl ? <img src={imageUrl} alt="carImg" /> : <div>사진 없음 처리하기</div>}</CarImgBox>
+              {eventName ? <CarDetailTimer eventEndTime={eventEndTime} eventName={eventName} /> : <></>}
+              <CarImgBox>
+                {imageUrl ? <img src={imageUrl} alt="carImg" /> : <MdOutlineImageNotSupported size={50} color="#ddd" />}
+              </CarImgBox>
               <CarDetailInfoBox />
               <CarSellerInfoBox id={sellerId} />
             </FixedBox>
@@ -78,7 +86,9 @@ export default function CarDetailForm() {
             {/* 오른쪽 스크롤 영역 */}
             <ScrollBox>
               <TopIconRow>
-                <Flex>left</Flex>
+                <TopRowLeft>
+                  {hashTags && hashTags?.length !== 0 ? hashTags.map((tag) => <TagText>#{tag}</TagText>) : <></>}
+                </TopRowLeft>
                 <Flex>right</Flex>
               </TopIconRow>
               <CarMainTitleRow>
@@ -228,9 +238,15 @@ const CarImgBox = styled.div`
   width: 100%;
   height: 400px;
   margin-bottom: 10px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  border-radius: 15px;
+  position: relative;
 
   > img {
     width: 100%;
+    border-radius: 15px;
     object-fit: contain;
   }
 `;
@@ -253,7 +269,6 @@ const TopIconRow = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
-  background-color: #eee;
 `;
 
 const CarMainTitleRow = styled.div`
@@ -335,6 +350,21 @@ const OnCovenantBtn = styled.div`
   background-color: #000;
   margin-top: 10px;
   cursor: pointer;
+`;
+
+const TopRowLeft = styled.div`
+  width: 350px;
+  max-height: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
+const TagText = styled.div`
+  font-size: 14px;
+  color: #333;
+  margin-right: 20px;
 `;
 
 const CarDataBox = styled.div`

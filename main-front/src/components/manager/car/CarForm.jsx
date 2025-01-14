@@ -35,6 +35,9 @@ export default function CarForm() {
   const [fuelType, setFuelType] = useState("");
   const [transmission, setTransmission] = useState("");
   const [isAvailable, setIsAvailable] = useState(1);
+  const [hashTag, setHashTag] = useState("");
+  const [tags, setTags] = useState([]);
+  const [currentImg, setCurrentImg] = useState();
 
   const [file, setFile] = useState(null);
   const [formValues, setFormValues] = useState({
@@ -50,12 +53,9 @@ export default function CarForm() {
     status: "",
     description: "",
     imageUrl: "",
+    eventName: "",
+    eventEndTime: "",
   });
-
-  const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    setFile(selectedFile);
-  };
 
   const handleFormValues = (e) => {
     setFormValues((prevValues) => ({
@@ -90,6 +90,9 @@ export default function CarForm() {
       status: isAvailable ? "AVAILABLE" : "SOLD",
       description: formValues.description,
       imageUrl: "",
+      eventName: formValues.eventName,
+      eventEndTime: formValues.eventEndTime,
+      hashTags: tags ? tags : [],
     };
 
     const formTotalData = new FormData();
@@ -109,6 +112,49 @@ export default function CarForm() {
       toast.error("🚓 등록 실패! 관리자 문의 바랍니다.");
     }
   };
+
+  // 선택된 이미지 미리보기 생성 하기
+  const handleUploadFile = (e) => {
+    const files = e.target.files;
+
+    if (files !== null) {
+      const theFile = files[0];
+      setFile(e.target.files[0]);
+
+      const reader = new FileReader();
+      reader.onloadend = (finishedEvent) => {
+        const result = finishedEvent.target.result;
+        setCurrentImg(result);
+      };
+      if (!theFile) return;
+      reader.readAsDataURL(theFile);
+    }
+  };
+  const handleRemoveFile = (e) => {
+    setFile(null);
+    setCurrentImg(null);
+  };
+
+  // 해시태그 입력
+  const onChangeHashTag = (e) => {
+    setHashTag(e?.target?.value?.trim());
+  };
+  const handleKeyUp = (e) => {
+    if (e.keyCode === 32 && e.target.value.trim() !== "") {
+      // 만약 같은 태그가 있다면 에러를 띄운다.
+      // 아니라면 태그를 생성해준다.
+      if (tags?.includes(e.target.value?.trim())) {
+        toast.error("같은 태그가 있습니다.");
+      } else {
+        setTags((prev) => (prev?.length > 0 ? [...prev, hashTag] : [hashTag]));
+        setHashTag("");
+      }
+    }
+  };
+  const removeTag = (tag) => {
+    setTags(tags?.filter((val) => val !== tag));
+  };
+
   const selectStyle = {
     container: (containerStyles) => ({
       ...containerStyles,
@@ -224,13 +270,61 @@ export default function CarForm() {
             <textarea name="description" id="description" onChange={handleFormValues} value={formValues.description} />
           </TextareaBox>
         </Flex>
-        <Spacing size={10} />
+        <Spacing size={30} />
+
+        <FileRow>
+          <Label>첨부파일</Label>
+          <FileBox>{currentImg ? <img src={currentImg} alt="" /> : ""}</FileBox>
+          <Flex direction="column" justify="flex-end">
+            <input type="file" name="file" onChange={handleUploadFile} />
+            <Spacing size={10} />
+            <BaseButton size="small" color="black" height={"30px"} width={"100px"} onClick={handleRemoveFile}>
+              파일 삭제
+            </BaseButton>
+          </Flex>
+
+          <Label>이벤트</Label>
+          <Flex direction="column" justify="flex-end">
+            <EventInput>
+              <label htmlFor="eventEndTime">이벤트 이름</label>
+              <input id="eventName" name="eventName" value={formValues.eventName} onChange={handleFormValues} />
+            </EventInput>
+            <Spacing size={30} />
+            <EventInput>
+              <label htmlFor="eventEndTime">이벤트 종료시간</label>
+              <input
+                type="datetime-local"
+                id="eventEndTime"
+                name="eventEndTime"
+                value={formValues.eventEndTime}
+                onChange={handleFormValues}
+              />
+            </EventInput>
+          </Flex>
+        </FileRow>
+        <Spacing size={20} />
 
         <Flex>
-          <Label>첨부파일</Label>
-          <InputBox>
-            <input type="file" name="file" onChange={handleFileChange} />
-          </InputBox>
+          <Label># 해시태그</Label>
+          <Flex direction="column" height="120px" width="100%">
+            <HashTagForm>
+              {tags?.map((tag, index) => (
+                <Tags key={index} onClick={() => removeTag(tag)}>
+                  # {tag}
+                </Tags>
+              ))}
+            </HashTagForm>
+            <Flex>
+              <TagInput
+                id="hashtag"
+                name="hashtag"
+                placeholder="해시태그 + 스페이스바 = 입력 / 삭제는 해시태그 클릭"
+                onChange={onChangeHashTag}
+                onKeyUp={handleKeyUp}
+                value={hashTag}
+              />
+            </Flex>
+          </Flex>
         </Flex>
       </Flex>
       <Spacing size={50} />
@@ -239,6 +333,7 @@ export default function CarForm() {
           차량 등록하기
         </BaseButton>
       </Flex>
+      <Spacing size={50} />
     </FormContainer>
   );
 }
@@ -297,7 +392,70 @@ const InputBox = styled.div`
   }
 `;
 
+const EventInput = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  > label {
+    font-size: 12px;
+  }
+
+  & input {
+    border: 1px solid #eee;
+    width: 100%;
+    padding: 0 10px;
+    height: 30px;
+    font-size: 12px;
+    text-align: end;
+  }
+`;
+
 const activeBtn = css`
   height: 40px;
   width: 100%;
+`;
+
+const TagInput = styled.input`
+  border: 1px solid #eee;
+  width: 100%;
+  font-size: 12px;
+  padding-left: 10px;
+  height: 35px;
+`;
+const Tags = styled.div`
+  border: 1px solid #444;
+  font-size: 12px;
+  border-radius: 15px;
+  padding: 5px 12px;
+  width: max-content;
+  height: max-content;
+  margin-right: 5px;
+`;
+const HashTagForm = styled.div`
+  display: flex;
+  padding: 5px;
+  flex-wrap: wrap;
+  height: auto;
+  min-height: 80px;
+  margin-bottom: 10px;
+  width: 100%;
+`;
+
+const FileRow = styled.div`
+  display: flex;
+  min-height: 100px;
+`;
+
+const FileBox = styled.div`
+  height: 150px;
+  width: 150px;
+  border: 1px solid #eee;
+  background-color: #eee;
+  margin-right: 10px;
+
+  > img {
+    height: 150px;
+    width: 150px;
+    object-fit: contain;
+  }
 `;
