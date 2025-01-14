@@ -1,6 +1,6 @@
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import styled from "@emotion/styled";
 
 import Header from "./components/layout/Header";
@@ -25,11 +25,23 @@ import M_NoticeUpdatePage from "./pages/manager/board/M_NoticeUpdatePage";
 import EventPage from "./pages/user/board/EventPage";
 import EventDetailPage from "./pages/user/board/EventDetailPage";
 import ScrollToTop from "./components/shared/ScrollToTop";
+import M_CarPage from "./pages/manager/car/M_CarPage";
+import M_CarCreatePage from "./pages/manager/car/M_\bCarCreatePage";
+import M_CarDetailPage from "./pages/manager/car/M_CarDetailPage";
+import M_CarUpdatePage from "./pages/manager/car/M_\bCarUpdatePage";
+import CarDetailPage from "./pages/user/car/CarDetailPage";
 
 function App() {
   return (
     <BrowserRouter>
-      <ToastContainer autoClose={1000} />
+      <ToastContainer
+        position="top-right"
+        theme="dark"
+        autoClose={2000}
+        hideProgressBar={false}
+        closeOnClick
+        limit={3}
+      />
       <ScrollToTop />
       <Header />
 
@@ -45,6 +57,7 @@ function App() {
           <Route path="/board/notice/detail/:id" Component={NoticeDetailPage} />
           <Route path="/board/event/detail/:id" Component={EventDetailPage} />
           <Route path="/car" Component={CarPage} />
+          <Route path="/car/detail" Component={CarDetailPage} />
 
           {/* 관리자 페이지 */}
           <Route path="/manager" Component={ManagerPage} />
@@ -52,6 +65,10 @@ function App() {
           <Route path="/manager/board/notice/create" Component={M_NoticeCreatePage} />
           <Route path="/manager/board/notice/detail" Component={M_NoticeDetailPage} />
           <Route path="/manager/board/notice/update" Component={M_NoticeUpdatePage} />
+          <Route path="/manager/car" Component={M_CarPage} />
+          <Route path="/manager/car/create" Component={M_CarCreatePage} />
+          <Route path="/manager/car/detail" Component={M_CarDetailPage} />
+          <Route path="/manager/car/update" Component={M_CarUpdatePage} />
 
           {/* @TODO: 인증이 필요한 페이지 나누기 ex) 관리자,유저의 등급, 로그인 여부 ... */}
           {/* <Route path="/my" element={

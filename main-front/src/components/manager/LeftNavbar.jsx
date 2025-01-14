@@ -1,20 +1,56 @@
 import styled from "@emotion/styled";
+import Flex from "../shared/Flex";
+import Text from "../shared/Text";
+import Badge from "../shared/Badge";
+import Spacing from "../shared/Spacing";
 
 import { colorPalette } from "../../styles/colorPalette";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { IoHome } from "react-icons/io5";
 import { FaCar } from "react-icons/fa";
+import { FaUsersGear } from "react-icons/fa6";
+import { formatPhoneNumber } from "../../utils/formatNumber";
 
 export default function LeftNavbar() {
   const { user } = useSelector((state) => state.auth);
-  console.log("user : ", user);
+
   return (
     <NavContainer>
-      <ImgBox></ImgBox>
+      <ImgBox>{user.imageUrl ? <img src={user.imageUrl} alt="user" /> : <FaUsersGear size={80} />}</ImgBox>
+      <UserInfoBox>
+        <Flex justify="center">
+          <Badge label={user.role} color={"#000"} />
+        </Flex>
+        <Spacing size={10} />
+        <Flex justify="space-between">
+          <Text typography="t11" color="#fff">
+            Name.
+          </Text>
+          <Text typography="t11" color="#fff">
+            {user.username}
+          </Text>
+        </Flex>
+        <Flex justify="space-between">
+          <Text typography="t11" color="#fff">
+            Phone.
+          </Text>
+          <Text typography="t11" color="#fff">
+            {formatPhoneNumber(user.phone)}
+          </Text>
+        </Flex>
+        <Flex justify="space-between">
+          <Text typography="t11" color="#fff">
+            Email.
+          </Text>
+          <Text typography="t11" color="#fff">
+            {user.email}
+          </Text>
+        </Flex>
+      </UserInfoBox>
       <LinkMenuBox>
-        <StyledLink to="/manager/board/notice">공지사항</StyledLink>
-        <StyledLink to="/manager">Nav 1</StyledLink>
+        <StyledLink to="/manager/board/notice">공지사항 관리</StyledLink>
+        <StyledLink to="/manager/car">차량 관리</StyledLink>
         <StyledLink to="/manager">Nav 2</StyledLink>
         <StyledLink to="/manager">Nav 3</StyledLink>
         <StyledLink to="/manager">Nav 4</StyledLink>
@@ -49,17 +85,24 @@ const NavContainer = styled.div`
   color: ${colorPalette.fontBlack};
 `;
 
+const UserInfoBox = styled.div`
+  width: 100%;
+  height: 100px;
+`;
+
 const ImgBox = styled.div`
   width: 150px;
   height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 50%;
-  margin-bottom: 20px;
   border: 1px solid #eee;
   background-color: #fff;
 `;
 const LinkMenuBox = styled.div`
   width: 100%;
-  min-height: 500px;
+  min-height: 300px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -99,9 +142,7 @@ const BottomLinkBtn = styled(Link)`
   font-weight: bold;
   border-radius: 50%;
   text-decoration: none;
-  /* border: 1px solid black; */
   cursor: pointer;
-  box-shadow: 0px 0px 5px 2px #eee;
 
   :hover {
     color: grey;

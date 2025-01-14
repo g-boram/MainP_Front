@@ -11,7 +11,7 @@ function Alert({ open, title, description, buttonLabel = "확인", isCancel = tr
   return (
     <Dimmed>
       <AlertContainer role="alertdialog" aria-labelledby="alert-title" aria-describedby="alert-description">
-        <Text id="alert-title" typography="t15" bold display="block" style={{ marginBottom: 6 }}>
+        <Text id="alert-title" typography="t15" bold display="block" style={{ marginBottom: 6, width: "100%" }}>
           {title}
         </Text>
         {description && (

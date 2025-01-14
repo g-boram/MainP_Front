@@ -1,39 +1,134 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
+import Spacing from "../shared/Spacing";
+import CreatableSelect from "react-select/creatable";
+import { IoMdSearch } from "react-icons/io";
+import { colorPalette } from "../../styles/colorPalette";
+import { getFilterCarList } from "../../api/carApi";
+import CarFilterCountry from "../car/CarFilterCountry";
+import CarFilterYears from "../car/CarFilterYears";
+import { CAR_F_FUELTYPE, CAR_F_MILEAGE, CAR_F_TRANSMISSION } from "../../constants/carOption";
+import CarFilterColor from "../car/CarFilterColor";
 
-export default function SideMenuBar() {
+export default function SideMenuBar({ setIsLoading, setCarData }) {
   // 여러 개의 활성화된 항목을 저장
   const [activeIndices, setActiveIndices] = useState([]);
 
-  const items = [
+  const [country, setCountry] = useState("");
+  const [manufacturer, setManufacturer] = useState("");
+  const [model, setModel] = useState("");
+  const [year, setYear] = useState("");
+  const [color, setColor] = useState("");
+  const [fuelType, setFuelType] = useState("");
+  const [price, setPrice] = useState("");
+  const [mileage, setMileage] = useState("");
+  const [transmission, setTransmission] = useState("");
+
+  const handleSearch = async () => {
+    const [minPrice, maxPrice] = price ? price.value.split("-") : [null, null];
+    const [minMileage, maxMileage] = mileage ? mileage.value.split("-") : [null, null];
+    const data = {
+      make: manufacturer,
+      model: model,
+      color,
+      minPrice,
+      maxPrice,
+      minMileage,
+      maxMileage,
+      year: year,
+      fuelType: fuelType.value,
+      transmission: transmission.value,
+    };
+    console.log("filter: ", data);
+    setIsLoading(true);
+    try {
+      const response = await getFilterCarList(data);
+      setCarData(response.data);
+    } catch (error) {
+      console.error("Failed to fetch cars", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const selectStyle = {
+    container: (containerStyles) => ({
+      ...containerStyles,
+      width: "100%",
+      fontSize: "12px",
+      borderRadius: 0,
+      border: "none",
+    }),
+    control: (controlStyles) => ({
+      ...controlStyles,
+      borderRadius: 0,
+      border: "none",
+    }),
+    menu: (controlStyles) => ({
+      ...controlStyles,
+      borderRadius: 0,
+    }),
+  };
+  const filterTitle = [
     {
       title: "제조사",
-      content: <div></div>,
+      content: (
+        <CarFilterCountry
+          country={country}
+          manufacturer={manufacturer}
+          model={model}
+          setCountry={setCountry}
+          setManufacturer={setManufacturer}
+          setModel={setModel}
+        />
+      ),
     },
     {
       title: "차량 제조 연도",
-      content:
-        "Madrid is the capital of Spain and the largest municipality in both the Community of Madrid and Spain as a whole. The city has almost 3.2 million inhabitants and a metropolitan area population of approximately 6.5 million.",
+      content: <CarFilterYears setYear={setYear} />,
     },
     {
       title: "주행거리",
-      content:
-        "Paris is the capital and most populous city of France, with an area of 105 square kilometres (41 square miles) and a population of 2,206,488. Since the 17th century, Paris has been one of Europe's major centres of finance, commerce, fashion, science, and the arts.",
+      content: (
+        <CreatableSelect
+          placeholder="단위: km"
+          name="mileage"
+          onChange={(newValue) => setMileage(newValue)}
+          options={CAR_F_MILEAGE}
+          value={mileage}
+          styles={selectStyle}
+        />
+      ),
     },
     {
       title: "연료타입",
-      content:
-        "Barcelona is a city in Spain. It is the capital and largest city of Catalonia, as well as the second most populous municipality of Spain. With a population of 1.6 million within city limits, its urban area extends to numerous neighbouring municipalities within the Province of Barcelona and is home to around 4.8 million people.",
+      content: (
+        <CreatableSelect
+          placeholder="전체"
+          name="fuelType"
+          id="fuelType"
+          onChange={(newValue) => setFuelType(newValue)}
+          options={CAR_F_FUELTYPE}
+          value={fuelType}
+          styles={selectStyle}
+        />
+      ),
     },
     {
       title: "변속기",
-      content:
-        "Milan is a city in northern Italy, capital of Lombardy, and the second-most populous city in Italy after Rome, with the city proper having a population of 1,372,810 while its metropolitan area has a population of 3,242,820.",
+      content: (
+        <CreatableSelect
+          placeholder="전체"
+          name="transmission"
+          onChange={(newValue) => setTransmission(newValue)}
+          options={CAR_F_TRANSMISSION}
+          value={transmission}
+          styles={selectStyle}
+        />
+      ),
     },
     {
       title: "색상",
-      content:
-        "Milan is a city in northern Italy, capital of Lombardy, and the second-most populous city in Italy after Rome, with the city proper having a population of 1,372,810 while its metropolitan area has a population of 3,242,820.",
+      content: <CarFilterColor color={color} setColor={setColor} />,
     },
   ];
 
@@ -41,10 +136,8 @@ export default function SideMenuBar() {
   const toggleAccordion = (index) => {
     setActiveIndices((prevIndices) => {
       if (prevIndices.includes(index)) {
-        // 이미 열려있다면 닫기
         return prevIndices.filter((i) => i !== index);
       } else {
-        // 닫혀있다면 열기
         return [...prevIndices, index];
       }
     });
@@ -53,7 +146,7 @@ export default function SideMenuBar() {
   return (
     <Container>
       <Accordion>
-        {items.map((item, index) => {
+        {filterTitle.map((item, index) => {
           const isActive = activeIndices.includes(index);
           return (
             <AccordionItem key={index}>
@@ -71,16 +164,30 @@ export default function SideMenuBar() {
           );
         })}
       </Accordion>
+      <BottomBtnRow>
+        <SearchBtn onClick={handleSearch}>
+          <IoMdSearch size={15} />
+          <div>Search</div>
+        </SearchBtn>
+      </BottomBtnRow>
     </Container>
   );
 }
 
-// Styled Components
 const Container = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  width: 340px;
+  flex-direction: column;
+  width: 100%;
+`;
+
+const BottomBtnRow = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 100px;
 `;
 
 const Accordion = styled.ul`
@@ -88,48 +195,57 @@ const Accordion = styled.ul`
   margin: 0;
   padding: 0;
   background-color: white;
-  border-radius: 3px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  width: 350px;
+  width: 300px;
 `;
 
 const AccordionItem = styled.li`
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #eee;
   &:last-of-type {
     border-bottom: none;
   }
 `;
 
-const AccordionTitle = styled.h2`
+const AccordionTitle = styled.div`
   padding: 15px 20px;
   margin: 0;
-  max-width: 350px;
-  font-size: 18px;
-  color: #52616b;
+  max-width: 300px;
+  font-size: 14px;
+  color: #000;
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
-
-  &:hover {
-    color: #354f52;
-    background-color: #f0f4f8;
-  }
 `;
 
 const AccIcon = styled.span`
-  font-size: 20px;
-  font-weight: bold;
-  color: #8d99ae;
+  font-size: 14px;
 `;
 
 const AccordionContent = styled.div`
-  padding: 15px 20px;
-  font-size: 16px;
-  min-height: 100px;
-  max-height: 500px;
+  padding: 0px 20px 20px 20px;
+  font-size: 14px;
+  min-height: 80px;
   color: #6c757d;
-  background-color: #f8f9fa;
   line-height: 1.5;
+`;
+
+const SearchBtn = styled.button`
+  height: 40px;
+  min-width: 150px;
+  padding: 2px 15px;
+  gap: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  background-color: ${colorPalette.btnBlack};
+  border: none;
+  cursor: pointer;
+  color: #fff;
+
+  :hover {
+    font-weight: bold;
+    background-color: ${colorPalette.hoverBlack};
+  }
 `;
