@@ -1,58 +1,37 @@
 import { useNavigate } from "react-router-dom";
-import { useAlertContext } from "../../contexts/AlertContextProvider";
 import { useEffect } from "react";
-import { BarLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../../reduxSlice/authSlice";
+import { loginUser, resetLoginState } from "../../reduxSlice/authSlice";
+import { toast } from "react-toastify";
+import { ClearLoadingOverlay } from "../../styles/managerLayoutStyles";
 
 import styled from "@emotion/styled";
 import Form from "../../components/signin/Form";
 import SignInImg from "../../assert/signinCar.png";
-import Dimmed from "../../components/shared/Dimmed";
 
 // ****************************** //
 // 로그인 페이지
 // ****************************** //
 export default function SigninPage() {
-  const { open } = useAlertContext();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user, isLoading, error } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (user) {
-      open({
-        title: "로그인 성공",
-        description: `${user.username} 님, 환영합니다!`,
-        onButtonClick: () => {
-          navigate("/");
-        },
-      });
+      toast.success(`🎉 ${user.username} 님, 환영합니다!`);
+      dispatch(resetLoginState());
+      navigate("/");
     }
-
     if (error) {
-      // 로그인 실패 시
-      open({
-        title: "로그인 실패",
-        description: error.message || error,
-        isCancel: false,
-        onButtonClick: () => {},
-      });
+      toast.error("로그인 실패! 다시 확인바랍니다.");
+      dispatch(resetLoginState());
     }
-  }, [user, error, open, navigate]);
-
-  if (isLoading) {
-    return (
-      <Dimmed>
-        <BarLoader color="#000" z-index={11} cssOverride={{ margin: "0 auto", top: "50%" }} />
-      </Dimmed>
-    );
-  }
+  }, [user, error, navigate, dispatch]);
 
   const handleSubmit = (formValues) => {
     const { email, password } = formValues;
-
-    // 로그인 액션 디스패치
     dispatch(loginUser({ email, password }));
   };
 
@@ -60,9 +39,17 @@ export default function SigninPage() {
     <SigninContainer>
       <TitleBox>Login</TitleBox>
       <FormWrapper>
-        <ImgBox>
-          <img src={SignInImg} alt="signin" />
-        </ImgBox>
+        {isLoading ? (
+          <ImgBox>
+            <ClearLoadingOverlay>
+              <ClipLoader color="#000" z-index={11} />
+            </ClearLoadingOverlay>
+          </ImgBox>
+        ) : (
+          <ImgBox>
+            <img src={SignInImg} alt="signin" />
+          </ImgBox>
+        )}
         <Form onSubmit={handleSubmit} />
       </FormWrapper>
     </SigninContainer>
@@ -73,11 +60,11 @@ export default function SigninPage() {
 const SigninContainer = styled.div`
   display: flex;
   width: 100%;
+  min-height: 100vh;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin: 0 auto;
-  height: 100vh;
 `;
 
 const TitleBox = styled.div`

@@ -2,14 +2,15 @@ import { useAlertContext } from "../../contexts/AlertContextProvider";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { BarLoader } from "react-spinners";
-import { registerUser } from "../../reduxSlice/registerSlice";
+import { ClipLoader } from "react-spinners";
+import { registerUser, resetRegisterState } from "../../reduxSlice/registerSlice";
+import { toast } from "react-toastify";
+import { ClearLoadingOverlay } from "../../styles/managerLayoutStyles";
 
 import SignUpImg from "../../assert/signupCar.png";
 import Text from "../../components/shared/Text";
 import Form from "../../components/signup/Form";
 import styled from "@emotion/styled";
-import Dimmed from "../../components/shared/Dimmed";
 
 // 회원가입 페이지
 export default function SignupPage() {
@@ -21,32 +22,16 @@ export default function SignupPage() {
 
   useEffect(() => {
     if (message) {
-      open({
-        title: "감사합니다!",
-        description: `${message}`,
-        onButtonClick: () => {
-          navigate("/signin");
-        },
-      });
+      toast.success("🎉 회원가입 성공! 감사합니다!");
+      dispatch(resetRegisterState());
+      navigate("/signin");
     }
 
     if (error) {
-      open({
-        title: "회원가입 실패",
-        description: error.message || error,
-        isCancel: false,
-        onButtonClick: () => {},
-      });
+      toast.error("가입 실패! 관리자 문의 바랍니다.");
+      dispatch(resetRegisterState());
     }
-  }, [message, error, open, navigate]);
-
-  if (isLoading) {
-    return (
-      <Dimmed>
-        <BarLoader color="#000" z-index={11} cssOverride={{ margin: "0 auto", top: "50%" }} />
-      </Dimmed>
-    );
-  }
+  }, [message, error, open, navigate, dispatch]);
 
   const handleSubmit = (formValues) => {
     const { email, password, username, phoneNumber, year, month, day, gender } = formValues;
@@ -57,25 +42,34 @@ export default function SignupPage() {
       username: username,
       phoneNumber: phoneNumber,
       gender: gender,
-      photoURL: "",
-      birth: `${year + month + day}`,
+      imageUrl: "",
+      birth: `${year}/${month}/${day}`,
     };
-
     dispatch(registerUser(newUser));
   };
 
   return (
     <SignupContainer>
-      <ImgBox>
-        <TitleBox>
-          <Text typography="t30">Register</Text>
-          <Text typography="t22">Desc-1</Text>
-          <Text typography="t13">Desc-2</Text>
-          <Text typography="t13">Desc-3</Text>
-          <Text typography="t13">Desc-4</Text>
-        </TitleBox>
-        <img src={SignUpImg} alt="signup" />
-      </ImgBox>
+      {isLoading ? (
+        <ImgBox>
+          <TitleBox>
+            <ClearLoadingOverlay>
+              <ClipLoader color="#000" z-index={11} />
+            </ClearLoadingOverlay>
+          </TitleBox>
+        </ImgBox>
+      ) : (
+        <ImgBox>
+          <TitleBox>
+            <Text typography="t30">Register</Text>
+            <Text typography="t22">Desc-1</Text>
+            <Text typography="t13">Desc-2</Text>
+            <Text typography="t13">Desc-3</Text>
+            <Text typography="t13">Desc-4</Text>
+          </TitleBox>
+          <img src={SignUpImg} alt="signup" />
+        </ImgBox>
+      )}
       <FormWrapper>
         <Form onSubmit={handleSubmit} />
       </FormWrapper>
@@ -88,7 +82,7 @@ export default function SignupPage() {
 const SignupContainer = styled.div`
   display: flex;
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
   justify-content: center;
   align-items: center;
   margin: 0 auto;

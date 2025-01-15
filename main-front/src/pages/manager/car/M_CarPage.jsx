@@ -5,7 +5,7 @@ import LinkButton from "../../../components/shared/LinkButton";
 import Flex from "../../../components/shared/Flex";
 import ListHeader from "../../../components/shared/ListHeader";
 import CarRow from "../../../components/manager/car/CarRow";
-import CarFilterBtn from "../../../components/manager/car/CarFilterBtn";
+import CarFilterRow from "../../../components/manager/car/CarFilterRow";
 import { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
 import {
@@ -49,7 +49,7 @@ export default function M_CarPage() {
             />
           </NavRow>
           {/* 필터 버튼 */}
-          <CarFilterBtn setIsLoading={setIsLoading} setCarData={setCarData} />
+          <CarFilterRow setIsLoading={setIsLoading} setCarData={setCarData} />
           <CarListWrapper>
             {isLoading && (
               <ClearLoadingOverlay>

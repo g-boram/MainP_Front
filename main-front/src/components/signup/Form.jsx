@@ -10,10 +10,13 @@ import CreatableSelect from "react-select/creatable";
 import { DAYS, MONTH, YEARS } from "../../constants/birth";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { css } from "@emotion/react";
+import { useAlertContext } from "../../contexts/AlertContextProvider";
+import { colorPalette } from "../../styles/colorPalette";
 
 // 회원가입 폼
 function Form({ onSubmit }) {
-  // 입력받을 상태값
+  const { open } = useAlertContext();
+
   const [formValues, setFormValues] = useState({
     password: "",
     rePassword: "",
@@ -54,6 +57,15 @@ function Form({ onSubmit }) {
       [e.target.name]: "true",
     }));
   }, []);
+
+  const confirmRegister = () => {
+    open({
+      title: "회원가입",
+      description: "회원가입 하시겠습니까?",
+      isCancel: true,
+      onButtonClick: () => onSubmit(formValues),
+    });
+  };
 
   // error값을 가지고있음
   const errors = useMemo(() => validate(formValues), [formValues]);
@@ -122,11 +134,7 @@ function Form({ onSubmit }) {
         />
         <Spacing size={10} />
 
-        <Label
-          label="생년월일"
-          hasError={Boolean(dirty.date) && Boolean(errors.date)}
-          helpMessage={Boolean(dirty.date) ? errors.date : ""}
-        />
+        <ValueRow>생년월일</ValueRow>
         <Flex>
           <CreatableSelect
             placeholder="Year"
@@ -199,7 +207,7 @@ function Form({ onSubmit }) {
         </Flex>
 
         <Spacing size={10} />
-        <Label label="성별" />
+        <ValueRow>성별</ValueRow>
         <Flex>
           <Button color={gender === 0 ? "primary" : "grey"} css={btnGender} onClick={() => setGender(0)}>
             남
@@ -218,7 +226,7 @@ function Form({ onSubmit }) {
             full
             disabled={isValidate === false}
             onClick={() => {
-              onSubmit(formValues);
+              confirmRegister();
             }}
           >
             회원가입 하기
@@ -266,12 +274,18 @@ function validate(formValues) {
   return errors;
 }
 
-// CSS
 const btnGender = css`
   height: 40px;
   width: 100%;
 `;
 
+const ValueRow = styled.div`
+  display: flex;
+  font-size: 13px;
+  color: #000;
+  margin-top: 5px;
+  margin-bottom: 10px;
+`;
 const FormWrapper = styled.div`
   width: 100%;
 `;

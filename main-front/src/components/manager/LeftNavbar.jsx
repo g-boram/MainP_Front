@@ -49,9 +49,9 @@ export default function LeftNavbar() {
         </Flex>
       </UserInfoBox>
       <LinkMenuBox>
+        <StyledLink to="/manager/users">회원 관리</StyledLink>
         <StyledLink to="/manager/board/notice">공지사항 관리</StyledLink>
         <StyledLink to="/manager/car">차량 관리</StyledLink>
-        <StyledLink to="/manager">Nav 2</StyledLink>
         <StyledLink to="/manager">Nav 3</StyledLink>
         <StyledLink to="/manager">Nav 4</StyledLink>
         <StyledLink to="/manager">Nav 5</StyledLink>
