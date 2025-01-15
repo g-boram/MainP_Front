@@ -107,13 +107,13 @@ export default function M_UsersPage() {
               </NotDataWrapper>
             )}
           </CarListWrapper>
+          <CustomPagination
+            currentPage={currentPage}
+            totalItems={userData.length}
+            itemsPerPage={itemsPerPage}
+            onPageChange={(page) => dispatch(setPage(page))}
+          />
         </ContentBox>
-        <CustomPagination
-          currentPage={currentPage}
-          totalItems={userData.length}
-          itemsPerPage={itemsPerPage}
-          onPageChange={(page) => dispatch(setPage(page))}
-        />
       </ContentWrapper>
     </ManagerContainer>
   );

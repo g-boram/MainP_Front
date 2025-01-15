@@ -158,25 +158,27 @@ const StyledLink = styled(Link)`
   @media (max-width: 600px) {
     margin: 0px 20px;
   }
-  hover {
-    color: #bbb;
+  :hover {
+    color: #fff;
   }
 `;
 
 const ManagerLink = styled(Link)`
   color: #eee;
   font-weight: bold;
-  margin: 0px 20px;
+  margin: 0px 10px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 20px;
+  margin-left: 15px;
+  font-size: 14px;
   text-decoration: none;
+  min-width: 100px;
   cursor: pointer;
   @media (max-width: 600px) {
     display: none;
   }
-  hover {
-    color: #bbb;
+  :hover {
+    color: #ffd000;
   }
 `;

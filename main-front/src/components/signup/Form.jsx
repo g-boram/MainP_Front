@@ -1,17 +1,14 @@
 import Flex from "../shared/Flex";
-import Label from "../shared/Label";
 import Button from "../shared/Button";
 import Spacing from "../shared/Spacing";
 import TextField from "../shared/TextField";
 import styled from "@emotion/styled";
 import validator from "validator";
 import CreatableSelect from "react-select/creatable";
-
 import { DAYS, MONTH, YEARS } from "../../constants/birth";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { css } from "@emotion/react";
 import { useAlertContext } from "../../contexts/AlertContextProvider";
-import { colorPalette } from "../../styles/colorPalette";
 
 // 회원가입 폼
 function Form({ onSubmit }) {
@@ -71,6 +68,23 @@ function Form({ onSubmit }) {
   const errors = useMemo(() => validate(formValues), [formValues]);
   const isValidate = Object.keys(errors).length === 0;
 
+  const selectStyle = {
+    container: (containerStyles) => ({
+      ...containerStyles,
+      width: "100%",
+      fontSize: "13px",
+      borderRadius: 0,
+    }),
+    control: (controlStyles) => ({
+      ...controlStyles,
+      borderRadius: 0,
+      border: "1px solid #eee",
+    }),
+    menu: (controlStyles) => ({
+      ...controlStyles,
+      borderRadius: 0,
+    }),
+  };
   return (
     <FormWrapper>
       <Flex direction="column">
@@ -141,22 +155,7 @@ function Form({ onSubmit }) {
             onChange={(newValue) => setYear(newValue)}
             options={YEARS}
             value={year}
-            styles={{
-              container: (containerStyles) => ({
-                ...containerStyles,
-                width: "100%",
-                fontSize: "12px",
-              }),
-              menu: (menuStyles) => ({
-                ...menuStyles,
-                maxHeight: "200px",
-              }),
-              menuList: (menuListStyles) => ({
-                ...menuListStyles,
-                maxHeight: "200px",
-                overflowY: "auto",
-              }),
-            }}
+            styles={selectStyle}
           />
           <Spacing size={10} direction="horizontal" />
           <CreatableSelect
@@ -164,22 +163,7 @@ function Form({ onSubmit }) {
             onChange={(newValue) => setMonth(newValue)}
             options={MONTH}
             value={month}
-            styles={{
-              container: (containerStyles) => ({
-                ...containerStyles,
-                width: "100%",
-                fontSize: "12px",
-              }),
-              menu: (menuStyles) => ({
-                ...menuStyles,
-                maxHeight: "200px",
-              }),
-              menuList: (menuListStyles) => ({
-                ...menuListStyles,
-                maxHeight: "200px",
-                overflowY: "auto",
-              }),
-            }}
+            styles={selectStyle}
           />
           <Spacing size={10} direction="horizontal" />
           <CreatableSelect
@@ -187,22 +171,7 @@ function Form({ onSubmit }) {
             onChange={(newValue) => setDay(newValue)}
             options={DAYS}
             value={day}
-            styles={{
-              container: (containerStyles) => ({
-                ...containerStyles,
-                width: "100%",
-                fontSize: "12px",
-              }),
-              menu: (menuStyles) => ({
-                ...menuStyles,
-                maxHeight: "200px",
-              }),
-              menuList: (menuListStyles) => ({
-                ...menuListStyles,
-                maxHeight: "200px",
-                overflowY: "auto",
-              }),
-            }}
+            styles={selectStyle}
           />
         </Flex>
 
