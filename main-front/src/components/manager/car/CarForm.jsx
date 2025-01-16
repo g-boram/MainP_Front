@@ -54,7 +54,7 @@ export default function CarForm() {
     description: "",
     imageUrl: "",
     eventName: "",
-    eventEndTime: "",
+    eventEndTime: null,
   });
 
   const handleFormValues = (e) => {

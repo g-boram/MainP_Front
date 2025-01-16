@@ -42,7 +42,6 @@ export default function CarDetailBox() {
 
   const fuel = CAR_OPTION_FUELTYPE.filter((f) => f.value === fuelType);
 
-  console.log("hashTags", hashTags);
   return (
     <FormContainer>
       {location.state ? (
