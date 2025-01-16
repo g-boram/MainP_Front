@@ -10,19 +10,22 @@ import Button from "../../shared/Button";
 import UserIconBox from "./UserIconBox";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlertContext } from "../../../contexts/AlertContextProvider";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { YEARS } from "../../../constants/carOption";
 import { DAYS, MONTH } from "../../../constants/birth";
 import { css } from "@emotion/react";
 import { registerUser, resetRegisterState } from "../../../reduxSlice/registerSlice";
 
-export default function CreateUserForm() {
+export default function UpdateUserForm() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const location = useLocation();
 
   const { open } = useAlertContext();
   const { message, error } = useSelector((state) => state.register);
+  const { user } = useSelector((state) => state.auth);
+
+  const [isLoading, setIsLoading] = useState(false);
   const [formValues, setFormValues] = useState({
     password: "",
     rePassword: "",
@@ -40,6 +43,29 @@ export default function CreateUserForm() {
   const [icon, setIcon] = useState("");
 
   const [dirty, setDirty] = useState({});
+
+  console.log("update", location.state);
+  useEffect(() => {
+    const [year, month, day] = location.state.birth.split("/");
+    setIsLoading(true);
+    if (location.state) {
+      setFormValues({
+        password: location.state.password,
+        username: location.state.username,
+        email: location.state.email,
+        phoneNumber: location.state.phoneNumber,
+        address: location.state.address,
+      });
+    }
+    // location.state.imageUrl,
+    setYear({ label: `${year} 년`, value: year });
+    setMonth({ label: `${month} 월`, value: month });
+    setDay({ label: `${day} 일`, value: day });
+    setGender(location.state.gender);
+    setRole(location.state.role);
+    setIcon();
+    setIsLoading(false);
+  }, [location.state]);
 
   useEffect(() => {
     setFormValues((preValue) => ({
@@ -78,15 +104,13 @@ export default function CreateUserForm() {
   useEffect(() => {
     if (message) {
       toast.success("🎉 회원가입 성공!");
-      dispatch(resetRegisterState());
       navigate("/manager/users");
     }
 
     if (error) {
       toast.error("가입 실패! 관리자 문의 바랍니다.");
-      dispatch(resetRegisterState());
     }
-  }, [message, error, navigate, dispatch]);
+  }, [message, error, navigate]);
   const handleSubmit = () => {
     const { email, password, username, phoneNumber, year, month, day, gender, address } = formValues;
 
@@ -101,7 +125,6 @@ export default function CreateUserForm() {
       imageUrl: icon === "" ? "user" : icon,
       birth: `${year}/${month}/${day}`,
     };
-    dispatch(registerUser(newUser));
   };
 
   // error값을 가지고있음
@@ -312,16 +335,6 @@ function validate(formValues) {
 
   if (validator.isEmail(formValues.email) === false) {
     errors.email = "이메일 형식을 확인해주세요";
-  }
-
-  if (formValues.password.length < 8) {
-    errors.password = "비밀번호를 8글자 이상 입력해주세요";
-  }
-
-  if (formValues.rePassword.length < 8) {
-    errors.rePassword = "비밀번호를 8글자 이상 입력해주세요";
-  } else if (validator.equals(formValues.rePassword, formValues.password) === false) {
-    errors.rePassword = "비밀번호를 확인해주세요";
   }
 
   if (formValues.username.length < 2) {

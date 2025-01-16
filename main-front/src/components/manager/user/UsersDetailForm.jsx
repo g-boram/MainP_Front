@@ -5,6 +5,7 @@ import Flex from "../../shared/Flex";
 import { colorPalette } from "../../../styles/colorPalette";
 import { useLocation } from "react-router-dom";
 import { FaUserCog } from "react-icons/fa";
+import { icons } from "../../../constants/icons";
 
 export default function UsersDetailForm() {
   const location = useLocation();
@@ -12,10 +13,12 @@ export default function UsersDetailForm() {
   const { userId, address, email, role, birth, imageUrl, createdAt, phoneNumber, updatedAt, username, gender } =
     location.state || null;
   console.log("location.state", location.state);
+
+  const imageIcon = icons.filter((icon) => icon.name === imageUrl);
   return (
     <FormContainer>
       <Flex height="250px" width="100%" align="center" justify="space-between">
-        <UserImgBox>{imageUrl ? <img src={imageUrl} alt="" /> : <FaUserCog size={40} color="#ddd" />}</UserImgBox>
+        <UserImgBox>{imageUrl !== null ? imageIcon[0].iconComp : <FaUserCog size={40} color="#ddd" />}</UserImgBox>
 
         <InfoBox>
           <Flex direction="column" width="50%">
@@ -109,6 +112,7 @@ const ValueRow = styled.div`
 const UserImgBox = styled.div`
   height: 200px;
   width: 200px;
+  font-size: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
