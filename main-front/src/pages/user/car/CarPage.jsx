@@ -23,7 +23,7 @@ export default function CarPage() {
     };
     allData();
   }, []);
-
+  console.log(carData);
   return (
     <CarListContainer>
       <LeftCategoryBox>
