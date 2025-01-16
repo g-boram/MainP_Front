@@ -1,34 +1,33 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
-import { colorPalette } from "../../../styles/colorPalette";
 import Flex from "../../shared/Flex";
+import { useState } from "react";
+import { icons } from "../../../constants/icons";
 
-export default function UserIconBox({ icon, setIcon }) {
-  const [selectedIcon, setSelectedIcon] = useState("");
-  const icons = [
-    { name: "cat", iconComp: "/icons/cat.png" },
-    { name: "dog", iconComp: "/icons/dog.png" },
-    { name: "bird", iconComp: "/icons/bird.png" },
-    { name: "fish", iconComp: "/icons/fish.png" },
-  ];
+export default function UserIconBox({ setIcon }) {
+  const [selectedIcon, setSelectedIcon] = useState({
+    name: "",
+    iconComp: "",
+  });
 
-  const handleIconClick = (name) => {
-    setIcon(name);
-    setSelectedIcon(name);
+  const handleIconClick = (icon) => {
+    setIcon(icon.name);
+    setSelectedIcon({
+      name: icon.name,
+      iconComp: icon.iconComp,
+    });
   };
 
   return (
     <IconWrapper>
       <IconBoxTitle>사용자 아이콘 선택</IconBoxTitle>
-      <SelectIconBox>{selectedIcon !== "" ? selectedIcon : icons[0].icon}</SelectIconBox>
+      <SelectIconBox>{selectedIcon !== "" ? selectedIcon.iconComp : icons[0].iconComp}</SelectIconBox>
       <IconListBox>
         {icons.map((icon) => (
-          <Flex direction="column" justify="center" align="center">
-            <IconBox key={icon.name} onClick={() => handleIconClick(icon.iconComp)}>
+          <Flex direction="column" justify="center" align="center" width="60px">
+            <IconBox key={icon.name} onClick={() => handleIconClick(icon)}>
               {icon.iconComp}
-              {icon.name}
             </IconBox>
-            <IconName selected={selectedIcon === icon.iconComp ? true : false}>{icon.name}</IconName>
+            <IconName selected={selectedIcon.name === icon.name ? true : false}>{icon.name}</IconName>
           </Flex>
         ))}
       </IconListBox>
@@ -51,37 +50,46 @@ const IconBoxTitle = styled.div`
 `;
 
 const SelectIconBox = styled.div`
-  height: 250px;
-  width: 250px;
-  margin-bottom: 20px;
+  height: 150px;
+  width: 150px;
+  margin-bottom: 30px;
   display: flex;
+  font-size: 70px;
   justify-content: center;
-  align-content: center;
-  background-color: #f4f4f4;
+  align-items: center;
   border-radius: 50%;
+  border: 1px solid #eee;
+  background-color: #f4f4f4;
 `;
 
 const IconName = styled.div`
-  height: 50px;
   font-size: 14px;
   padding: 3px 10px;
   border-radius: 15px;
+  margin-top: 5px;
+  margin-bottom: 10px;
   background-color: ${({ selected }) => (selected ? "#000" : "#fff")};
   color: ${({ selected }) => (selected ? "#fff" : "#000")};
+  border: 1px solid #eee;
 `;
 
 const IconBox = styled.div`
   display: flex;
   justify-content: center;
-  align-content: center;
-  background-color: #ddd;
+  align-items: center;
+  border: 1px solid #eee;
+  background-color: #f4f4f4;
+  height: 40px;
+  width: 40px;
+  font-size: 20px;
+  border-radius: 50%;
 `;
 
 const IconListBox = styled.div`
+  width: 300px;
   display: flex;
   justify-content: center;
   align-content: center;
   gap: 15px;
   flex-wrap: wrap;
-  background-color: #f4f4f4;
 `;

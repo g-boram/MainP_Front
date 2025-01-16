@@ -9,6 +9,7 @@ import { ClearLoadingOverlay } from "../../styles/managerLayoutStyles";
 import styled from "@emotion/styled";
 import Form from "../../components/signin/Form";
 import SignInImg from "../../assert/signinCar.png";
+import Text from "../../components/shared/Text";
 
 // ****************************** //
 // 로그인 페이지
@@ -37,7 +38,6 @@ export default function SigninPage() {
 
   return (
     <SigninContainer>
-      <TitleBox>Login</TitleBox>
       <FormWrapper>
         {isLoading ? (
           <ImgBox>
@@ -67,16 +67,6 @@ const SigninContainer = styled.div`
   margin: 0 auto;
 `;
 
-const TitleBox = styled.div`
-  height: 150px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 30px;
-  font-weight: bold;
-`;
-
 const FormWrapper = styled.div`
   @media (min-width: 600px) {
     display: flex;
@@ -94,12 +84,12 @@ const FormWrapper = styled.div`
 
 const ImgBox = styled.div`
   height: 300px;
-  width: 300px;
+  width: 100%;
   margin: 0 auto;
 
   & > img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
   }
 `;

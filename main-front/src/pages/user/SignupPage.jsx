@@ -11,6 +11,7 @@ import SignUpImg from "../../assert/signupCar.png";
 import Text from "../../components/shared/Text";
 import Form from "../../components/signup/Form";
 import styled from "@emotion/styled";
+import Spacing from "../../components/shared/Spacing";
 
 // 회원가입 페이지
 export default function SignupPage() {
@@ -42,7 +43,7 @@ export default function SignupPage() {
       username: username,
       phoneNumber: phoneNumber,
       gender: gender,
-      imageUrl: "",
+      imageUrl: "user",
       birth: `${year}/${month}/${day}`,
     };
     dispatch(registerUser(newUser));
@@ -62,10 +63,10 @@ export default function SignupPage() {
         <ImgBox>
           <TitleBox>
             <Text typography="t30">Register</Text>
-            <Text typography="t22">Desc-1</Text>
-            <Text typography="t13">Desc-2</Text>
-            <Text typography="t13">Desc-3</Text>
-            <Text typography="t13">Desc-4</Text>
+            <Spacing size={10} />
+            <Text typography="t13" color="grey">
+              하이미디어만의 특별함을 경험해보세요
+            </Text>
           </TitleBox>
           <img src={SignUpImg} alt="signup" />
         </ImgBox>

@@ -1,16 +1,17 @@
 import LeftNavbar from "../../../components/manager/LeftNavbar";
 import HeadTitle from "../../../components/manager/HeadTitle";
 import LinkButton from "../../../components/shared/LinkButton";
-import CreateUserForm from "../../../components/manager/user/CreateUserForm";
-import { ContentBox, ContentWrapper, ManagerContainer, NavRow } from "../../../styles/managerLayoutStyles";
 
-export default function M_UsersCreatePage() {
+import { ContentBox, ContentWrapper, ManagerContainer, NavRow } from "../../../styles/managerLayoutStyles";
+import UpdateUserForm from "../../../components/manager/user/UpdateUserForm";
+
+export default function M_UsersUpdatePage() {
   return (
     <ManagerContainer>
       <LeftNavbar />
       <ContentWrapper>
         <ContentBox>
-          <HeadTitle title={"신규회원 등록"} desc={"신규회원 정보 등록하기 "}></HeadTitle>
+          <HeadTitle title={"회원정보 수정"} desc={"회원정보 수정하기 "}></HeadTitle>
           <NavRow>
             <LinkButton
               to="/manager/users"
@@ -22,7 +23,7 @@ export default function M_UsersCreatePage() {
               fontSize="12px"
             />
           </NavRow>
-          <CreateUserForm />
+          <UpdateUserForm />
         </ContentBox>
       </ContentWrapper>
     </ManagerContainer>
