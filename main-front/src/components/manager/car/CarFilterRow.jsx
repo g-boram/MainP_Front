@@ -218,17 +218,6 @@ const CarFilterWrapper = styled.div`
   flex-direction: column;
 `;
 
-const HeadBox = styled.div`
-  height: 50px;
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-end;
-  padding-bottom: 10px;
-  font-size: 19px;
-  border-bottom: 1px solid #000;
-`;
-
 const FilterRow = styled.div`
   min-height: 50px;
   width: 100%;

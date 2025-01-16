@@ -7,11 +7,10 @@ import validator from "validator";
 import CreatableSelect from "react-select/creatable";
 import TextField from "../../shared/TextField";
 import Button from "../../shared/Button";
+import UserIconBox from "./UserIconBox";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlertContext } from "../../../contexts/AlertContextProvider";
 import { useNavigate } from "react-router-dom";
-import { BarLoader } from "react-spinners";
-import { LoadingOverlay } from "../../../styles/managerLayoutStyles";
 import { toast } from "react-toastify";
 import { YEARS } from "../../../constants/carOption";
 import { DAYS, MONTH } from "../../../constants/birth";
@@ -38,8 +37,8 @@ export default function CreateUserForm() {
   const [day, setDay] = useState(undefined);
   const [gender, setGender] = useState(0);
   const [role, setRole] = useState("USER");
+  const [icon, setIcon] = useState("");
 
-  // 입력 되었는지 여부체크
   const [dirty, setDirty] = useState({});
 
   useEffect(() => {
@@ -99,7 +98,7 @@ export default function CreateUserForm() {
       gender: gender,
       role: role,
       address: address,
-      imageUrl: "",
+      imageUrl: icon,
       birth: `${year}/${month}/${day}`,
     };
     dispatch(registerUser(newUser));
@@ -107,7 +106,6 @@ export default function CreateUserForm() {
 
   // error값을 가지고있음
   const errors = useMemo(() => validate(formValues), [formValues]);
-  const isValidate = Object.keys(errors).length === 0;
 
   const selectStyle = {
     container: (containerStyles) => ({
@@ -139,7 +137,9 @@ export default function CreateUserForm() {
   return (
     <FormContainer>
       <Flex justify="space-between">
-        <IconContainer>IconContainer</IconContainer>
+        <IconContainer>
+          <UserIconBox icon={icon} setIcon={setIcon} />
+        </IconContainer>
         <Flex direction="column" width="600px" justify="center">
           <Flex width="100%" align="center">
             <TextField
