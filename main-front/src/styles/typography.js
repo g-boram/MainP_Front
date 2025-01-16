@@ -1,31 +1,58 @@
 import { css } from "@emotion/react";
 
 export const typographyMap = {
-  t1: css`
+  t30: css`
     font-size: 30px;
+    @media (max-width: 600px) {
+      font-size: 28px;
+    }
   `,
-  t2: css`
+  t26: css`
     font-size: 26px;
+    @media (max-width: 600px) {
+      font-size: 24px;
+    }
   `,
-  t3: css`
+  t22: css`
     font-size: 22px;
+    @media (max-width: 600px) {
+      font-size: 20px;
+    }
   `,
-  t4: css`
+  t20: css`
     font-size: 20px;
+    @media (max-width: 600px) {
+      font-size: 18px;
+    }
   `,
-  t5: css`
+  t17: css`
     font-size: 17px;
+    @media (max-width: 600px) {
+      font-size: 15px;
+    }
   `,
-  t6: css`
+  t15: css`
     font-size: 15px;
+    @media (max-width: 600px) {
+      font-size: 13px;
+    }
   `,
-  t7: css`
+  t13: css`
     font-size: 13px;
+    @media (max-width: 600px) {
+      font-size: 11px;
+    }
   `,
-  t8: css`
+  t11: css`
     font-size: 11px;
+    @media (max-width: 600px) {
+      font-size: 9px;
+    }
   `,
   t9: css`
     font-size: 9px;
+    @media (max-width: 600px) {
+      font-size: 6px;
+    }
   `,
 };

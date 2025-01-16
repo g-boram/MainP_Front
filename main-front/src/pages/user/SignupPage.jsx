@@ -1,148 +1,136 @@
-import styled from "@emotion/styled";
-import { css } from "@emotion/react";
-import Flex from "../../components/shared/Flex";
+import { useAlertContext } from "../../contexts/AlertContextProvider";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ClipLoader } from "react-spinners";
+import { registerUser, resetRegisterState } from "../../reduxSlice/registerSlice";
+import { toast } from "react-toastify";
+import { ClearLoadingOverlay } from "../../styles/managerLayoutStyles";
+
+import SignUpImg from "../../assert/signupCar.png";
 import Text from "../../components/shared/Text";
 import Form from "../../components/signup/Form";
+import styled from "@emotion/styled";
 
 // 회원가입 페이지
 export default function SignupPage() {
-  // const { open } = useAlertContext()
-  // const navigate = useNavigate()
+  const { open } = useAlertContext();
+  const { message, isLoading, error } = useSelector((state) => state.register);
 
-  // const handleSubmit = async (formValues) => {
-  //   const { email, password, name, phone, year, month, day, gender } =
-  //     formValues
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  //   const { user } = await createUserWithEmailAndPassword(auth, email, password)
+  useEffect(() => {
+    if (message) {
+      toast.success("🎉 회원가입 성공! 감사합니다!");
+      dispatch(resetRegisterState());
+      navigate("/signin");
+    }
 
-  //   try {
-  //     await updateProfile(user, {
-  //       displayName: name,
-  //     })
+    if (error) {
+      toast.error("가입 실패! 관리자 문의 바랍니다.");
+      dispatch(resetRegisterState());
+    }
+  }, [message, error, open, navigate, dispatch]);
 
-  //     const newUser = {
-  //       uid: user.uid,
-  //       email: user.email,
-  //       displayName: name,
-  //       phone: phone,
-  //       gender: gender,
-  //       photoURL: '',
-  //       birth: { year: year, month: month, day: day },
-  //     }
-  //     await setDoc(doc(collection(store, COLLECTIONS.USER), user.uid), newUser)
+  const handleSubmit = (formValues) => {
+    const { email, password, username, phoneNumber, year, month, day, gender } = formValues;
 
-  //     navigate('/signin')
-  //   } catch (e) {
-  //     if (e) {
-  //       if (e.code === 'auth/invalid-credential') {
-  //         open({
-  //           title: '입력한 정보를 다시 확인해주세요',
-  //           isCancle: false,
-  //           onCancleClick: () => {},
-  //           onButtonClick: () => {},
-  //         })
-  //         return
-  //       }
-  //       if (e.code === 'auth/email-already-in-use') {
-  //         open({
-  //           title: '이미 가입된 이메일 입니다.',
-  //           isCancle: false,
-  //           onCancleClick: () => {},
-  //           onButtonClick: () => {},
-  //         })
-  //         return
-  //       }
-  //     }
-  //   }
-  // }
+    const newUser = {
+      email: email,
+      password: password,
+      username: username,
+      phoneNumber: phoneNumber,
+      gender: gender,
+      imageUrl: "",
+      birth: `${year}/${month}/${day}`,
+    };
+    dispatch(registerUser(newUser));
+  };
 
   return (
     <SignupContainer>
-      <ImgBox>
-        <img src={"https://cdn.pixabay.com/photo/2019/06/02/10/02/mortar-4246084_1280.jpg"} alt="signin" />
-      </ImgBox>
-      <FormBox>
-        <Flex justify="center" align="center" css={formTitle}>
-          <Text typography="t1">회원가입</Text>
-        </Flex>
-        {/* <Form onSubmit={handleSubmit} /> */}
-        <Form />
-      </FormBox>
+      {isLoading ? (
+        <ImgBox>
+          <TitleBox>
+            <ClearLoadingOverlay>
+              <ClipLoader color="#000" z-index={11} />
+            </ClearLoadingOverlay>
+          </TitleBox>
+        </ImgBox>
+      ) : (
+        <ImgBox>
+          <TitleBox>
+            <Text typography="t30">Register</Text>
+            <Text typography="t22">Desc-1</Text>
+            <Text typography="t13">Desc-2</Text>
+            <Text typography="t13">Desc-3</Text>
+            <Text typography="t13">Desc-4</Text>
+          </TitleBox>
+          <img src={SignUpImg} alt="signup" />
+        </ImgBox>
+      )}
+      <FormWrapper>
+        <Form onSubmit={handleSubmit} />
+      </FormWrapper>
     </SignupContainer>
   );
 }
 
+// 넓은 화면: min
+// 모바일 화면: max
 const SignupContainer = styled.div`
   display: flex;
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
   justify-content: center;
   align-items: center;
   margin: 0 auto;
 
   @media (max-width: 600px) {
-    gap: 10px;
-    height: 100%;
+    height: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-top: 200px;
-  }
-  @media (min-width: 600px) {
-    gap: 10px;
-    width: 50%;
   }
 `;
 
 const ImgBox = styled.div`
-  flex-grow: 0;
+  height: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
-  height: 600px;
-  padding: 10px;
+  align-items: flex-end;
 
   & > img {
-    border-radius: 5px;
-    width: 100%;
-    height: 100%;
-  }
-
-  @media (max-width: 600px) {
-    height: 150px;
-    width: 96%;
-    padding: 10px;
-    margin-top: 0px;
-
-    & img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  }
-  @media (min-width: 600px) {
-    margin-top: 160px;
-    width: 40%;
+    width: 400px;
+    height: 400px;
+    object-fit: contain;
   }
 `;
 
-const FormBox = styled.div`
-  padding: 50px 20px 20px 20px;
-  height: auto;
-  flex-grow: 1;
+const TitleBox = styled.div`
+  width: 100%;
+  padding-right: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 
   @media (max-width: 600px) {
-    padding: 20px;
+    margin-top: 100px;
+    padding-right: 20px;
+  }
+`;
+
+const FormWrapper = styled.div`
+  min-width: 400px;
+  @media (max-width: 600px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     width: 90%;
-  }
-`;
-
-const formTitle = css`
-  flex-shrink: 0;
-  height: 100px;
-
-  @media (max-width: 600px) {
-    height: 60px;
+    margin-bottom: 50px;
   }
 `;

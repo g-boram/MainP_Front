@@ -4,10 +4,13 @@ import Text from "./Text";
 import Input from "./Input";
 import Flex from "./Flex";
 
-const TextField = forwardRef(function TextField({ label, hasError, helpMessage, onFocus, onBlur, ...props }, ref) {
+const TextField = forwardRef(function TextField(
+  { width, label, hasError, helpMessage, onFocus, onBlur, ...props },
+  ref
+) {
   const [focused, setFocused] = useState(false);
 
-  const labelColor = hasError ? "inputRed" : focused ? "inputBlue" : undefined;
+  const labelColor = hasError ? "red" : focused ? "rightBlue" : undefined;
 
   const handleFocus = (event) => {
     setFocused(true);
@@ -20,16 +23,16 @@ const TextField = forwardRef(function TextField({ label, hasError, helpMessage, 
   };
 
   return (
-    <div>
+    <div style={{ width: width }}>
       <Flex align={"center"} justify={"space-between"}>
         {label ? (
-          <Text typography="t7" color={labelColor} display="inline-block" style={{ marginTop: 10, marginBottom: 6 }}>
+          <Text typography="t13" color={labelColor} display="inline-block" style={{ marginTop: 10, marginBottom: 6 }}>
             {label}
           </Text>
         ) : null}
         {helpMessage ? (
           <Text
-            typography="t7"
+            typography="t11"
             color={labelColor}
             display="inline-block"
             style={{ marginTop: 10, marginBottom: 6, fontSize: 11 }}

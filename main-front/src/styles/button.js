@@ -42,7 +42,7 @@ export const buttonColorMap = {
     background-color: ${colorPalette.btnPink};
     color: ${colorPalette.white};
     &:hover {
-      background-color: #c86b85;
+      background-color: rgb(228, 118, 149);
       transition: 0.5s;
     }
   `,
@@ -63,6 +63,14 @@ export const buttonColorMap = {
     color: ${colorPalette.white};
     &:hover {
       background-color: #ffc300;
+      transition: 0.5s;
+    }
+  `,
+  black: css`
+    background-color: ${colorPalette.btnBlack};
+    color: ${colorPalette.white};
+    &:hover {
+      background-color: ${colorPalette.hoverBlack};
       transition: 0.5s;
     }
   `,
@@ -123,7 +131,7 @@ export const buttonWeakMap = {
 
 export const buttonSizeMap = {
   small: css`
-    font-size: 13px;
+    font-size: 12px;
     padding: 8px 9px;
   `,
   medium: css`

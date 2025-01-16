@@ -29,14 +29,14 @@ export default function PageTopImgBox({ imgName, title, desc, color = "#fff" }) 
 }
 
 const ImgContainer = styled.div`
-  height: 300px;
+  height: 250px;
   width: 100%;
   position: relative;
   background-color: ${colorPalette.imgBackBG};
   color: ${({ fontColor }) => fontColor};
 
   > img {
-    height: 300px;
+    height: 250px;
     width: 100%;
     object-fit: cover;
   }

@@ -80,7 +80,7 @@ export default function CarSearch() {
                         <Badge label={post.brand_name} color={"#f0f0f0"} />
                       </Flex>
                       <Flex>
-                        <Text typography="t5" color="fontBlack">
+                        <Text typography="t17" color="fontBlack">
                           {post.name}
                         </Text>
                       </Flex>
@@ -90,7 +90,7 @@ export default function CarSearch() {
               })}
             </Flex>
           ) : (
-            <Text typography="t7" color="fontBlack">
+            <Text typography="t13" color="fontBlack">
               검색 결과가 없습니다.
             </Text>
           )}

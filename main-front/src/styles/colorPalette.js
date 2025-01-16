@@ -1,5 +1,3 @@
-import { css } from "@emotion/react";
-
 export const colorPalette = {
   red: "#f44336",
   blue: "#2396f3",
@@ -8,13 +6,14 @@ export const colorPalette = {
   black: "#000",
   grey: "#f0efef",
 
-  btnRed: "#f44336",
+  btnRed: "#b8352b",
   btnBlue: "#2396f3",
-  btnGreen: "#aadbff",
-  btnPink: "#de9eb2",
+  btnGreen: "#3d9269",
+  btnPink: "#fc78a1",
   btnGrey: "#bbb",
   btnPurple: "#6643b5",
   btnYellow: "#ffd700",
+  btnBlack: "#000",
   btnLightBlue: "#aadbff",
   btnLightPurple: "#b4b4ff",
 
@@ -22,6 +21,7 @@ export const colorPalette = {
   hoverBlue: "#2396f3",
   hoverGreen: "#4caf50",
   hoverPink: "#ea8a8a",
+  hoverBlack: "#333",
 
   inputGrey: "#e2e2e2",
   inputRed: "#f44336",
@@ -29,6 +29,7 @@ export const colorPalette = {
   inputGreen: "#4caf50",
 
   fontWhite: "#fff",
+  fontRed: "#d42424",
   fontBlack: "#333",
   fontGrey: "#999",
   fontDarkGrey: "#595959",
@@ -36,4 +37,8 @@ export const colorPalette = {
   headerBG: "#000",
   navbarBG: "#000",
   imgBackBG: "#eee",
+
+  notice_form: "black",
+
+  routeBox_Base: "#fff",
 };

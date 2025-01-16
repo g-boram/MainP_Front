@@ -9,6 +9,7 @@ import Spacing from "../shared/Spacing";
 import Text from "../shared/Text";
 import TextField from "../shared/TextField";
 import styled from "@emotion/styled";
+import axios from "axios";
 
 function Form({ onSubmit }) {
   const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
@@ -48,7 +49,7 @@ function Form({ onSubmit }) {
   const isValidate = Object.keys(errors).length === 0;
 
   return (
-    <div>
+    <FormWrapper>
       <Flex direction="column">
         <Spacing size={10} />
         <TextField
@@ -74,8 +75,8 @@ function Form({ onSubmit }) {
 
         <Spacing size={50} />
         <Button
-          size="small"
-          color="pink"
+          size="medium"
+          color="black"
           disabled={isValidate === false}
           onClick={() => {
             onSubmit(formValues);
@@ -86,12 +87,12 @@ function Form({ onSubmit }) {
 
         <Spacing size={15} />
         <Link to="/signup" css={linkStyles}>
-          <Text typography="t8" color="black">
+          <Text typography="t11" color="black">
             이메일 계정 만들러 가기
           </Text>
         </Link>
       </Flex>
-    </div>
+    </FormWrapper>
   );
 }
 
@@ -119,3 +120,7 @@ const linkStyles = css`
 `;
 
 export default Form;
+
+const FormWrapper = styled.div`
+  width: 100%;
+`;

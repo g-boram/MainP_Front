@@ -1,17 +1,20 @@
 import styled from "@emotion/styled";
-
-import { colorPalette } from "../../styles/colorPalette";
 import Text from "./Text";
 import { css } from "@emotion/react";
 
-function Badge({ label, color }) {
+function Badge({ label = "", color = "black", onClickFn }) {
   return (
     <Container
-      css={css`
-        background-color: ${color ? color : colorPalette.blue};
-      `}
+      color={color}
+      onClick={(e) => {
+        e.preventDefault();
+
+        if (onClickFn) {
+          onClickFn();
+        }
+      }}
     >
-      <Text bold={true} typography="t7" color="fontGrey">
+      <Text bold={true} typography="t13" color={color}>
         {label}
       </Text>
     </Container>
@@ -19,9 +22,21 @@ function Badge({ label, color }) {
 }
 
 const Container = styled.div`
-  border-radius: 12px;
-  padding: 3px 10px;
-  margin-right: 15px;
+  border-radius: 15px;
+  min-width: 25px;
+  padding: 2px 12px;
+  margin-right: 10px;
+  height: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  cursor: pointer;
+
+  ${({ color }) => css`
+    color: ${color};
+    border: 1px solid ${color};
+  `};
 `;
 
 export default Badge;

@@ -1,12 +1,27 @@
 import { configureStore } from "@reduxjs/toolkit";
 import isManagerPathReducer from "./reduxSlice/isManagerPathSlice";
-import countReducer from "./reduxSlice/countSlice";
+import authReducer from "./reduxSlice/authSlice";
+import registerReducer from "./reduxSlice/registerSlice";
+import boardCreateReducer from "./reduxSlice/boardCreateSlice";
+import boardListReducer from "./reduxSlice/boardListSlice";
+import paginationReducer from "./reduxSlice/paginationSlice";
 
 export const store = configureStore({
   reducer: {
-    isManagerPath: isManagerPathReducer, // 여러 슬라이스를 등록할 수 있음
-    countSlice: countReducer,
+    isManagerPath: isManagerPathReducer,
+    auth: authReducer,
+    register: registerReducer,
+    boardCreate: boardCreateReducer,
+    boardList: boardListReducer,
+    pagination: paginationReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [],
+        ignoredPaths: ["board.file"],
+      },
+    }),
 });
 
 export default store;

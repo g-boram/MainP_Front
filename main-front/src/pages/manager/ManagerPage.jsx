@@ -1,28 +1,17 @@
 import styled from "@emotion/styled";
 import LeftNavbar from "../../components/manager/LeftNavbar";
+import { ContentBox, ContentWrapper, ManagerContainer } from "../../styles/managerLayoutStyles";
+import Flex from "../../components/shared/Flex";
 
 export default function ManagerPage() {
   return (
     <ManagerContainer>
       <LeftNavbar />
       <ContentWrapper>
-        <h1>ManagerPage</h1>
+        <ContentBox>
+          <h1>ManagerPage</h1>
+        </ContentBox>
       </ContentWrapper>
     </ManagerContainer>
   );
 }
-
-const ManagerContainer = styled.div`
-  min-height: 800px;
-  padding: 10px;
-  display: flex;
-  padding-top: 60px;
-`;
-
-const ContentWrapper = styled.div`
-  width: 100%;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid grey;
-`;

@@ -1,19 +1,27 @@
 /** @jsxImportSource @emotion/react */
 
-import styled from "@emotion/styled";
-import Flex from "../shared/Flex";
 import { Z_INDEX_LIST } from "../../constants/zIndex";
 import { colorPalette } from "../../styles/colorPalette";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { isManagerPath } from "../../reduxSlice/isManagerPathSlice";
 import { HEIGHT_LIST } from "../../constants/height";
+import { logout } from "../../reduxSlice/authSlice";
+
+import styled from "@emotion/styled";
+import Flex from "../shared/Flex";
+import BaseButton from "../shared/Button";
+import Spacing from "../shared/Spacing";
 
 export default function Header() {
-  const location = useLocation();
   const [isPath, setIsPath] = useState(false);
+  // const [user, setUser] = useState(JSON.parse(sessionStorage.getItem("user")));
 
+  const { user } = useSelector((state) => state.auth);
+
+  const location = useLocation();
+  const navigate = useNavigate();
   const isManager = useSelector((state) => state.isManagerPath.isManager); // 상태 가져오기
   const dispatch = useDispatch(); // 액션 디스패치
 
@@ -21,66 +29,156 @@ export default function Header() {
     const segments = location.pathname.split("/");
     setIsPath(segments[1] === "manager" ? true : false);
   }, [location]);
-
   dispatch(isManagerPath(isPath));
 
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
   return (
-    <HeaderContainer>
-      <Flex justify="space-between">
-        <div>Header</div>
-        <div>
-          <StyledLink to="/signin">로그인</StyledLink>
-          <StyledLink to="/signup">회원가입</StyledLink>
-          <StyledLink to="/manager">관리자 페이지</StyledLink>
-        </div>
-      </Flex>
+    <>
       {isManager ? (
         <></>
       ) : (
-        <NavbarContainer>
-          <StyledLink to="/">Nav1</StyledLink>
-          <StyledLink to="/">Nav2</StyledLink>
-          <StyledLink to="/">Nav3</StyledLink>
-          <StyledLink to="/car">자동차 목록</StyledLink>
-          <StyledLink to="/board">공지사항</StyledLink>
-        </NavbarContainer>
+        <UserHeaderContainer>
+          <HeaderBox>
+            <LogoBox onClick={() => navigate("/")}>Logo</LogoBox>
+            <div>
+              {user == null ? (
+                <Flex>
+                  <StyledLink to="/signin">로그인</StyledLink>
+                  <StyledLink to="/signup">회원가입</StyledLink>
+                </Flex>
+              ) : (
+                <LoginUserBox>
+                  <Flex>
+                    <TextRow>{user.username} 님 환영합니다.</TextRow>
+                    <BaseButton size="small" color="white" height="30px" width="70px" onClick={handleLogout}>
+                      로그아웃
+                    </BaseButton>
+                    <Spacing size={10} direction="width" />
+                    <Link to={`/mypage`}>
+                      <BaseButton size="small" color="white" height="30px" width="70px">
+                        마이페이지
+                      </BaseButton>
+                    </Link>
+                  </Flex>
+                  {user.role === "ADMIN" ? <ManagerLink to="/manager">관리자 페이지</ManagerLink> : <></>}
+                </LoginUserBox>
+              )}
+            </div>
+          </HeaderBox>
+          <NavbarContainer>
+            <StyledLink to="/">Nav1</StyledLink>
+            <StyledLink to="/">Nav2</StyledLink>
+            <StyledLink to="/car">자동차 목록</StyledLink>
+            <StyledLink to="/board/notice">공지사항</StyledLink>
+            <StyledLink to="/board/event">이벤트</StyledLink>
+          </NavbarContainer>
+        </UserHeaderContainer>
       )}
-    </HeaderContainer>
+    </>
   );
 }
 
-const HeaderContainer = styled.div`
+const UserHeaderContainer = styled.div`
   height: auto;
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding: 10px;
-  justify-content: center;
   color: ${colorPalette.fontWhite};
   z-index: ${Z_INDEX_LIST.HEADER};
   background-color: ${colorPalette.headerBG};
   position: fixed;
+
+  @media (max-width: 600px) {
+    padding: 0px;
+  }
 `;
 
+const HeaderBox = styled.div`
+  height: ${HEIGHT_LIST.HEADER}px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  @media (max-width: 600px) {
+    justify-content: space-around;
+    align-items: center;
+  }
+`;
 const NavbarContainer = styled.div`
   width: 100%;
   height: ${HEIGHT_LIST.NAVBAR}px;
   display: flex;
-  padding: 10px;
   justify-content: center;
   align-items: center;
   color: ${colorPalette.fontWhite};
   background-color: ${colorPalette.navbarBG};
+
+  @media (max-width: 600px) {
+    font-size: 12px;
+  }
+`;
+
+const LogoBox = styled.div`
+  margin-left: 20px;
+  cursor: pointer;
+`;
+
+const TextRow = styled.div`
+  min-width: 100px;
+  height: auto;
+  font-size: 12px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  color: #fff;
+  margin-right: 10px;
+`;
+
+const LoginUserBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  @media (max-width: 600px) {
+    font-size: 11px;
+  }
 `;
 
 const StyledLink = styled(Link)`
   color: #eee;
   font-weight: bold;
-  margin: 0px 10px;
+  margin: 0px 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
   text-decoration: none;
+  @media (max-width: 600px) {
+    margin: 0px 20px;
+  }
+  :hover {
+    color: #fff;
+  }
+`;
 
-  &: hover {
-    color: white;
+const ManagerLink = styled(Link)`
+  color: #eee;
+  font-weight: bold;
+  margin: 0px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 15px;
+  font-size: 14px;
+  text-decoration: none;
+  min-width: 100px;
+  cursor: pointer;
+  @media (max-width: 600px) {
+    display: none;
+  }
+  :hover {
+    color: #ffd000;
   }
 `;
