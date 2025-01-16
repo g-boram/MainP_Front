@@ -1,7 +1,7 @@
 import LeftNavbar from "../../../components/manager/LeftNavbar";
 import HeadTitle from "../../../components/manager/HeadTitle";
 import LinkButton from "../../../components/shared/LinkButton";
-import CarDetailForm from "../../../components/manager/car/\bCarDetailForm";
+import CarDetailForm from "../../../components/manager/car/CarDetailForm";
 import Flex from "../../../components/shared/Flex";
 import { ContentBox, ContentWrapper, ManagerContainer, NavRow } from "../../../styles/managerLayoutStyles";
 

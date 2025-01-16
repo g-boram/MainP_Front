@@ -44,6 +44,10 @@ const authSlice = createSlice({
       sessionStorage.removeItem("jwtToken");
       sessionStorage.removeItem("user");
     },
+    resetLoginState: (state) => {
+      state.isLoading = false;
+      state.error = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -65,6 +69,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout } = authSlice.actions;
-
+export const { logout, resetLoginState } = authSlice.actions;
 export default authSlice.reducer;

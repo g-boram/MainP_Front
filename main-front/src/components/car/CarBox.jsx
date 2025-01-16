@@ -6,6 +6,7 @@ import { colorPalette } from "../../styles/colorPalette";
 import { useNavigate } from "react-router-dom";
 import { TfiTimer } from "react-icons/tfi";
 import { useEffect, useState } from "react";
+import { MdOutlineImageNotSupported } from "react-icons/md";
 
 export default function CarBox(car) {
   const { make, model, fuelType, mileage, price, description, transmission, year, imageUrl, eventName, eventEndTime } =
@@ -44,7 +45,7 @@ export default function CarBox(car) {
   return (
     <CarContainer onClick={() => navigate("/car/detail", { state: { ...car } })}>
       <ImgWrapper>
-        {imageUrl ? <img src={imageUrl} alt="carImg" /> : <img src={noCarImg} alt="NocarImg" />}
+        {imageUrl ? <img src={imageUrl} alt="carImg" /> : <MdOutlineImageNotSupported size={30} color="#ddd" />}
         {eventName ? (
           <Container>
             <TfiTimer size={18} color="#fff" />
@@ -95,7 +96,7 @@ const ImgWrapper = styled.div`
   background-color: #eee;
   border-radius: 10px;
   margin-bottom: 20px;
-  position: relative;
+
   & img {
     border-radius: 10px;
     width: 100%;

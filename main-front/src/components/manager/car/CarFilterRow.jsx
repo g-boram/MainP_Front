@@ -15,7 +15,7 @@ import {
   CAR_F_YEARS,
 } from "../../../constants/carOption";
 
-export default function CarFilterBtn({ setIsLoading, setCarData }) {
+export default function CarFilterRow({ setIsLoading, setCarData }) {
   const [isAvailable, setIsAvailable] = useState(1);
   const [year, setYear] = useState("");
   const [color, setColor] = useState("");
@@ -89,7 +89,7 @@ export default function CarFilterBtn({ setIsLoading, setCarData }) {
   };
   return (
     <CarFilterWrapper>
-      <HeadBox>Car Filter</HeadBox>
+      {/* <HeadBox>Car Filter</HeadBox> */}
       <FilterRow>
         <FilterBox>
           <Box />
@@ -216,17 +216,6 @@ const CarFilterWrapper = styled.div`
   justify-content: center;
   align-items: flex-start;
   flex-direction: column;
-`;
-
-const HeadBox = styled.div`
-  height: 50px;
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-end;
-  padding-bottom: 10px;
-  font-size: 19px;
-  border-bottom: 1px solid #000;
 `;
 
 const FilterRow = styled.div`

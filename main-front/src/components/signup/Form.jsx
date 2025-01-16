@@ -1,19 +1,19 @@
 import Flex from "../shared/Flex";
-import Label from "../shared/Label";
 import Button from "../shared/Button";
 import Spacing from "../shared/Spacing";
 import TextField from "../shared/TextField";
 import styled from "@emotion/styled";
 import validator from "validator";
 import CreatableSelect from "react-select/creatable";
-
 import { DAYS, MONTH, YEARS } from "../../constants/birth";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { css } from "@emotion/react";
+import { useAlertContext } from "../../contexts/AlertContextProvider";
 
 // 회원가입 폼
 function Form({ onSubmit }) {
-  // 입력받을 상태값
+  const { open } = useAlertContext();
+
   const [formValues, setFormValues] = useState({
     password: "",
     rePassword: "",
@@ -55,10 +55,36 @@ function Form({ onSubmit }) {
     }));
   }, []);
 
+  const confirmRegister = () => {
+    open({
+      title: "회원가입",
+      description: "회원가입 하시겠습니까?",
+      isCancel: true,
+      onButtonClick: () => onSubmit(formValues),
+    });
+  };
+
   // error값을 가지고있음
   const errors = useMemo(() => validate(formValues), [formValues]);
   const isValidate = Object.keys(errors).length === 0;
 
+  const selectStyle = {
+    container: (containerStyles) => ({
+      ...containerStyles,
+      width: "100%",
+      fontSize: "13px",
+      borderRadius: 0,
+    }),
+    control: (controlStyles) => ({
+      ...controlStyles,
+      borderRadius: 0,
+      border: "1px solid #eee",
+    }),
+    menu: (controlStyles) => ({
+      ...controlStyles,
+      borderRadius: 0,
+    }),
+  };
   return (
     <FormWrapper>
       <Flex direction="column">
@@ -122,33 +148,14 @@ function Form({ onSubmit }) {
         />
         <Spacing size={10} />
 
-        <Label
-          label="생년월일"
-          hasError={Boolean(dirty.date) && Boolean(errors.date)}
-          helpMessage={Boolean(dirty.date) ? errors.date : ""}
-        />
+        <ValueRow>생년월일</ValueRow>
         <Flex>
           <CreatableSelect
             placeholder="Year"
             onChange={(newValue) => setYear(newValue)}
             options={YEARS}
             value={year}
-            styles={{
-              container: (containerStyles) => ({
-                ...containerStyles,
-                width: "100%",
-                fontSize: "12px",
-              }),
-              menu: (menuStyles) => ({
-                ...menuStyles,
-                maxHeight: "200px",
-              }),
-              menuList: (menuListStyles) => ({
-                ...menuListStyles,
-                maxHeight: "200px",
-                overflowY: "auto",
-              }),
-            }}
+            styles={selectStyle}
           />
           <Spacing size={10} direction="horizontal" />
           <CreatableSelect
@@ -156,22 +163,7 @@ function Form({ onSubmit }) {
             onChange={(newValue) => setMonth(newValue)}
             options={MONTH}
             value={month}
-            styles={{
-              container: (containerStyles) => ({
-                ...containerStyles,
-                width: "100%",
-                fontSize: "12px",
-              }),
-              menu: (menuStyles) => ({
-                ...menuStyles,
-                maxHeight: "200px",
-              }),
-              menuList: (menuListStyles) => ({
-                ...menuListStyles,
-                maxHeight: "200px",
-                overflowY: "auto",
-              }),
-            }}
+            styles={selectStyle}
           />
           <Spacing size={10} direction="horizontal" />
           <CreatableSelect
@@ -179,27 +171,12 @@ function Form({ onSubmit }) {
             onChange={(newValue) => setDay(newValue)}
             options={DAYS}
             value={day}
-            styles={{
-              container: (containerStyles) => ({
-                ...containerStyles,
-                width: "100%",
-                fontSize: "12px",
-              }),
-              menu: (menuStyles) => ({
-                ...menuStyles,
-                maxHeight: "200px",
-              }),
-              menuList: (menuListStyles) => ({
-                ...menuListStyles,
-                maxHeight: "200px",
-                overflowY: "auto",
-              }),
-            }}
+            styles={selectStyle}
           />
         </Flex>
 
         <Spacing size={10} />
-        <Label label="성별" />
+        <ValueRow>성별</ValueRow>
         <Flex>
           <Button color={gender === 0 ? "primary" : "grey"} css={btnGender} onClick={() => setGender(0)}>
             남
@@ -218,7 +195,7 @@ function Form({ onSubmit }) {
             full
             disabled={isValidate === false}
             onClick={() => {
-              onSubmit(formValues);
+              confirmRegister();
             }}
           >
             회원가입 하기
@@ -266,12 +243,18 @@ function validate(formValues) {
   return errors;
 }
 
-// CSS
 const btnGender = css`
   height: 40px;
   width: 100%;
 `;
 
+const ValueRow = styled.div`
+  display: flex;
+  font-size: 13px;
+  color: #000;
+  margin-top: 5px;
+  margin-bottom: 10px;
+`;
 const FormWrapper = styled.div`
   width: 100%;
 `;

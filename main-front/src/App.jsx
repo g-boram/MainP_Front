@@ -26,10 +26,13 @@ import EventPage from "./pages/user/board/EventPage";
 import EventDetailPage from "./pages/user/board/EventDetailPage";
 import ScrollToTop from "./components/shared/ScrollToTop";
 import M_CarPage from "./pages/manager/car/M_CarPage";
-import M_CarCreatePage from "./pages/manager/car/M_\bCarCreatePage";
+import M_CarCreatePage from "./pages/manager/car/M_CarCreatePage";
 import M_CarDetailPage from "./pages/manager/car/M_CarDetailPage";
-import M_CarUpdatePage from "./pages/manager/car/M_\bCarUpdatePage";
+import M_CarUpdatePage from "./pages/manager/car/M_CarUpdatePage";
 import CarDetailPage from "./pages/user/car/CarDetailPage";
+import M_UsersPage from "./pages/manager/users/M_UsersPage";
+import M_UsersDetailPage from "./pages/manager/users/M_UsersDetailPage";
+import M_UsersCreatePage from "./pages/manager/users/M_UsersCreatePage";
 
 function App() {
   return (
@@ -69,6 +72,10 @@ function App() {
           <Route path="/manager/car/create" Component={M_CarCreatePage} />
           <Route path="/manager/car/detail" Component={M_CarDetailPage} />
           <Route path="/manager/car/update" Component={M_CarUpdatePage} />
+          <Route path="/manager/users" Component={M_UsersPage} />
+          <Route path="/manager/users/create" Component={M_UsersCreatePage} />
+          <Route path="/manager/users/detail" Component={M_UsersDetailPage} />
+          <Route path="/manager/users/update" Component={M_UsersPage} />
 
           {/* @TODO: 인증이 필요한 페이지 나누기 ex) 관리자,유저의 등급, 로그인 여부 ... */}
           {/* <Route path="/my" element={
