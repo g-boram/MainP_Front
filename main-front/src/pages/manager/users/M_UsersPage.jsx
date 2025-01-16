@@ -37,7 +37,6 @@ export default function M_UsersPage() {
     };
     allData();
   }, []);
-  console.log("user", userData);
 
   useEffect(() => {
     dispatch(setTotalItems(userData.length));

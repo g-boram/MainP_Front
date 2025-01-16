@@ -8,21 +8,22 @@ import CreatableSelect from "react-select/creatable";
 import TextField from "../../shared/TextField";
 import Button from "../../shared/Button";
 import UserIconBox from "./UserIconBox";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useAlertContext } from "../../../contexts/AlertContextProvider";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { YEARS } from "../../../constants/carOption";
 import { DAYS, MONTH } from "../../../constants/birth";
 import { css } from "@emotion/react";
-import { registerUser, resetRegisterState } from "../../../reduxSlice/registerSlice";
+import { checkUserEmail, updateUser } from "../../../api/userApi";
+import { ClearLoadingOverlay } from "../../../styles/managerLayoutStyles";
+import { ClipLoader } from "react-spinners";
 
 export default function UpdateUserForm() {
   const navigate = useNavigate();
   const location = useLocation();
 
   const { open } = useAlertContext();
-  const { message, error } = useSelector((state) => state.register);
   const { user } = useSelector((state) => state.auth);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -41,29 +42,30 @@ export default function UpdateUserForm() {
   const [gender, setGender] = useState(0);
   const [role, setRole] = useState("USER");
   const [icon, setIcon] = useState("");
-
+  const [isCheckEmail, setIsCheckEmail] = useState(false);
   const [dirty, setDirty] = useState({});
 
-  console.log("update", location.state);
   useEffect(() => {
-    const [year, month, day] = location.state.birth.split("/");
     setIsLoading(true);
+    const [year, month, day] = location.state.birth?.split("/");
+
     if (location.state) {
       setFormValues({
+        userId: location.state.userId,
         password: location.state.password,
         username: location.state.username,
         email: location.state.email,
         phoneNumber: location.state.phoneNumber,
         address: location.state.address,
+        imageUrl: location.state.imageUrl,
       });
     }
-    // location.state.imageUrl,
     setYear({ label: `${year} 년`, value: year });
     setMonth({ label: `${month} 월`, value: month });
     setDay({ label: `${day} 일`, value: day });
-    setGender(location.state.gender);
+    setGender(location.state.gender === "남" ? 0 : 1);
     setRole(location.state.role);
-    setIcon();
+    setIcon(location.state.imageUrl);
     setIsLoading(false);
   }, [location.state]);
 
@@ -94,27 +96,33 @@ export default function UpdateUserForm() {
 
   const confirmCreateUser = () => {
     open({
-      title: "회원등록",
-      description: "신규 회원을 등록 하시겠습니까?",
+      title: "회원수정",
+      description: "회원정보를 수정 하시겠습니까?",
       isCancel: true,
       onButtonClick: () => handleSubmit(),
     });
   };
 
-  useEffect(() => {
-    if (message) {
-      toast.success("🎉 회원가입 성공!");
-      navigate("/manager/users");
+  const handleCheckEmail = async () => {
+    try {
+      const res = await checkUserEmail(formValues.email);
+      if (res.isDuplicated) {
+        toast.error(`${res.email} 사용불가!`);
+      } else {
+        toast.success(`${res.email} 사용가능!`);
+        setIsCheckEmail(true);
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error(err.message);
     }
+  };
 
-    if (error) {
-      toast.error("가입 실패! 관리자 문의 바랍니다.");
-    }
-  }, [message, error, navigate]);
-  const handleSubmit = () => {
-    const { email, password, username, phoneNumber, year, month, day, gender, address } = formValues;
+  const handleSubmit = async () => {
+    const { userId, email, password, username, phoneNumber, year, month, day, gender, address } = formValues;
 
     const newUser = {
+      userId: userId,
       email: email,
       password: password,
       username: username,
@@ -124,11 +132,21 @@ export default function UpdateUserForm() {
       address: address,
       imageUrl: icon === "" ? "user" : icon,
       birth: `${year}/${month}/${day}`,
+      updatedUserId: user.id,
+      updatedUserName: user.username,
     };
+    try {
+      await updateUser(newUser);
+      toast.success("🎉 회원정보 수정 성공!");
+      navigate("/manager/users");
+    } catch (err) {
+      console.log(err);
+      toast.error("수정 실패! 관리자 문의 바랍니다.");
+    }
   };
 
   // error값을 가지고있음
-  const errors = useMemo(() => validate(formValues), [formValues]);
+  const errors = useMemo(() => validate(formValues, isCheckEmail), [formValues, isCheckEmail]);
 
   const selectStyle = {
     container: (containerStyles) => ({
@@ -158,183 +176,199 @@ export default function UpdateUserForm() {
   };
 
   return (
-    <FormContainer>
-      <Flex justify="space-between">
-        <IconContainer>
-          <UserIconBox icon={icon} setIcon={setIcon} />
-        </IconContainer>
-        <Flex direction="column" width="600px" justify="center">
-          <Flex width="100%" align="center">
-            <TextField
-              label="이름"
-              width="100%"
-              name="username"
-              placeholder="김OO"
-              value={formValues.username}
-              onChange={handleFormValues}
-              hasError={Boolean(dirty.username) && Boolean(errors.username)}
-              helpMessage={Boolean(dirty.username) ? errors.username : ""}
-              onBlur={handleBlur}
-            />
-          </Flex>
-          <Spacing size={10} />
+    <>
+      {isLoading ? (
+        <ClearLoadingOverlay>
+          <ClipLoader color="#000" z-index={11} />
+        </ClearLoadingOverlay>
+      ) : (
+        <FormContainer>
+          <Flex justify="space-between">
+            <IconContainer>
+              <UserIconBox imageUrl={formValues.imageUrl} setIcon={setIcon} />
+            </IconContainer>
+            <Flex direction="column" width="600px" justify="center">
+              <Flex width="100%" align="center">
+                <TextField
+                  label="이름"
+                  width="100%"
+                  name="username"
+                  placeholder="김OO"
+                  value={formValues.username}
+                  onChange={handleFormValues}
+                  hasError={Boolean(dirty.username) && Boolean(errors.username)}
+                  helpMessage={Boolean(dirty.username) ? errors.username : ""}
+                  onBlur={handleBlur}
+                />
+              </Flex>
+              <Spacing size={10} />
 
-          <Flex width="100%" align="center">
-            <TextField
-              label="휴대폰 번호"
-              width="100%"
-              name="phoneNumber"
-              type="number"
-              placeholder="- 제외 숫자만 입력해주세요"
-              value={formValues.phoneNumber}
-              onChange={handleFormValues}
-              hasError={Boolean(dirty.phoneNumber) && Boolean(errors.phoneNumber)}
-              helpMessage={Boolean(dirty.phoneNumber) ? errors.phoneNumber : ""}
-              onBlur={handleBlur}
-            />
-          </Flex>
-          <Spacing size={10} />
+              <Flex width="100%" align="center">
+                <TextField
+                  label="휴대폰 번호"
+                  width="100%"
+                  name="phoneNumber"
+                  type="number"
+                  placeholder="- 제외 숫자만 입력해주세요"
+                  value={formValues.phoneNumber}
+                  onChange={handleFormValues}
+                  hasError={Boolean(dirty.phoneNumber) && Boolean(errors.phoneNumber)}
+                  helpMessage={Boolean(dirty.phoneNumber) ? errors.phoneNumber : ""}
+                  onBlur={handleBlur}
+                />
+              </Flex>
+              <Spacing size={10} />
 
-          <Flex width="100%" align="center">
-            <TextField
-              label="패스워드"
-              width="100%"
-              name="password"
-              type="password"
-              value={formValues.password}
-              onChange={handleFormValues}
-              hasError={Boolean(dirty.password) && Boolean(errors.password)}
-              helpMessage={Boolean(dirty.password) ? errors.password : ""}
-              onBlur={handleBlur}
-            />
-            <Spacing size={20} direction="width" />
-            <TextField
-              label="패스워드 재확인"
-              width="100%"
-              name="rePassword"
-              type="password"
-              value={formValues.rePassword}
-              onChange={handleFormValues}
-              hasError={Boolean(dirty.rePassword) && Boolean(errors.rePassword)}
-              helpMessage={Boolean(dirty.rePassword) ? errors.rePassword : ""}
-              onBlur={handleBlur}
-            />
-          </Flex>
-          <Spacing size={10} />
+              <Flex width="100%" align="center">
+                <TextField
+                  label="패스워드 변경불가"
+                  width="100%"
+                  name="password"
+                  type="password"
+                  value={formValues.password}
+                  readOnly
+                  disabled
+                />
+              </Flex>
+              <Spacing size={10} />
 
-          <Flex width="100%" align="center">
-            <TextField
-              label="이메일"
-              name="email"
-              width="100%"
-              placeholder="abc@email.com"
-              value={formValues.email}
-              onChange={handleFormValues}
-              hasError={Boolean(dirty.email) && Boolean(errors.email)}
-              helpMessage={Boolean(dirty.email) ? errors.email : ""}
-              onBlur={handleBlur}
-            />
-          </Flex>
-          <Spacing size={10} />
+              <Flex width="100%" align="flex-end">
+                <TextField
+                  label="이메일 (중복확인 필수)"
+                  name="email"
+                  width="100%"
+                  placeholder="abc@email.com"
+                  value={formValues.email}
+                  onChange={handleFormValues}
+                  hasError={Boolean(dirty.email) && Boolean(errors.email)}
+                  helpMessage={Boolean(dirty.email) ? errors.email : ""}
+                  onBlur={handleBlur}
+                />
+                <Spacing size={10} direction="width" />
+                <Button
+                  color={isCheckEmail ? "grey" : "success"}
+                  width="150px"
+                  height="35px"
+                  onClick={handleCheckEmail}
+                >
+                  {isCheckEmail ? "중복확인 완료" : "중복확인"}
+                </Button>
+              </Flex>
+              <Spacing size={10} />
 
-          <Flex direction="column" width="100%">
-            <ValueRow>생년월일</ValueRow>
-            <Flex>
-              <CreatableSelect
-                placeholder="Year"
-                onChange={(newValue) => setYear(newValue)}
-                options={YEARS}
-                value={year}
-                styles={selectStyle}
-              />
-              <Spacing size={10} direction="horizontal" />
-              <CreatableSelect
-                placeholder="Month"
-                onChange={(newValue) => setMonth(newValue)}
-                options={MONTH}
-                value={month}
-                styles={selectStyle}
-              />
-              <Spacing size={10} direction="horizontal" />
-              <CreatableSelect
-                placeholder="Day"
-                onChange={(newValue) => setDay(newValue)}
-                options={DAYS}
-                value={day}
-                styles={selectStyle}
-              />
+              <Flex direction="column" width="100%">
+                <ValueRow>생년월일</ValueRow>
+                <Flex>
+                  <CreatableSelect
+                    placeholder="Year"
+                    onChange={(newValue) => setYear(newValue)}
+                    options={YEARS}
+                    value={year}
+                    styles={selectStyle}
+                  />
+                  <Spacing size={10} direction="horizontal" />
+                  <CreatableSelect
+                    placeholder="Month"
+                    onChange={(newValue) => setMonth(newValue)}
+                    options={MONTH}
+                    value={month}
+                    styles={selectStyle}
+                  />
+                  <Spacing size={10} direction="horizontal" />
+                  <CreatableSelect
+                    placeholder="Day"
+                    onChange={(newValue) => setDay(newValue)}
+                    options={DAYS}
+                    value={day}
+                    styles={selectStyle}
+                  />
+                </Flex>
+              </Flex>
+              <Spacing size={10} />
+
+              <Flex direction="column" width="100%">
+                <ValueRow>성별</ValueRow>
+                <Flex>
+                  <Button color={gender === 0 ? "primary" : "grey"} css={btnGender} onClick={() => setGender(0)}>
+                    남
+                  </Button>
+                  <Spacing size={10} direction="horizontal" />
+                  <Button color={gender === 1 ? "pink" : "grey"} css={btnGender} onClick={() => setGender(1)}>
+                    여
+                  </Button>
+                </Flex>
+              </Flex>
+              <Spacing size={10} />
+
+              <Flex direction="column" width="100%">
+                <ValueRow>권한 (기본 USER)</ValueRow>
+                <Flex>
+                  <Button color={role === "USER" ? "primary" : "grey"} css={btnGender} onClick={() => setRole("USER")}>
+                    USER
+                  </Button>
+                  <Spacing size={10} direction="horizontal" />
+                  <Button color={role === "ADMIN" ? "error" : "grey"} css={btnGender} onClick={() => setRole("ADMIN")}>
+                    ADMIN
+                  </Button>
+                  <Spacing size={10} direction="horizontal" />
+                  <Button
+                    color={role === "SELLER" ? "yellow" : "grey"}
+                    css={btnGender}
+                    onClick={() => setRole("SELLER")}
+                  >
+                    SELLER
+                  </Button>
+                  <Spacing size={10} direction="horizontal" />
+                  <Button
+                    color={role === "REPAIR" ? "success" : "grey"}
+                    css={btnGender}
+                    onClick={() => setRole("REPAIR")}
+                  >
+                    REPAIR
+                  </Button>
+                </Flex>
+              </Flex>
+              <Spacing size={10} />
+              <Flex align="flex-end">
+                <TextField
+                  label="주소"
+                  width="100%"
+                  name="address"
+                  type="address"
+                  value={formValues.address}
+                  onChange={handleFormValues}
+                  readOnly
+                />
+                <Spacing size={10} direction="width" />
+                <BaseButton size="small" color="black" height={"35px"} width={"150px"} onClick={openAddressSearch}>
+                  주소 검색
+                </BaseButton>
+              </Flex>
             </Flex>
           </Flex>
-          <Spacing size={10} />
-
-          <Flex direction="column" width="100%">
-            <ValueRow>성별</ValueRow>
-            <Flex>
-              <Button color={gender === 0 ? "primary" : "grey"} css={btnGender} onClick={() => setGender(0)}>
-                남
-              </Button>
-              <Spacing size={10} direction="horizontal" />
-              <Button color={gender === 1 ? "pink" : "grey"} css={btnGender} onClick={() => setGender(1)}>
-                여
-              </Button>
-            </Flex>
-          </Flex>
-          <Spacing size={10} />
-
-          <Flex direction="column" width="100%">
-            <ValueRow>권한 (기본 USER)</ValueRow>
-            <Flex>
-              <Button color={role === "USER" ? "primary" : "grey"} css={btnGender} onClick={() => setRole("USER")}>
-                USER
-              </Button>
-              <Spacing size={10} direction="horizontal" />
-              <Button color={role === "ADMIN" ? "error" : "grey"} css={btnGender} onClick={() => setRole("ADMIN")}>
-                ADMIN
-              </Button>
-              <Spacing size={10} direction="horizontal" />
-              <Button color={role === "SELLER" ? "yellow" : "grey"} css={btnGender} onClick={() => setRole("SELLER")}>
-                SELLER
-              </Button>
-              <Spacing size={10} direction="horizontal" />
-              <Button color={role === "REPAIR" ? "success" : "grey"} css={btnGender} onClick={() => setRole("REPAIR")}>
-                REPAIR
-              </Button>
-            </Flex>
-          </Flex>
-          <Spacing size={10} />
-          <Flex align="flex-end">
-            <TextField
-              label="주소"
-              width="100%"
-              name="address"
-              type="address"
-              value={formValues.address}
-              onChange={handleFormValues}
-              readOnly
-            />
-            <Spacing size={10} direction="width" />
-            <BaseButton size="small" color="black" height={"35px"} width={"150px"} onClick={openAddressSearch}>
-              주소 검색
+          <Spacing size={50} />
+          <Flex justify={"center"}>
+            <BaseButton size="medium" color="black" height={"40px"} full onClick={confirmCreateUser}>
+              회원정보 수정
             </BaseButton>
           </Flex>
-        </Flex>
-      </Flex>
-      <Spacing size={50} />
-      <Flex justify={"center"}>
-        <BaseButton size="medium" color="black" height={"40px"} full onClick={confirmCreateUser}>
-          신규회원 등록
-        </BaseButton>
-      </Flex>
-    </FormContainer>
+        </FormContainer>
+      )}
+    </>
   );
 }
 
 // 유효성 체크하기
-function validate(formValues) {
+function validate(formValues, isCheckEmail) {
   let errors = {};
 
   if (validator.isEmail(formValues.email) === false) {
     errors.email = "이메일 형식을 확인해주세요";
+  }
+  if (validator.isEmail(formValues.email) === true) {
+    if (isCheckEmail === false) {
+      errors.email = "중복확인을 해주세요";
+    }
   }
 
   if (formValues.username.length < 2) {
@@ -343,7 +377,6 @@ function validate(formValues) {
   if (validator.isMobilePhone(formValues.phoneNumber) === false) {
     errors.phoneNumber = "핸드폰 번호를 확인해 주세요";
   }
-
   if (formValues.year === undefined) {
     errors.date = "생년월일(년도)을 입력해주세요";
   }

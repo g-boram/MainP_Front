@@ -1,4 +1,6 @@
 export const colorPalette = {
+  mainRed: "#E32727",
+
   red: "#f44336",
   blue: "#2396f3",
   green: "#4caf50",

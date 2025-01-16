@@ -4,11 +4,23 @@ import Spacing from "../../shared/Spacing";
 import { colorPalette } from "../../../styles/colorPalette";
 import { useNavigate } from "react-router-dom";
 import { formatPhoneNumber } from "../../../utils/formatNumber";
+import { useAlertContext } from "../../../contexts/AlertContextProvider";
+import { deleteUser } from "../../../api/userApi";
+import { toast } from "react-toastify";
 
 export default function UserRow(userData) {
   const navigate = useNavigate();
-
+  const { open } = useAlertContext();
   const { userId, address, email, birth, role, createdAt, phoneNumber, updatedAt, username, gender } = userData;
+
+  const confirmDeleteUser = () => {
+    open({
+      title: "회원삭제",
+      description: "회원정보를 삭제 하시겠습니까?",
+      isCancel: true,
+      onButtonClick: () => handleDelete(),
+    });
+  };
 
   const handleDetailPage = () => {
     navigate("/manager/users/detail", { state: { ...userData } });
@@ -16,7 +28,16 @@ export default function UserRow(userData) {
   const handleUpdatePage = () => {
     navigate("/manager/users/update", { state: { ...userData } });
   };
-  const handleDelete = () => {};
+  const handleDelete = async () => {
+    try {
+      await deleteUser(userId);
+      toast.success("회원정보 삭제 완료.");
+      navigate(0);
+    } catch (err) {
+      console.log(err);
+      toast.error("삭제 실패! 관리자 문의 바랍니다.");
+    }
+  };
 
   return (
     <UserRowWrapper gender={gender} role={role}>
@@ -35,7 +56,7 @@ export default function UserRow(userData) {
         <Spacing size={5} direction="width" />
         <UpdateBtn onClick={handleUpdatePage}>수정</UpdateBtn>
         <Spacing size={5} direction="width" />
-        <DeleteBtn onClick={handleDelete}>삭제</DeleteBtn>
+        <DeleteBtn onClick={confirmDeleteUser}>삭제</DeleteBtn>
       </div>
     </UserRowWrapper>
   );

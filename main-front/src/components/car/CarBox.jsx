@@ -93,6 +93,9 @@ const ImgWrapper = styled.div`
   height: 180px;
   width: 250px;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #eee;
   border-radius: 10px;
   margin-bottom: 20px;

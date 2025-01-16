@@ -138,7 +138,7 @@ export default function CreateUserForm() {
     <FormContainer>
       <Flex justify="space-between">
         <IconContainer>
-          <UserIconBox icon={icon} setIcon={setIcon} />
+          <UserIconBox imageUrl={""} setIcon={setIcon} />
         </IconContainer>
         <Flex direction="column" width="600px" justify="center">
           <Flex width="100%" align="center">
