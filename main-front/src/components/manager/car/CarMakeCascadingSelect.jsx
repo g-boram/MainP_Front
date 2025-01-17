@@ -80,13 +80,13 @@ const FlexRow = styled.div`
   > select {
     font-size: "13px";
     width: 100%;
+    border: 1px solid #eee;
   }
 `;
 const Label = styled.div`
-  width: 100%;
+  width: 87%;
   height: 35px;
   display: flex;
-  margin-right: 10px;
   align-items: center;
   justify-content: flex-start;
   font-size: 14px;

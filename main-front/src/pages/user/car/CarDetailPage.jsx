@@ -15,7 +15,7 @@ export default function CarDetailPage() {
             bgColor="black"
             text="상품 목록"
             width="100px"
-            height="30px"
+            height="40px"
             fontSize="12px"
           />
         </Flex>

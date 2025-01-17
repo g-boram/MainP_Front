@@ -192,7 +192,7 @@ export default function CarForm() {
             setModel={setModel}
           />
         </Flex>
-        <Spacing size={10} />
+        <Spacing size={15} />
 
         <Flex align={"center"}>
           <Label>제조 연도</Label>
@@ -217,7 +217,7 @@ export default function CarForm() {
             <input name="mileage" id="mileage" placeholder="0" onChange={handleFormValues} value={formValues.mileage} />
           </InputBox>
         </Flex>
-        <Spacing size={10} />
+        <Spacing size={15} />
 
         <Flex align={"center"}>
           {/* 연료 종류 */}
@@ -244,13 +244,13 @@ export default function CarForm() {
             styles={selectStyle}
           />
         </Flex>
-        <Spacing size={10} />
+        <Spacing size={15} />
 
         <Flex>
           <Label>차량 색상</Label>
           <CarColorList color={color} setColor={setColor} />
         </Flex>
-        <Spacing size={10} />
+        <Spacing size={15} />
 
         <Flex>
           <Label>활성화 여부</Label>

@@ -58,25 +58,16 @@ function App() {
             margin: 0;
             padding: 0;
             font-family: "Nanum Gothic Coding", monospace;
-            background-color: #f9f9f9;
             color: #333;
             line-height: 1.6;
           }
-
-          a {
-            text-decoration: none;
-            color: inherit;
-          }
-
           * {
             box-sizing: border-box;
           }
         `}
       />
-
       <ScrollToTop />
       <Header />
-
       <LayoutContainer>
         <ChatBot />
         <Routes>

@@ -56,6 +56,7 @@ const BoardRowWrapper = styled.div`
   }
   #date {
     font-size: 12px;
+    width: 70px;
     color: ${colorPalette.fontGrey};
     bottom: 0;
     margin-top: 10px;
@@ -66,8 +67,8 @@ const BoardRowWrapper = styled.div`
 `;
 
 const ImgBox = styled.img`
-  width: 150px;
-  height: 140px;
+  width: 110px;
+  height: 110px;
   margin-right: 10px;
   border-radius: 5px;
   @media (max-width: 600px) {

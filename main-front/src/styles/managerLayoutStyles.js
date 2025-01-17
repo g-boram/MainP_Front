@@ -6,9 +6,10 @@ export const ManagerContainer = styled.div`
 `;
 
 export const ContentWrapper = styled.div`
-  width: 1200px;
+  width: 1300px;
   min-height: 100vh;
   padding-left: 250px;
+  padding-top: 30px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;

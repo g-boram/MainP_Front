@@ -33,11 +33,7 @@ export default function QnADetailPage() {
     <PageContainer>
       <PageTopImgBox imgName={"board"} title={"FAQ"} desc={"자주하는 질문"} />
       <BoardListContainer>
-        <PageRouteBox
-          width="300px"
-          bgColor={colorPalette.routeBox_Base}
-          rowTitle={["Home", "FAQ"]}
-        />
+        <PageRouteBox width="300px" bgColor={colorPalette.routeBox_Base} rowTitle={["Home", "FAQ"]} />
         {boardData ? (
           <>
             <BoardDetailWrapper>
@@ -60,7 +56,7 @@ export default function QnADetailPage() {
                 bgColor="black"
                 text="게시글 목록"
                 width="100px"
-                height="30px"
+                height="40px"
                 fontSize="12px"
               />
             </Flex>

@@ -44,7 +44,7 @@ export default function M_CarPage() {
               bgColor="black"
               text="차량 등록하기"
               width="100px"
-              height="30px"
+              height="40px"
               fontSize="12px"
             />
           </NavRow>
