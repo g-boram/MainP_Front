@@ -33,8 +33,7 @@ export default function CarPage() {
     };
     allData();
   }, []);
-  console.log("car", carData);
-  console.log("eventCarData", eventCarData);
+
   return (
     <CarListContainer>
       {isLoading && (

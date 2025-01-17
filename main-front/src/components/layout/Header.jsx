@@ -74,6 +74,7 @@ export default function Header() {
             <StyledLink to="/car">자동차 목록</StyledLink>
             <StyledLink to="/board/notice">공지사항</StyledLink>
             <StyledLink to="/board/event">이벤트</StyledLink>
+            <StyledLink to="/board/faq">FAQ</StyledLink>
           </NavbarContainer>
         </UserHeaderContainer>
       )}
@@ -124,6 +125,12 @@ const NavbarContainer = styled.div`
 const LogoBox = styled.div`
   margin-left: 20px;
   cursor: pointer;
+
+  > img {
+    width: 100px;
+
+    object-fit: contain;
+  }
 `;
 
 const TextRow = styled.div`
