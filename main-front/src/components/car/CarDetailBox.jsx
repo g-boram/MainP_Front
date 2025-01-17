@@ -8,11 +8,12 @@ import Badge from "../shared/Badge";
 import CarDetailInfoBox from "../manager/car/CarDetailInfoBox";
 import CarSellerInfoBox from "../manager/car/CarSellerInfoBox";
 import CarIconOption from "../manager/car/CarIconOption";
+import LinkButton from "../shared/LinkButton";
 import { FaCheckCircle } from "react-icons/fa";
 import { RiCustomerService2Fill } from "react-icons/ri";
 
 import { css } from "@emotion/react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { CAR_OPTION_FUELTYPE } from "../../constants/carOption";
 import { ClearLoadingOverlay } from "../../styles/managerLayoutStyles";
 import { ClipLoader } from "react-spinners";
@@ -568,6 +569,7 @@ const DivChat = styled.div`
   margin-top: 20px;
   padding: 15px;
   width: 100%;
+  cursor: pointer;
 
   svg {
     margin-right: 8px;

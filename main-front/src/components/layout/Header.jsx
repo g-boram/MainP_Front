@@ -53,25 +53,40 @@ export default function Header() {
                 <LoginUserBox>
                   <Flex>
                     <TextRow>{user.username} 님 환영합니다.</TextRow>
-                    <BaseButton size="small" color="white" height="30px" width="70px" onClick={handleLogout}>
+                    <BaseButton
+                      size="small"
+                      color="white"
+                      height="30px"
+                      width="70px"
+                      onClick={handleLogout}
+                    >
                       로그아웃
                     </BaseButton>
                     <Spacing size={10} direction="width" />
                     <Link to={`/mypage`}>
-                      <BaseButton size="small" color="white" height="30px" width="80px">
+                      <BaseButton
+                        size="small"
+                        color="white"
+                        height="30px"
+                        width="80px"
+                      >
                         마이페이지
                       </BaseButton>
                     </Link>
                   </Flex>
-                  {user.role === "ADMIN" ? <ManagerLink to="/manager">관리자 페이지</ManagerLink> : <></>}
+                  {user.role === "ADMIN" ? (
+                    <ManagerLink to="/manager">관리자 페이지</ManagerLink>
+                  ) : (
+                    <></>
+                  )}
                 </LoginUserBox>
               )}
             </div>
           </HeaderBox>
           <NavbarContainer>
             <StyledLink to="/">Nav1</StyledLink>
-            <StyledLink to="/">Nav2</StyledLink>
-            <StyledLink to="/car">자동차 목록</StyledLink>
+            <StyledLink to="/carsell">내차 팔기</StyledLink>
+            <StyledLink to="/car">내차 사기</StyledLink>
             <StyledLink to="/board/notice">공지사항</StyledLink>
             <StyledLink to="/board/event">이벤트</StyledLink>
             <StyledLink to="/board/faq">FAQ</StyledLink>
