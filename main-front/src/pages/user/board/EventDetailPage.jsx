@@ -59,7 +59,7 @@ export default function EventDetailPage() {
                 bgColor="black"
                 text="게시글 목록"
                 width="100px"
-                height="30px"
+                height="40px"
                 fontSize="12px"
               />
             </Flex>

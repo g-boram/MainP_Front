@@ -37,7 +37,6 @@ export default function M_UsersPage() {
     };
     allData();
   }, []);
-  console.log("user", userData);
 
   useEffect(() => {
     dispatch(setTotalItems(userData.length));
@@ -60,7 +59,7 @@ export default function M_UsersPage() {
               bgColor="black"
               text="회원 등록하기"
               width="100px"
-              height="30px"
+              height="40px"
               fontSize="12px"
             />
           </NavRow>
@@ -81,17 +80,17 @@ export default function M_UsersPage() {
                   fontSize="13px"
                   bgColor="#eeeeee"
                   rowTitle={[
-                    "ID.-80",
-                    "권한-100",
+                    "ID.-50",
+                    "권한-70",
                     "이름-100",
-                    "핸드폰 번호-120",
+                    "핸드폰 번호-110",
                     "이메일-110",
-                    "주소-150",
-                    "생년월일-120",
-                    "성별-60",
-                    "등록일-100",
-                    "수정일-100",
-                    "-120",
+                    "주소-230",
+                    "생년월일-80",
+                    "성별-40",
+                    "등록일-80",
+                    "수정일-80",
+                    "-170",
                   ]}
                 />
                 {currentItems.map((user) => (

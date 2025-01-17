@@ -13,45 +13,64 @@ import Flex from "../../../components/shared/Flex";
 
 export default function CarPage() {
   const [carData, setCarData] = useState([]);
+  const [eventCarData, setEventCarData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const allData = async () => {
-      const res = await getCarListAll();
-      const cars = res.data.filter((car) => car.status === "AVAILABLE");
-      setCarData(cars);
+      setIsLoading(true);
+      try {
+        const res = await getCarListAll();
+        const cars = res.data.filter((car) => car.status === "AVAILABLE");
+        const eventCars = res.data.filter((car) => car.eventName !== null);
+        setCarData(cars);
+        setEventCarData(eventCars);
+      } catch (e) {
+        console.log("carList Error : ", e);
+      } finally {
+        setIsLoading(false);
+      }
     };
     allData();
   }, []);
-  console.log(carData);
+
   return (
     <CarListContainer>
+      {isLoading && (
+        <ClearLoadingOverlay>
+          <ClipLoader color="#000" z-index={11} />
+        </ClearLoadingOverlay>
+      )}
       <LeftCategoryBox>
+        <LeftTopBox>LeftTopBox</LeftTopBox>
         <SideMenuBar setIsLoading={setIsLoading} setCarData={setCarData} />
       </LeftCategoryBox>
       <RightContentBox>
-        {isLoading && (
-          <ClearLoadingOverlay>
-            <ClipLoader color="#000" z-index={11} />
-          </ClearLoadingOverlay>
-        )}
-        {carData && carData.length !== 0 ? (
-          <CarListWrapper>
-            {carData.map((car) => (
+        {eventCarData && eventCarData.length !== 0 ? (
+          <CarEventList>
+            {eventCarData.map((car) => (
               <CarBox key={car.id} {...car} />
             ))}
-          </CarListWrapper>
+          </CarEventList>
         ) : (
-          <NotDataWrapper>
-            <BaseIconBox>
-              <TbClipboardSearch size={40} />
-              <div>차량이 없습니다.</div>
-            </BaseIconBox>
-          </NotDataWrapper>
+          <></>
         )}
-
-        {/* <CarSearch /> */}
-        {/* <EventCarWrapper /> */}
+        <CarListBox>
+          {carData && carData.length !== 0 ? (
+            <CarListWrapper>
+              {carData.map((car) => (
+                <CarBox key={car.id} {...car} />
+              ))}
+            </CarListWrapper>
+          ) : (
+            <NotDataWrapper>
+              <BaseIconBox>
+                <TbClipboardSearch size={40} />
+                <div>차량이 없습니다.</div>
+              </BaseIconBox>
+            </NotDataWrapper>
+          )}
+        </CarListBox>
       </RightContentBox>
     </CarListContainer>
   );
@@ -59,9 +78,10 @@ export default function CarPage() {
 
 const CarListContainer = styled.div`
   min-height: 100%;
+  width: 1200px;
   margin: 0 auto;
-  width: 1400px;
   display: flex;
+  margin-bottom: 100px;
   padding-top: ${HEIGHT_LIST.HEADER + HEIGHT_LIST.NAVBAR}px;
 
   @media (max-width: 600px) {
@@ -73,6 +93,7 @@ const LeftCategoryBox = styled.div`
   height: 100%;
   min-width: 300px;
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
 
   @media (max-width: 600px) {
@@ -81,22 +102,51 @@ const LeftCategoryBox = styled.div`
   }
 `;
 
+const LeftTopBox = styled.div`
+  width: 300px;
+  height: 200px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  background-color: #eee;
+`;
+
+const CarEventList = styled.div`
+  width: 850px;
+  height: auto;
+  padding: 20px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-x: scroll;
+  margin-top: 30px;
+  margin-bottom: 50px;
+  gap: 20px;
+  border-radius: 15px;
+  box-shadow: 0px 0px 10px -2px #ccc;
+`;
+
+const CarListBox = styled.div`
+  width: 900px;
+`;
+
 const RightContentBox = styled.div`
   height: 100%;
-  width: 1100px;
-  padding: 10px;
+  width: 900px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  margin-left: 30px;
 `;
 
 const CarListWrapper = styled.div`
+  width: 100%;
+  gap: 30px;
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
-  width: 100%;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
+  padding-left: 40px;
 `;
 
 const NotDataWrapper = styled.div`

@@ -14,6 +14,7 @@ import {
   CAR_F_TRANSMISSION,
   CAR_F_YEARS,
 } from "../../../constants/carOption";
+import Flex from "../../shared/Flex";
 
 export default function CarFilterRow({ setIsLoading, setCarData }) {
   const [isAvailable, setIsAvailable] = useState(1);
@@ -89,7 +90,6 @@ export default function CarFilterRow({ setIsLoading, setCarData }) {
   };
   return (
     <CarFilterWrapper>
-      {/* <HeadBox>Car Filter</HeadBox> */}
       <FilterRow>
         <FilterBox>
           <Box />
@@ -112,13 +112,15 @@ export default function CarFilterRow({ setIsLoading, setCarData }) {
             value={price}
             styles={selectStyle}
           />
+          <Spacing size={7} direction="width" />
         </FilterBox>
 
         <FilterBox>
           <Box />
           <Label>판매상태</Label>
+          <Spacing size={10} direction="width" />
           <BaseButton
-            width="70px"
+            width="75px"
             height="30px"
             color={isAvailable === 1 ? "success" : "grey"}
             onClick={() => setIsAvailable(1)}
@@ -127,7 +129,7 @@ export default function CarFilterRow({ setIsLoading, setCarData }) {
           </BaseButton>
           <Spacing size={5} direction="width" />
           <BaseButton
-            width="70px"
+            width="75px"
             height="30px"
             color={isAvailable === 0 ? "error" : "grey"}
             onClick={() => setIsAvailable(0)}
@@ -197,6 +199,8 @@ export default function CarFilterRow({ setIsLoading, setCarData }) {
           <Label>색상</Label>
           <CarColorList color={color} setColor={setColor} />
         </FilterBox>
+      </FilterRow>
+      <Flex width="100%" height="60px" justify="flex-end" align="flex-end">
         <SearchBtn onClick={handleSearch}>
           <IoMdSearch size={15} />
           <div>Search</div>
@@ -205,7 +209,7 @@ export default function CarFilterRow({ setIsLoading, setCarData }) {
         <SearchBtn onClick={handleReset}>
           <div>초기화</div>
         </SearchBtn>
-      </FilterRow>
+      </Flex>
       <Spacing size={20} />
     </CarFilterWrapper>
   );
@@ -232,7 +236,7 @@ const Box = styled.div`
   background-color: #000;
 `;
 const Label = styled.div`
-  width: 80px;
+  width: 100px;
   text-align: start;
   font-size: 12px;
   color: #000;
@@ -247,7 +251,8 @@ const FilterBox = styled.div`
 
   > input {
     height: 30px;
-    width: 100px;
+    width: 150px;
+    margin-right: 7px;
     text-align: end;
     padding: 0 10px;
     font-size: 12px;

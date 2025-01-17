@@ -1,38 +1,23 @@
-.App {
-  text-align: center;
+/* 스크롤바 전체 영역 */
+::-webkit-scrollbar {
+  width: 10px; /* 스크롤바 너비 */
+  height: 10px; /* 수평 스크롤바 높이 */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* 스크롤바 트랙 */
+::-webkit-scrollbar-track {
+  background: #fff; /* 트랙 배경색 */
+  border-radius: 6px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* 스크롤바 손잡이 */
+::-webkit-scrollbar-thumb {
+  /* background: #505050; */
+  background: linear-gradient(to right, #fff, #000);
+  border-radius: 5px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* 손잡이 호버 시 색상 */
+::-webkit-scrollbar-thumb:hover {
+  /* background: #e32727; */
 }

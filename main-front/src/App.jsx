@@ -1,4 +1,5 @@
 import "react-toastify/dist/ReactToastify.css";
+import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import styled from "@emotion/styled";
@@ -57,25 +58,16 @@ function App() {
             margin: 0;
             padding: 0;
             font-family: "Nanum Gothic Coding", monospace;
-            background-color: #f9f9f9;
             color: #333;
             line-height: 1.6;
           }
-
-          a {
-            text-decoration: none;
-            color: inherit;
-          }
-
           * {
             box-sizing: border-box;
           }
         `}
       />
-
       <ScrollToTop />
       <Header />
-
       <LayoutContainer>
         <ChatBot />
         <Routes>
@@ -96,18 +88,9 @@ function App() {
           {/* 관리자 페이지 */}
           <Route path="/manager" Component={ManagerPage} />
           <Route path="/manager/board/notice" Component={M_NoticePage} />
-          <Route
-            path="/manager/board/notice/create"
-            Component={M_NoticeCreatePage}
-          />
-          <Route
-            path="/manager/board/notice/detail"
-            Component={M_NoticeDetailPage}
-          />
-          <Route
-            path="/manager/board/notice/update"
-            Component={M_NoticeUpdatePage}
-          />
+          <Route path="/manager/board/notice/create" Component={M_NoticeCreatePage} />
+          <Route path="/manager/board/notice/detail" Component={M_NoticeDetailPage} />
+          <Route path="/manager/board/notice/update" Component={M_NoticeUpdatePage} />
           <Route path="/manager/car" Component={M_CarPage} />
           <Route path="/manager/car/create" Component={M_CarCreatePage} />
           <Route path="/manager/car/detail" Component={M_CarDetailPage} />

@@ -83,21 +83,15 @@ export default function M_NoticePage() {
               to="/manager/board/notice/create"
               color="white"
               bgColor="black"
-              text="게시글 등록하기"
+              text="게시글 등록"
               width="100px"
-              height="30px"
+              height="40px"
               fontSize="12px"
             />
           </NavRow>
           {/* 필터 버튼 */}
-          <FilterButtons
-            currentFilter={statusFilter}
-            onFilterChange={handleFilterChange}
-          />
-          <BoardCategoryButtons
-            currentFilter={category}
-            setCategory={setCategory}
-          />
+          <FilterButtons currentFilter={statusFilter} onFilterChange={handleFilterChange} />
+          <BoardCategoryButtons currentFilter={category} setCategory={setCategory} />
           <NoticeListWrapper>
             {isLoading && (
               <ClearLoadingOverlay>

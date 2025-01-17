@@ -12,7 +12,6 @@ export default function UsersDetailForm() {
 
   const { userId, address, email, role, birth, imageUrl, createdAt, phoneNumber, updatedAt, username, gender } =
     location.state || null;
-  console.log("location.state", location.state);
 
   const imageIcon = icons.filter((icon) => icon.name === imageUrl);
   return (

@@ -219,7 +219,7 @@ const InputBox = styled.div`
   & input {
     border: 1px solid #eee;
     width: 100%;
-    padding: 0 10px;
+    padding: 5px;
     height: 35px;
     font-size: 12px;
   }

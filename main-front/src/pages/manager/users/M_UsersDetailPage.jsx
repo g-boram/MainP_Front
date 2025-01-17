@@ -18,7 +18,7 @@ export default function M_UsersDetailPage() {
               bgColor="black"
               text="회원 목록"
               width="100px"
-              height="30px"
+              height="40px"
               fontSize="12px"
             />
           </NavRow>
