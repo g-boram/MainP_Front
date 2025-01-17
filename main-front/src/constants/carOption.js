@@ -26,6 +26,11 @@ export const CAR_OPTION_TRANSMISSION = [
   { label: "자동", value: "AUTOMATIC" },
   { label: "수동", value: "MANUAL" },
 ];
+export const CAR_OPTION_EEMISSION = [
+  { label: "일산화탄소", value: "CO" },
+  { label: "탄화수소", value: "HC" },
+  { label: "매연", value: "soot" },
+];
 export const CAR_OPTION_STATUS = [
   { label: "판매중", value: "AVAILABLE" },
   { label: "판매완료", value: "SOLD" },
