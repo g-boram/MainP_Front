@@ -13,7 +13,7 @@ import { colorPalette } from "../../../styles/colorPalette";
 import { ClearLoadingOverlay } from "../../../styles/managerLayoutStyles";
 import { ClipLoader } from "react-spinners";
 
-export default function EventDetailPage() {
+export default function QnADetailPage() {
   const { id } = useParams();
   const [boardData, setBoardData] = useState();
 
@@ -31,30 +31,27 @@ export default function EventDetailPage() {
 
   return (
     <PageContainer>
-      <PageTopImgBox imgName={"board"} title={"Event"} desc={"00에서 진행중인 이벤트 소식을 확인해보세요."} />
+      <PageTopImgBox imgName={"board"} title={"FAQ"} desc={"자주하는 질문"} />
       <BoardListContainer>
-        <PageRouteBox width="300px" bgColor={colorPalette.routeBox_Base} rowTitle={["Home", "이벤트"]} />
+        <PageRouteBox width="300px" bgColor={colorPalette.routeBox_Base} rowTitle={["Home", "FAQ"]} />
         {boardData ? (
           <>
             <BoardDetailWrapper>
               <Header>
                 <div id="title">
-                  <Badge label={"이벤트"} />
+                  <Badge label={"FAQ"} />
                   {boardData.title}
                 </div>
                 <div id="headRight">
                   <div>Todo</div>
-                  <div>{boardData.createdAt.slice(0, 10)}</div>
+                  <div>{boardData.createdAt}</div>
                 </div>
               </Header>
-              <Content>
-                {boardData.imageUrl && <ImgBox src={boardData.imageUrl} alt="Event_Img" />}
-                {boardData.content}
-              </Content>
+              <Content>{boardData.content}</Content>
             </BoardDetailWrapper>
             <Flex justify="center">
               <LinkButton
-                to="/board/event"
+                to="/board/faq"
                 color="white"
                 bgColor="black"
                 text="게시글 목록"
@@ -103,13 +100,14 @@ const Header = styled.div`
 
   #title {
     display: flex;
+    margin-left: 10px;
     align-items: center;
     font-size: 16px;
-    color: ${colorPalette.fontBlack};
+    color: #000;
   }
   #headRight {
-    color: ${colorPalette.fontGrey};
-    font-size: 12px;
+    font-size: 11px;
+    color: grey;
     font-weight: 400;
   }
 `;
@@ -119,11 +117,4 @@ const Content = styled.div`
   padding: 100px 0 0 0;
   white-space: pre-line;
   color: ${colorPalette.fontBlack};
-`;
-
-const ImgBox = styled.img`
-  width: 100%;
-  max-height: 500px;
-  margin-bottom: 100px;
-  object-fit: contain;
 `;

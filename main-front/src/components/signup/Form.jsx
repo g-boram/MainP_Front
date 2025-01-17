@@ -9,6 +9,8 @@ import { DAYS, MONTH, YEARS } from "../../constants/birth";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { css } from "@emotion/react";
 import { useAlertContext } from "../../contexts/AlertContextProvider";
+import { toast } from "react-toastify";
+import { checkUserEmail } from "../../api/userApi";
 
 // 회원가입 폼
 function Form({ onSubmit }) {
@@ -26,6 +28,7 @@ function Form({ onSubmit }) {
   const [month, setMonth] = useState(undefined);
   const [day, setDay] = useState(undefined);
   const [gender, setGender] = useState(0);
+  const [isCheckEmail, setIsCheckEmail] = useState(false);
 
   // 입력 되었는지 여부체크
   const [dirty, setDirty] = useState({});
@@ -64,8 +67,23 @@ function Form({ onSubmit }) {
     });
   };
 
+  const handleCheckEmail = async () => {
+    try {
+      const res = await checkUserEmail(formValues.email);
+      if (res.isDuplicated) {
+        toast.error(`${res.email} 사용불가!`);
+      } else {
+        toast.success(`${res.email} 사용가능!`);
+        setIsCheckEmail(true);
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error(err.message);
+    }
+  };
+
   // error값을 가지고있음
-  const errors = useMemo(() => validate(formValues), [formValues]);
+  const errors = useMemo(() => validate(formValues, isCheckEmail), [formValues, isCheckEmail]);
   const isValidate = Object.keys(errors).length === 0;
 
   const selectStyle = {
@@ -89,16 +107,23 @@ function Form({ onSubmit }) {
     <FormWrapper>
       <Flex direction="column">
         <Spacing size={10} />
-        <TextField
-          label="이메일"
-          name="email"
-          placeholder="abc@email.com"
-          value={formValues.email}
-          onChange={handleFormValues}
-          hasError={Boolean(dirty.email) && Boolean(errors.email)}
-          helpMessage={Boolean(dirty.email) ? errors.email : ""}
-          onBlur={handleBlur}
-        />
+        <Flex width="100%" align="flex-end">
+          <TextField
+            label="이메일"
+            name="email"
+            width="100%"
+            placeholder="abc@email.com"
+            value={formValues.email}
+            onChange={handleFormValues}
+            hasError={Boolean(dirty.email) && Boolean(errors.email)}
+            helpMessage={Boolean(dirty.email) ? errors.email : ""}
+            onBlur={handleBlur}
+          />
+          <Spacing size={10} direction="width" />
+          <Button color={isCheckEmail ? "grey" : "success"} width="150px" height="35px" onClick={handleCheckEmail}>
+            {isCheckEmail ? "중복확인 완료" : "중복확인"}
+          </Button>
+        </Flex>
 
         <Spacing size={10} />
         <TextField
@@ -207,11 +232,16 @@ function Form({ onSubmit }) {
 }
 
 // 유효성 체크하기
-function validate(formValues) {
+function validate(formValues, isCheckEmail) {
   let errors = {};
 
   if (validator.isEmail(formValues.email) === false) {
     errors.email = "이메일 형식을 확인해주세요";
+  }
+  if (validator.isEmail(formValues.email) === true) {
+    if (isCheckEmail === false) {
+      errors.email = "중복확인을 해주세요";
+    }
   }
 
   if (formValues.password.length < 8) {

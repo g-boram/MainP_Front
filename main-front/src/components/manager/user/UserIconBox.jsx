@@ -2,8 +2,9 @@ import styled from "@emotion/styled";
 import Flex from "../../shared/Flex";
 import { useState } from "react";
 import { icons } from "../../../constants/icons";
+import Spacing from "../../shared/Spacing";
 
-export default function UserIconBox({ setIcon }) {
+export default function UserIconBox({ imageUrl, setIcon }) {
   const [selectedIcon, setSelectedIcon] = useState({
     name: "",
     iconComp: "",
@@ -19,8 +20,16 @@ export default function UserIconBox({ setIcon }) {
 
   return (
     <IconWrapper>
+      {imageUrl !== "" ? (
+        <IconBoxTitle>
+          현재 아이콘: <IconName>{imageUrl}</IconName>
+        </IconBoxTitle>
+      ) : (
+        <></>
+      )}
       <IconBoxTitle>사용자 아이콘 선택</IconBoxTitle>
-      <SelectIconBox>{selectedIcon !== "" ? selectedIcon.iconComp : icons[0].iconComp}</SelectIconBox>
+      <Spacing size={10} />
+      <SelectIconBox>{selectedIcon !== "" ? selectedIcon.iconComp : ""}</SelectIconBox>
       <IconListBox>
         {icons.map((icon) => (
           <Flex direction="column" justify="center" align="center" width="60px">
@@ -45,7 +54,10 @@ const IconWrapper = styled.div`
 `;
 
 const IconBoxTitle = styled.div`
-  height: 30px;
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-size: 13px;
 `;
 
@@ -71,6 +83,7 @@ const IconName = styled.div`
   background-color: ${({ selected }) => (selected ? "#000" : "#fff")};
   color: ${({ selected }) => (selected ? "#fff" : "#000")};
   border: 1px solid #eee;
+  cursor: pointer;
 `;
 
 const IconBox = styled.div`
@@ -83,6 +96,7 @@ const IconBox = styled.div`
   width: 40px;
   font-size: 20px;
   border-radius: 50%;
+  cursor: pointer;
 `;
 
 const IconListBox = styled.div`

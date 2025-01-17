@@ -43,10 +43,21 @@ export const getSimpleUser = async (id) => {
   }
 };
 
-// 특정 사용자 수정
-export const updateUser = async (id) => {
+// 이메일 중복체크
+export const checkUserEmail = async (email) => {
   try {
-    const response = await axios.put(`${SERVER_URL.LOCAL}/users/${id}`);
+    const response = await axios.get(`${SERVER_URL.LOCAL}/users/checkEmail?email=${email}`);
+    return response.data;
+  } catch (error) {
+    throw error.response ? error.response.data : error;
+  }
+};
+
+// 특정 사용자 수정
+export const updateUser = async (data) => {
+  const id = data.userId;
+  try {
+    const response = await axios.put(`${SERVER_URL.LOCAL}/users/${id}`, data);
     return response.data;
   } catch (error) {
     throw error.response ? error.response.data : error;

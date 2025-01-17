@@ -58,7 +58,7 @@ export default function Header() {
                     </BaseButton>
                     <Spacing size={10} direction="width" />
                     <Link to={`/mypage`}>
-                      <BaseButton size="small" color="white" height="30px" width="70px">
+                      <BaseButton size="small" color="white" height="30px" width="80px">
                         마이페이지
                       </BaseButton>
                     </Link>
@@ -74,6 +74,7 @@ export default function Header() {
             <StyledLink to="/car">자동차 목록</StyledLink>
             <StyledLink to="/board/notice">공지사항</StyledLink>
             <StyledLink to="/board/event">이벤트</StyledLink>
+            <StyledLink to="/board/faq">FAQ</StyledLink>
           </NavbarContainer>
         </UserHeaderContainer>
       )}
@@ -124,6 +125,12 @@ const NavbarContainer = styled.div`
 const LogoBox = styled.div`
   margin-left: 20px;
   cursor: pointer;
+
+  > img {
+    width: 100px;
+
+    object-fit: contain;
+  }
 `;
 
 const TextRow = styled.div`
@@ -171,7 +178,7 @@ const ManagerLink = styled(Link)`
   justify-content: center;
   align-items: center;
   margin-left: 15px;
-  font-size: 14px;
+  font-size: 13px;
   text-decoration: none;
   min-width: 100px;
   cursor: pointer;

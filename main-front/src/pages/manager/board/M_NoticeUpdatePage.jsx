@@ -19,7 +19,7 @@ export default function M_NoticeUpdatePage() {
               bgColor="black"
               text="수정 History"
               width="100px"
-              height="30px"
+              height="40px"
               fontSize="12px"
             />
             <Spacing size={10} direction={"width"} />
@@ -29,7 +29,7 @@ export default function M_NoticeUpdatePage() {
               bgColor="black"
               text="게시글 목록"
               width="100px"
-              height="30px"
+              height="40px"
               fontSize="12px"
             />
           </NavRow>

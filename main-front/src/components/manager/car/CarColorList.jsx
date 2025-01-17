@@ -25,7 +25,9 @@ export default function CarColorList({ color, setColor }) {
 
 const Container = styled.div`
   width: 100%;
+  min-height: 80px;
   display: flex;
+  justify-content: space-between;
 `;
 
 const ColorListWrapper = styled.div`
@@ -39,7 +41,6 @@ const ColorListWrapper = styled.div`
 const Name = styled.div`
   font-size: 11px;
   color: ${colorPalette.fontDarkGrey};
-  margin-bottom: 10px;
 `;
 
 const ColorBox = styled.div`

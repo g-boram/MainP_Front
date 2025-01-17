@@ -1,7 +1,9 @@
 import "react-toastify/dist/ReactToastify.css";
+import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import styled from "@emotion/styled";
+import { Global, css } from "@emotion/react";
 
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
@@ -14,6 +16,7 @@ import SigninPage from "./pages/user/SigninPage";
 import SignupPage from "./pages/user/SignupPage";
 import NoticePage from "./pages/user/board/NoticePage";
 import NoticeDetailPage from "./pages/user/board/NoticeDetailPage";
+import ChatBot from "./components/ai/ChatBot";
 
 // [ 관리자 ]
 import ManagerPage from "./pages/manager/ManagerPage";
@@ -34,6 +37,8 @@ import M_UsersPage from "./pages/manager/users/M_UsersPage";
 import M_UsersDetailPage from "./pages/manager/users/M_UsersDetailPage";
 import M_UsersCreatePage from "./pages/manager/users/M_UsersCreatePage";
 import M_UsersUpdatePage from "./pages/manager/users/M_UsersUpdatePage";
+import FaQPage from "./pages/user/board/FaQPage";
+import FaQDetailPage from "./pages/user/board/FaQDetailPage";
 
 function App() {
   return (
@@ -46,10 +51,25 @@ function App() {
         closeOnClick
         limit={3}
       />
+      <Global
+        styles={css`
+          @import url("https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&display=swap");
+          body {
+            margin: 0;
+            padding: 0;
+            font-family: "Nanum Gothic Coding", monospace;
+            color: #333;
+            line-height: 1.6;
+          }
+          * {
+            box-sizing: border-box;
+          }
+        `}
+      />
       <ScrollToTop />
       <Header />
-
       <LayoutContainer>
+        <ChatBot />
         <Routes>
           {/* 메인 페이지 */}
           <Route path="/" Component={HomePage} />
@@ -58,8 +78,10 @@ function App() {
           <Route path="/mypage" Component={MyPage} />
           <Route path="/board/notice" Component={NoticePage} />
           <Route path="/board/event" Component={EventPage} />
+          <Route path="/board/faq" Component={FaQPage} />
           <Route path="/board/notice/detail/:id" Component={NoticeDetailPage} />
           <Route path="/board/event/detail/:id" Component={EventDetailPage} />
+          <Route path="/board/faq/detail/:id" Component={FaQDetailPage} />
           <Route path="/car" Component={CarPage} />
           <Route path="/car/detail" Component={CarDetailPage} />
 
