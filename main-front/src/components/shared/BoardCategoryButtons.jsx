@@ -1,5 +1,5 @@
 const BoardCategoryButtons = ({ currentFilter, setCategory }) => {
-  const category = ["ALL", "공지사항", "이벤트", "기타"]; // 필터 조건
+  const category = ["ALL", "공지사항", "이벤트", "FAQ", "기타"]; // 필터 조건
 
   return (
     <div style={{ display: "flex", gap: "10px", marginBottom: "20px" }}>

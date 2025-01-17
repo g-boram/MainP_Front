@@ -8,6 +8,8 @@ import Badge from "../shared/Badge";
 import CarDetailInfoBox from "../manager/car/CarDetailInfoBox";
 import CarSellerInfoBox from "../manager/car/CarSellerInfoBox";
 import CarIconOption from "../manager/car/CarIconOption";
+import { FaCheckCircle } from "react-icons/fa";
+import { RiCustomerService2Fill } from "react-icons/ri";
 
 import { css } from "@emotion/react";
 import { useLocation } from "react-router-dom";
@@ -16,9 +18,19 @@ import { ClearLoadingOverlay } from "../../styles/managerLayoutStyles";
 import { ClipLoader } from "react-spinners";
 import { MdOutlineImageNotSupported } from "react-icons/md";
 import CarDetailTimer from "./CarDetailTimer";
+import { useState } from "react";
 
 export default function CarDetailBox() {
   const location = useLocation();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   const {
     carId,
@@ -48,9 +60,20 @@ export default function CarDetailBox() {
         <MainContainer>
           {/* 왼쪽 고정 영역 */}
           <FixedBox>
-            {eventName ? <CarDetailTimer eventEndTime={eventEndTime} eventName={eventName} /> : <></>}
+            {eventName ? (
+              <CarDetailTimer
+                eventEndTime={eventEndTime}
+                eventName={eventName}
+              />
+            ) : (
+              <></>
+            )}
             <CarImgBox>
-              {imageUrl ? <img src={imageUrl} alt="carImg" /> : <MdOutlineImageNotSupported size={50} color="#ddd" />}
+              {imageUrl ? (
+                <img src={imageUrl} alt="carImg" />
+              ) : (
+                <MdOutlineImageNotSupported size={50} color="#ddd" />
+              )}
             </CarImgBox>
             <CarDetailInfoBox />
             <CarSellerInfoBox id={sellerId} />
@@ -60,7 +83,11 @@ export default function CarDetailBox() {
           <ScrollBox>
             <TopIconRow>
               <TopRowLeft>
-                {hashTags && hashTags?.length !== 0 ? hashTags.map((tag) => <TagText>#{tag}</TagText>) : <></>}
+                {hashTags && hashTags?.length !== 0 ? (
+                  hashTags.map((tag) => <TagText>#{tag}</TagText>)
+                ) : (
+                  <></>
+                )}
               </TopRowLeft>
               <Flex>right</Flex>
             </TopIconRow>
@@ -84,7 +111,9 @@ export default function CarDetailBox() {
                 <Spacing size={10} direction="width" />
                 <CounselBtn>Icon / Tel</CounselBtn>
               </Flex>
-              <OnCovenantBtn>온라인으로 계약하기</OnCovenantBtn>
+              <OnCovenantBtn onClick={handleOpenModal}>
+                HiCar에서 구매하기
+              </OnCovenantBtn>
             </CarMainTitleRow>
 
             <CarDataBox>
@@ -97,58 +126,138 @@ export default function CarDetailBox() {
                 </Text>
               </Flex>
               <Flex height="30px" justify="space-between" align="center">
-                <Text typography="t13" color="grey" width="80px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="grey"
+                  width="80px"
+                  textAlign="left"
+                >
                   제조사
                 </Text>
-                <Text typography="t13" color="black" width="100px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="black"
+                  width="100px"
+                  textAlign="left"
+                >
                   {make}
                 </Text>
-                <Text typography="t13" color="grey" width="80px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="grey"
+                  width="80px"
+                  textAlign="left"
+                >
                   모델명
                 </Text>
-                <Text typography="t13" color="black" width="100px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="black"
+                  width="100px"
+                  textAlign="left"
+                >
                   {model}
                 </Text>
               </Flex>
               <Flex height="30px" justify="space-between" align="center">
-                <Text typography="t13" color="grey" width="80px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="grey"
+                  width="80px"
+                  textAlign="left"
+                >
                   차량번호
                 </Text>
-                <Text typography="t13" color="black" width="100px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="black"
+                  width="100px"
+                  textAlign="left"
+                >
                   {carId}
                 </Text>
-                <Text typography="t13" color="grey" width="80px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="grey"
+                  width="80px"
+                  textAlign="left"
+                >
                   주행거리
                 </Text>
-                <Text typography="t13" color="black" width="100px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="black"
+                  width="100px"
+                  textAlign="left"
+                >
                   {addDelimiter(mileage)} km
                 </Text>
               </Flex>
               <Flex height="30px" justify="space-between" align="center">
-                <Text typography="t13" color="grey" width="80px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="grey"
+                  width="80px"
+                  textAlign="left"
+                >
                   연식
                 </Text>
-                <Text typography="t13" color="black" width="100px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="black"
+                  width="100px"
+                  textAlign="left"
+                >
                   {year}
                 </Text>
-                <Text typography="t13" color="grey" width="80px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="grey"
+                  width="80px"
+                  textAlign="left"
+                >
                   색상
                 </Text>
-                <Text typography="t13" color="black" width="100px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="black"
+                  width="100px"
+                  textAlign="left"
+                >
                   <ColorBox color={color} />
                 </Text>
               </Flex>
               <Flex height="30px" justify="space-between" align="center">
-                <Text typography="t13" color="grey" width="80px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="grey"
+                  width="80px"
+                  textAlign="left"
+                >
                   연료타입
                 </Text>
-                <Text typography="t13" color="black" width="100px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="black"
+                  width="100px"
+                  textAlign="left"
+                >
                   {fuel[0].label}
                 </Text>
-                <Text typography="t13" color="grey" width="80px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="grey"
+                  width="80px"
+                  textAlign="left"
+                >
                   변속기
                 </Text>
-                <Text typography="t13" color="black" width="100px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="black"
+                  width="100px"
+                  textAlign="left"
+                >
                   {transmission}
                 </Text>
               </Flex>
@@ -176,6 +285,37 @@ export default function CarDetailBox() {
         <ClearLoadingOverlay>
           <ClipLoader color="#000" z-index={11} />
         </ClearLoadingOverlay>
+      )}
+
+      {/* 모달 */}
+      {isModalOpen && (
+        <ModalOverlay onClick={handleCloseModal}>
+          <ModalContent onClick={(e) => e.stopPropagation()}>
+            <ModalHeader>
+              <h2>HiCar 구매하기</h2>
+              <CloseButton onClick={handleCloseModal}>×</CloseButton>
+            </ModalHeader>
+            <ModalBody>
+              <h3>제공 혜택</h3>
+
+              <Div>
+                <FaCheckCircle />
+                차량확시 시｜ 원하는 곳으로 배송
+              </Div>
+              <Div>
+                <FaCheckCircle />
+                구매 시｜7일간 타보고 환불가능
+              </Div>
+              <DivChat>
+                <RiCustomerService2Fill />
+                챗봇으로 문의하기
+              </DivChat>
+            </ModalBody>
+            {/* <ModalFooter>
+              <ModalButton onClick={handleCloseModal}>확인</ModalButton>
+            </ModalFooter> */}
+          </ModalContent>
+        </ModalOverlay>
       )}
     </FormContainer>
   );
@@ -341,4 +481,96 @@ const FormContainer = styled.div`
   min-height: 600px;
   width: 100%;
   position: relative;
+`;
+
+// 모달 스타일
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
+const ModalContent = styled.div`
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  width: 400px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+`;
+
+const ModalHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+  h2 {
+    font-size: 18px;
+    margin: 0;
+  }
+`;
+
+const CloseButton = styled.button`
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+`;
+
+const ModalBody = styled.div`
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 20px;
+`;
+
+const ModalFooter = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const ModalButton = styled.button`
+  background-color: #000;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+
+  :hover {
+    background-color: #333;
+  }
+`;
+//
+const Div = styled.div`
+  display: flex;
+  align-items: center;
+
+  svg {
+    margin-right: 5px;
+  }
+`;
+
+const DivChat = styled.div`
+  border: 1px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  margin-top: 20px;
+  padding: 15px;
+  width: 100%;
+
+  svg {
+    margin-right: 8px;
+    font-size: 17px;
+  }
 `;

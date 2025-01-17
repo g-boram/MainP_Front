@@ -125,7 +125,8 @@ const Overlay = styled.div`
 const ChatbotContainer = styled.div`
   position: fixed;
   top: 50%;
-  left: 57%;
+  /* left: 57%; */
+  right: 24%;
   transform: translate(100%, -40%);
   width: 400px;
   background-color: #fff;
@@ -142,7 +143,7 @@ const ChatbotContainer = styled.div`
 const ShowChatButton = styled.button`
   position: fixed;
   bottom: 30px;
-  right: 20px;
+  right: 1%;
   width: 70px;
   height: 70px;
   padding: 10px 20px;
