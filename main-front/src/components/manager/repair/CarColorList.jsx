@@ -3,7 +3,7 @@ import { CAR_COLOR } from "../../../constants/carOption";
 import { colorPalette } from "../../../styles/colorPalette";
 import { css } from "@emotion/react";
 
-export default function CarColorList({ color, setColor }) {
+export default function CarColorList({ color, setColor, setTitle }) {
   return (
     <Container>
       {CAR_COLOR.map((colorOption) => (
@@ -14,8 +14,11 @@ export default function CarColorList({ color, setColor }) {
             name="color"
             type="radio"
             value={colorOption.hex}
-            checked={color === colorOption.hex} // 전달받은 color와 비교
-            onChange={() => setColor(colorOption.hex)} // 변경 시 호출
+            checked={color === colorOption.hex}
+            onChange={() => {
+              setColor(colorOption.hex);
+              setTitle("color");
+            }}
           />
         </ColorListWrapper>
       ))}
@@ -25,9 +28,12 @@ export default function CarColorList({ color, setColor }) {
 
 const Container = styled.div`
   width: 100%;
-  min-height: 60px;
+  height: 110px;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 3px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
 `;
 
 const ColorListWrapper = styled.div`

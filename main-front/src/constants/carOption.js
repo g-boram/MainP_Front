@@ -26,6 +26,11 @@ export const CAR_OPTION_TRANSMISSION = [
   { label: "자동", value: "AUTOMATIC" },
   { label: "수동", value: "MANUAL" },
 ];
+export const CAR_OPTION_EEMISSION = [
+  { label: "일산화탄소", value: "CO" },
+  { label: "탄화수소", value: "HC" },
+  { label: "매연", value: "soot" },
+];
 export const CAR_OPTION_STATUS = [
   { label: "판매중", value: "AVAILABLE" },
   { label: "판매완료", value: "SOLD" },
@@ -134,4 +139,23 @@ export const CAR_UF_YEARS = [
   "2012",
   "2011",
   "2010",
+];
+
+// 상태값
+export const SELLER_STATUS = [
+  { label: "미확인", value: "no" },
+  { label: "신청확인", value: "ok" },
+  { label: "차량 점겅중", value: "repair" },
+  { label: "차량 점겅 완료", value: "rSuccess" },
+  { label: "거래 진행중", value: "rProgress" },
+  { label: "거래완료", value: "bSuccess" },
+  { label: "거래실패", value: "bFail" },
+  { label: "보류", value: "hold" },
+];
+
+export const REPAIR_STATUS = [
+  { label: "미확인", value: "no" },
+  { label: "신청확인", value: "ok" },
+  { label: "차량 점겅중", value: "repair" },
+  { label: "차량 점겅 완료", value: "rSuccess" },
 ];

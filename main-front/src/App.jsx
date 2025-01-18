@@ -39,6 +39,8 @@ import M_UsersCreatePage from "./pages/manager/users/M_UsersCreatePage";
 import M_UsersUpdatePage from "./pages/manager/users/M_UsersUpdatePage";
 import FaQPage from "./pages/user/board/FaQPage";
 import FaQDetailPage from "./pages/user/board/FaQDetailPage";
+import M_RepairPage from "./pages/manager/repair/M_RepairPage";
+import M_RepairCreatePage from "./pages/manager/repair/M_RepairCreatePage";
 
 function App() {
   return (
@@ -99,6 +101,10 @@ function App() {
           <Route path="/manager/users/create" Component={M_UsersCreatePage} />
           <Route path="/manager/users/detail" Component={M_UsersDetailPage} />
           <Route path="/manager/users/update" Component={M_UsersUpdatePage} />
+          <Route path="/manager/repair" Component={M_RepairPage} />
+          <Route path="/manager/repair/create" Component={M_RepairCreatePage} />
+          <Route path="/manager/repair/update" Component={M_RepairPage} />
+          <Route path="/manager/repair/delete" Component={M_RepairPage} />
 
           {/* @TODO: 인증이 필요한 페이지 나누기 ex) 관리자,유저의 등급, 로그인 여부 ... */}
           {/* <Route path="/my" element={

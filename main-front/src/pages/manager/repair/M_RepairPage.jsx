@@ -18,11 +18,11 @@ import {
 import { BaseIconBox } from "../../../styles/miniComponentStyles";
 import { TbClipboardSearch } from "react-icons/tb";
 import { getCarListAll } from "../../../api/carApi";
+import CustomPagination from "../../../components/shared/pagination/CustomPagination";
 import { useDispatch, useSelector } from "react-redux";
 import { setPage, setTotalItems } from "../../../reduxSlice/paginationSlice";
-import CustomPagination from "../../../components/shared/pagination/CustomPagination";
 
-export default function M_CarPage() {
+export default function M_RepairPage() {
   const dispatch = useDispatch();
 
   const [carData, setCarData] = useState([]);
@@ -51,17 +51,27 @@ export default function M_CarPage() {
       <LeftNavbar />
       <ContentWrapper>
         <ContentBox>
-          <HeadTitle title={"자동차 목록 조회"} desc={"자동차 관련 작업 페이지"}></HeadTitle>
-
+          <HeadTitle title={"자동차정비 목록"} desc={"자동차정비 관련 작업페이지"}></HeadTitle>
+          <NavRow>
+            <LinkButton
+              to="/manager/repair/create"
+              color="white"
+              bgColor="black"
+              text="점검 등록하기"
+              width="120px"
+              height="40px"
+              fontSize="12px"
+            />
+          </NavRow>
           {/* 필터 버튼 */}
-          <CarFilterRow setIsLoading={setIsLoading} setCurrentItems={setCurrentItems} />
+          <CarFilterRow setIsLoading={setIsLoading} setCarData={setCarData} />
           <CarListWrapper>
             {isLoading && (
               <ClearLoadingOverlay>
                 <ClipLoader color="#000" z-index={11} />
               </ClearLoadingOverlay>
             )}
-            {currentItems && currentItems.length !== 0 ? (
+            {carData && carData.length !== 0 ? (
               <Flex direction="column">
                 <ListHeader
                   height="30px"
@@ -111,12 +121,13 @@ export default function M_CarPage() {
 }
 
 const CarListWrapper = styled.div`
-  height: 450px;
+  height: 500px;
+  /* overflow-y: scroll; */
 `;
 
 const NotDataWrapper = styled.div`
   width: 100%;
-  height: 450px;
+  height: 500px;
   background-color: #eee;
   display: flex;
   flex-direction: column;
