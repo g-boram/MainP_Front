@@ -1,10 +1,13 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 
 // @TODO: 미완성된 기능
-function Modal({ onClickToggleModal, children }) {
+function Modal({ onClickToggleModal, children, height = "500", width = "500" }) {
   return (
     <ModalContainer>
-      <DialogBox>{children}</DialogBox>
+      <DialogBox height={height} width={width}>
+        {children}
+      </DialogBox>
       <Backdrop
         onClick={(e) => {
           e.preventDefault();
@@ -25,20 +28,28 @@ const ModalContainer = styled.div`
   align-items: center;
   justify-content: center;
   position: fixed;
+  z-index: 10;
 `;
 
 const DialogBox = styled.dialog`
-  width: 800px;
-  height: 400px;
+  /* width: 800px;
+  height: 400px; */
   display: flex;
   flex-direction: column;
   align-items: center;
   border: none;
-  border-radius: 3px;
+  padding: 0;
+  border-radius: 10px;
   box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
   box-sizing: border-box;
   background-color: white;
   z-index: 10000;
+  ${({ height }) => css`
+    height: ${height}px;
+  `};
+  ${({ width }) => css`
+    width: ${width}px;
+  `};
 `;
 
 const Backdrop = styled.div`
