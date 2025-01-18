@@ -70,8 +70,8 @@ export default function Header() {
           </HeaderBox>
           <NavbarContainer>
             <StyledLink to="/">Nav1</StyledLink>
-            <StyledLink to="/">Nav2</StyledLink>
-            <StyledLink to="/car">자동차 목록</StyledLink>
+            <StyledLink to="/mycarsellpage">내차 팔기</StyledLink>
+            <StyledLink to="/car">내차 사기</StyledLink>
             <StyledLink to="/board/notice">공지사항</StyledLink>
             <StyledLink to="/board/event">이벤트</StyledLink>
             <StyledLink to="/board/faq">FAQ</StyledLink>
