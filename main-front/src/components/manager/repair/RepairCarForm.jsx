@@ -3,7 +3,6 @@ import styled from "@emotion/styled";
 import Spacing from "../../shared/Spacing";
 import Flex from "../../shared/Flex";
 import BaseButton from "../../shared/Button";
-import CarUserInfo from "./CarUserInfo";
 import CarInfoForm from "./CarInfoForm";
 import CarOptionForm from "./CarOptionForm";
 
@@ -13,9 +12,9 @@ import { useAlertContext } from "../../../contexts/AlertContextProvider";
 import { useNavigate } from "react-router-dom";
 import { BarLoader } from "react-spinners";
 import { LoadingOverlay } from "../../../styles/managerLayoutStyles";
-import { css } from "@emotion/react";
 import { createCar } from "../../../api/carApi";
 import { toast } from "react-toastify";
+import { MdOutlinePhoneIphone } from "react-icons/md";
 
 // 관리자-자동차정비 등록
 export default function RepairCarForm() {
@@ -32,6 +31,7 @@ export default function RepairCarForm() {
   const [carInfoData, setCarInfoData] = useState({
     sellerId: 0,
     orderUserId: 0,
+    repairUserId: user?.id,
     carNumber: "",
     make: "",
     model: "",
@@ -42,6 +42,8 @@ export default function RepairCarForm() {
     transmission: "",
     color: "",
     status: "AVAILABLE",
+    carStatus: "rSuccess",
+    sellerStatus: "repair",
     description: "",
     imageUrl: "",
     eventName: "",
@@ -71,31 +73,30 @@ export default function RepairCarForm() {
   };
 
   const handleSubmit = async () => {
-    // setIsLoading(true);
-    const test = {
-      orderUserId: "", // 추가컬럼
+    setIsLoading(true);
+    const data = {
+      orderUserId: "",
       carOptionData: [carOptionData],
       ...carInfoData,
     };
-    console.log("test", test);
 
     // 이미지 등록시 사용
-    // const formTotalData = new FormData();
-    // formTotalData.append("carReq", JSON.stringify(data));
-    // if (file != null) {
-    //   formTotalData.append("file", file);
-    // }
+    const formTotalData = new FormData();
+    formTotalData.append("carReq", JSON.stringify(data));
+    if (file != null) {
+      formTotalData.append("file", file);
+    }
 
-    // try {
-    //   await createCar(formTotalData);
-
-    //   setIsLoading(false);
-    //   toast.success("🚓 차량 등록 완료!");
-    //   navigate("/manager/car");
-    // } catch (error) {
-    //   console.error("Error car creation:", error);
-    //   toast.error("🚓 등록 실패! 관리자 문의 바랍니다.");
-    // }
+    try {
+      await createCar(data);
+      toast.success("🚓 차량 등록 완료!");
+      navigate("/manager/car");
+    } catch (error) {
+      console.error("Error car creation:", error);
+      toast.error("🚓 등록 실패! 관리자 문의 바랍니다.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // 선택된 이미지 미리보기 생성 하기
@@ -127,21 +128,18 @@ export default function RepairCarForm() {
           <BarLoader color="#000" z-index={11} />
         </LoadingOverlay>
       )}
-      <CarUserInfo></CarUserInfo>
+      <InfoContainer>
+        <MdOutlinePhoneIphone size={20} />
+        차량소유자-아이디, 이름, 핸드폰번호 판매담당자-아이디, 이름, 핸드폰번호 / 점검담당자: {user?.id} {user?.phone}
+      </InfoContainer>
+
+      <TitleRow>차량 기본정보</TitleRow>
       <CarInfoForm carInfoData={carInfoData} setCarInfoData={setCarInfoData} />
+
+      <TitleRow>차량 옵션</TitleRow>
       <CarOptionForm carOptionData={carOptionData} setCarOptionData={setCarOptionData} />
 
-      {/* <Flex>
-          <Label>활성화 여부</Label>
-          <BaseButton color={isAvailable === 1 ? "success" : "grey"} css={activeBtn} onClick={() => setIsAvailable(1)}>
-            판매중
-          </BaseButton>
-          <Spacing size={10} direction="horizontal" />
-          <BaseButton color={isAvailable === 0 ? "error" : "grey"} css={activeBtn} onClick={() => setIsAvailable(0)}>
-            판매완료
-          </BaseButton>
-        </Flex>
-
+      <TitleRow>차량 이미지</TitleRow>
       <FileRow>
         <Label>첨부파일</Label>
         <FileBox>{currentImg ? <img src={currentImg} alt="" /> : ""}</FileBox>
@@ -152,13 +150,10 @@ export default function RepairCarForm() {
             파일 삭제
           </BaseButton>
         </Flex>
-      </FileRow> */}
+      </FileRow>
 
-      <Spacing size={50} />
+      <Spacing size={80} />
       <Flex justify={"center"}>
-        <BaseButton size="medium" color="black" height={"40px"} full onClick={confirmCreate}>
-          TEST
-        </BaseButton>
         <BaseButton size="medium" color="black" height={"40px"} full onClick={confirmCreate}>
           차량 등록하기
         </BaseButton>
@@ -174,39 +169,60 @@ const FormContainer = styled.div`
   position: relative;
 `;
 
+const TitleRow = styled.div`
+  height: 50px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  font-size: 16px;
+  font-weight: 700;
+  color: ${colorPalette.fontDarkGrey};
+`;
+
 const Label = styled.div`
-  width: 50%;
-  height: 40px;
+  width: 125px;
+  min-height: 45px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   font-size: 12px;
   padding: 0 10px;
-  font-weight: bold;
-  color: ${colorPalette.fontBlack};
-  background-color: #eee;
-`;
-
-const activeBtn = css`
-  height: 40px;
-  width: 100%;
+  color: #000;
+  background-color: #e3edfb;
 `;
 
 const FileRow = styled.div`
   display: flex;
-  min-height: 100px;
+  min-height: 45px;
+  margin-bottom: 3px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  padding: 5px 0;
 `;
 
 const FileBox = styled.div`
-  height: 150px;
-  width: 150px;
+  height: 200px;
+  width: 200px;
   border: 1px solid #eee;
   background-color: #eee;
-  margin-right: 10px;
+  margin: 0 10px;
 
   > img {
-    height: 150px;
-    width: 150px;
+    width: 200px;
+    height: auto;
     object-fit: contain;
   }
+`;
+
+const InfoContainer = styled.div`
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 12px;
+  padding: 0 10px;
+  margin-bottom: 20px;
+  background-color: #eee;
 `;

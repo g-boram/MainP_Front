@@ -17,7 +17,7 @@ export default function M_RepairCreatePage() {
               color="white"
               bgColor="black"
               text="자동차정비 목록"
-              width="100px"
+              width="120px"
               height="40px"
               fontSize="12px"
             />

@@ -18,10 +18,17 @@ import {
 import { BaseIconBox } from "../../../styles/miniComponentStyles";
 import { TbClipboardSearch } from "react-icons/tb";
 import { getCarListAll } from "../../../api/carApi";
+import CustomPagination from "../../../components/shared/pagination/CustomPagination";
+import { useDispatch, useSelector } from "react-redux";
+import { setPage, setTotalItems } from "../../../reduxSlice/paginationSlice";
 
 export default function M_RepairPage() {
+  const dispatch = useDispatch();
+
   const [carData, setCarData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentItems, setCurrentItems] = useState([]);
+  const { currentPage, itemsPerPage } = useSelector((state) => state.pagination);
 
   useEffect(() => {
     const allData = async () => {
@@ -30,6 +37,14 @@ export default function M_RepairPage() {
     };
     allData();
   }, []);
+
+  useEffect(() => {
+    dispatch(setTotalItems(carData.length));
+
+    const startIndex = currentPage * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    setCurrentItems(carData.slice(startIndex, endIndex));
+  }, [carData, currentPage, itemsPerPage, dispatch]);
 
   return (
     <ManagerContainer>
@@ -42,8 +57,8 @@ export default function M_RepairPage() {
               to="/manager/repair/create"
               color="white"
               bgColor="black"
-              text="차량 등록하기"
-              width="100px"
+              text="점검 등록하기"
+              width="120px"
               height="40px"
               fontSize="12px"
             />
@@ -80,7 +95,7 @@ export default function M_RepairPage() {
                     "-100",
                   ]}
                 />
-                {carData.map((car) => (
+                {currentItems.map((car) => (
                   <CarRow key={car.id} {...car} />
                 ))}
               </Flex>
@@ -93,6 +108,12 @@ export default function M_RepairPage() {
               </NotDataWrapper>
             )}
           </CarListWrapper>
+          <CustomPagination
+            currentPage={currentPage}
+            totalItems={carData.length}
+            itemsPerPage={itemsPerPage}
+            onPageChange={(page) => dispatch(setPage(page))}
+          />
         </ContentBox>
       </ContentWrapper>
     </ManagerContainer>

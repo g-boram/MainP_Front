@@ -50,8 +50,14 @@ export default function LeftNavbar() {
       </UserInfoBox>
       <LinkMenuBox>
         <StyledLink to="/manager/users">회원 관리</StyledLink>
-        <StyledLink to="/manager/board/notice">공지사항 관리</StyledLink>
-        <StyledLink to="/manager/car">자동차 관리</StyledLink>
+        <StyledLink to="/manager/board/notice">게시판 관리</StyledLink>
+        <SubDescBox>
+          <Desc>- 공지사항</Desc>
+          <Desc>- 이벤트</Desc>
+          <Desc>- FAQ</Desc>
+          <Desc>- 기타</Desc>
+        </SubDescBox>
+        <StyledLink to="/manager/car">자동차 목록 조회</StyledLink>
         <StyledLink to="/manager/repair">정비소</StyledLink>
         <StyledLink to="/manager">Nav 4</StyledLink>
         <StyledLink to="/manager">Nav 5</StyledLink>
@@ -78,9 +84,9 @@ const NavContainer = styled.div`
   position: fixed;
   flex-shrink: 0;
   z-index: 10;
-  justify-content: space-around;
-  align-items: center;
   flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   background-color: black;
   color: ${colorPalette.fontBlack};
 `;
@@ -88,12 +94,15 @@ const NavContainer = styled.div`
 const UserInfoBox = styled.div`
   width: 100%;
   height: 100px;
+  margin-top: 10px;
+  margin-bottom: 50px;
 `;
 
 const ImgBox = styled.div`
-  width: 150px;
-  height: 150px;
+  width: 130px;
+  height: 130px;
   display: flex;
+  margin-top: 30px;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
@@ -102,10 +111,10 @@ const ImgBox = styled.div`
 `;
 const LinkMenuBox = styled.div`
   width: 100%;
-  min-height: 300px;
+  height: 520px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
 `;
 
 const BottomLinkBox = styled.div`
@@ -116,16 +125,30 @@ const BottomLinkBox = styled.div`
   align-items: center;
 `;
 
+const SubDescBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-items: center;
+  padding-left: 20px;
+  margin-bottom: 10px;
+`;
+const Desc = styled.div`
+  font-size: 11px;
+  color: #fff;
+`;
+
 const StyledLink = styled(Link)`
   color: #eee;
-  height: 40px;
+  height: 30px;
   font-weight: bold;
+  font-size: 14px;
   margin: 0px 10px;
   cursor: pointer;
   text-decoration: none;
 
   :hover {
-    color: #fef7bf;
+    color: #fef3bf;
   }
 `;
 

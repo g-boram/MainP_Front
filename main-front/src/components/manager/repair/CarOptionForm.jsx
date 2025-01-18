@@ -229,7 +229,7 @@ const Label = styled.div`
   font-size: 12px;
   padding: 0 10px;
   color: #000;
-  background-color: #e5f5ff; // TODO: 색상 정하기
+  background-color: #e3edfb;
 `;
 
 const InputBox = styled.div`
@@ -278,7 +278,7 @@ const RowLabel = styled.div`
   font-size: 12px;
   padding: 0 10px;
   color: #000;
-  background-color: #e5f5ff;
+  background-color: #e3edfb;
 `;
 
 const IconContainer = styled.div`

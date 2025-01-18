@@ -18,10 +18,17 @@ import {
 import { BaseIconBox } from "../../../styles/miniComponentStyles";
 import { TbClipboardSearch } from "react-icons/tb";
 import { getCarListAll } from "../../../api/carApi";
+import { useDispatch, useSelector } from "react-redux";
+import { setPage, setTotalItems } from "../../../reduxSlice/paginationSlice";
+import CustomPagination from "../../../components/shared/pagination/CustomPagination";
 
 export default function M_CarPage() {
+  const dispatch = useDispatch();
+
   const [carData, setCarData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentItems, setCurrentItems] = useState([]);
+  const { currentPage, itemsPerPage } = useSelector((state) => state.pagination);
 
   useEffect(() => {
     const allData = async () => {
@@ -31,32 +38,30 @@ export default function M_CarPage() {
     allData();
   }, []);
 
+  useEffect(() => {
+    dispatch(setTotalItems(carData.length));
+
+    const startIndex = currentPage * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    setCurrentItems(carData.slice(startIndex, endIndex));
+  }, [carData, currentPage, itemsPerPage, dispatch]);
+
   return (
     <ManagerContainer>
       <LeftNavbar />
       <ContentWrapper>
         <ContentBox>
-          <HeadTitle title={"상품 게시글 목록"} desc={"차량 관련 작업 페이지"}></HeadTitle>
-          <NavRow>
-            <LinkButton
-              to="/manager/car/create"
-              color="white"
-              bgColor="black"
-              text="차량 등록하기"
-              width="100px"
-              height="40px"
-              fontSize="12px"
-            />
-          </NavRow>
+          <HeadTitle title={"자동차 목록 조회"} desc={"자동차 관련 작업 페이지"}></HeadTitle>
+
           {/* 필터 버튼 */}
-          <CarFilterRow setIsLoading={setIsLoading} setCarData={setCarData} />
+          <CarFilterRow setIsLoading={setIsLoading} setCurrentItems={setCurrentItems} />
           <CarListWrapper>
             {isLoading && (
               <ClearLoadingOverlay>
                 <ClipLoader color="#000" z-index={11} />
               </ClearLoadingOverlay>
             )}
-            {carData && carData.length !== 0 ? (
+            {currentItems && currentItems.length !== 0 ? (
               <Flex direction="column">
                 <ListHeader
                   height="30px"
@@ -80,7 +85,7 @@ export default function M_CarPage() {
                     "-100",
                   ]}
                 />
-                {carData.map((car) => (
+                {currentItems.map((car) => (
                   <CarRow key={car.id} {...car} />
                 ))}
               </Flex>
@@ -93,6 +98,12 @@ export default function M_CarPage() {
               </NotDataWrapper>
             )}
           </CarListWrapper>
+          <CustomPagination
+            currentPage={currentPage}
+            totalItems={carData.length}
+            itemsPerPage={itemsPerPage}
+            onPageChange={(page) => dispatch(setPage(page))}
+          />
         </ContentBox>
       </ContentWrapper>
     </ManagerContainer>
@@ -100,13 +111,12 @@ export default function M_CarPage() {
 }
 
 const CarListWrapper = styled.div`
-  height: 500px;
-  /* overflow-y: scroll; */
+  height: 450px;
 `;
 
 const NotDataWrapper = styled.div`
   width: 100%;
-  height: 500px;
+  height: 450px;
   background-color: #eee;
   display: flex;
   flex-direction: column;
