@@ -5,12 +5,7 @@ import Flex from "../../shared/Flex";
 import CreatableSelect from "react-select/creatable";
 import CarMakeCascadingSelect from "./CarMakeCascadingSelect";
 import CarColorList from "./CarColorList";
-import {
-  CAR_OPTION_EEMISSION,
-  CAR_OPTION_FUELTYPE,
-  CAR_OPTION_TRANSMISSION,
-  YEARS,
-} from "../../../constants/carOption";
+import { CAR_OPTION_EEMISSION } from "../../../constants/carOption";
 import { carIcons } from "../../../constants/icons";
 import { css } from "@emotion/react";
 

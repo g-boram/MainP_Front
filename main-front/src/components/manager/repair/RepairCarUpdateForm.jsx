@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import Spacing from "../../shared/Spacing";
 import Flex from "../../shared/Flex";
@@ -9,16 +9,17 @@ import CarOptionForm from "./CarOptionForm";
 import { colorPalette } from "../../../styles/colorPalette";
 import { useSelector } from "react-redux";
 import { useAlertContext } from "../../../contexts/AlertContextProvider";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { BarLoader } from "react-spinners";
 import { LoadingOverlay } from "../../../styles/managerLayoutStyles";
 import { createCar } from "../../../api/carApi";
 import { toast } from "react-toastify";
 import { MdOutlinePhoneIphone } from "react-icons/md";
 
-// 관리자-자동차정비 등록
-export default function RepairCarForm() {
+// 관리자-자동차정비 수정
+export default function RepairCarUpdateForm() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { user } = useSelector((state) => state.auth);
   const { open } = useAlertContext();
@@ -29,7 +30,7 @@ export default function RepairCarForm() {
 
   // 차량 기본정보
   const [carInfoData, setCarInfoData] = useState({
-    sellerId: "18", // 변경필요
+    sellerId: 0,
     orderUserId: 0,
     repairUserId: user?.id,
     carNumber: "",
@@ -54,13 +55,40 @@ export default function RepairCarForm() {
   // 차량 옵션정보
   const [carOptionData, setCarOptionData] = useState({
     optionIcon: "", // icon
-    eEmission: "soot", // 배출가스
+    eEmission: "", // 배출가스
     tuning: "", // 튜닝
     special: "", // 특별이력
     changeUsed: "", // 용도변경
     accident: "", // 사고이력
     simpleRepair: "", // 단순수리
   });
+
+  useEffect(() => {
+    // setIsLoading(true);
+    // if (location.state) {
+    //   const findCountry = findCountryByCar(location.state.make);
+    //   setCountry(findCountry);
+    //   setFormValues({
+    //     sellerId: location.state.sellerId,
+    //     make: location.state.make,
+    //     model: location.state.model,
+    //     price: location.state.price,
+    //     mileage: location.state.mileage,
+    //     description: location.state.description,
+    //     imageUrl: location.state.imageUrl,
+    //     eventName: location.state.eventName,
+    //     eventEndTime: location.state.eventEndTime,
+    //   });
+    //   setCarId(location.state.carId);
+    //   setTags(location.state.hashTags);
+    //   setYear({ label: location.state.year, value: location.state.year });
+    //   setColor(location.state.color);
+    //   setFuelType({ label: location.state.fuelType, value: location.state.fuelType });
+    //   setTransmission({ label: location.state.transmission, value: location.state.transmission });
+    //   setIsAvailable(location.state.status === "AVAILABLE" ? 1 : 0);
+    // }
+    // setIsLoading(false);
+  }, [location.state]);
 
   const confirmCreate = (e) => {
     e.preventDefault();
@@ -74,7 +102,6 @@ export default function RepairCarForm() {
 
   const handleSubmit = async () => {
     setIsLoading(true);
-
     const data = {
       orderUserId: "",
       carOptionData: [carOptionData],
@@ -89,7 +116,7 @@ export default function RepairCarForm() {
     }
 
     try {
-      await createCar(formTotalData);
+      await createCar(data);
       toast.success("🚓 차량 등록 완료!");
       navigate("/manager/car");
     } catch (error) {
