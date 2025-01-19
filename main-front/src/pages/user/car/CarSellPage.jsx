@@ -4,11 +4,20 @@ import axios from "axios";
 import { HEIGHT_LIST } from "../../../constants/height";
 import { Link } from "react-router-dom";
 import { DotLoader } from "react-spinners";
+import { useNavigate } from "react-router-dom";
 
 export default function CarSellPage() {
+  const navigate = useNavigate();
   const [step, setStep] = useState(1); // 단계
   const [selectedColor, setSelectedColor] = useState(""); // 차량 색상 상태
   const [specialNotes, setSpecialNotes] = useState(""); // 차량 특이사항 상태
+  const [formData, setFormData] = useState({
+    region: "",
+    phone: "",
+    time: "",
+    mileage: "",
+    price: "",
+  });
 
   // 색상 목록 
   const colors = [
@@ -23,33 +32,93 @@ export default function CarSellPage() {
     { name: "빨간색", value: "#fa3f3f" },
   ];
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const submitForm = async () => {
+    const payload = {
+      ...formData,
+      color: selectedColor,
+      notes: specialNotes,
+    };
+
+    try {
+      const response = await axios.post("http://localhost:8081/api/carsell", payload);
+      if (response.status === 200) {
+        alert("신청서가 성공적으로 제출되었습니다!");
+        navigate("/")
+      } else {
+        alert("제출에 실패했습니다. 다시 시도해주세요.");
+      }
+    } catch (error) {
+      console.error("Error submitting form", error);
+      alert("서버와 통신 중 오류가 발생했습니다.");
+    }
+  };
+
   return (
     <CarListContainer>
       <TopTittle>방문 차량 판매신청</TopTittle>
+
+      {/* 지역 입력 */}
       <TextArea>
         <Text>원하시는 지역을 입력해주세요</Text>
-        <InputBox placeholder="ex)서울 특별시 구로구 OO길 OO" disabled={step > 1} />
+        <InputBox
+          name="region"
+          placeholder="ex)서울 특별시 구로구 OO길 OO"
+          disabled={step > 1}
+          onChange={handleInputChange}
+        />
       </TextArea>
+
+      {/* 휴대폰 번호 입력 */}
       <TextArea>
         <Text>휴대폰 번호를 입력해 주세요.</Text>
-        <InputBox placeholder="ex) 010-0000-0000" disabled={step > 2} />
+        <InputBox
+          name="phone"
+          placeholder="ex) 010-0000-0000"
+          disabled={step > 2}
+          onChange={handleInputChange}
+        />
       </TextArea>
+
+      {/* 시간대 입력 */}
       <TextArea>
         <Text>원하는 시간대를 입력해주세요</Text>
-        <InputBox placeholder="ex)14시20분" disabled={step > 3} />
+        <InputBox
+          name="time"
+          placeholder="ex)14시20분"
+          disabled={step > 3}
+          onChange={handleInputChange}
+        />
       </TextArea>
+
+      {/* 차량 주행거리 입력 */}
       <TextArea>
-  <Text>차량 주행거리를 입력해주세요 (km)</Text>
-  <InputBox placeholder="ex) 120,000" />
-</TextArea>
-  <TextArea>
-    <Text>판매 희망 금액을 입력해주세요 (만원)</Text>
-    <InputBox placeholder="ex) 500" />
-  </TextArea>
+        <Text>차량 주행거리를 입력해주세요 (km)</Text>
+        <InputBox
+          name="mileage"
+          placeholder="ex) 120,000"
+          onChange={handleInputChange}
+        />
+      </TextArea>
+
+      {/* 판매 희망 금액 입력 */}
+      <TextArea>
+        <Text>판매 희망 금액을 입력해주세요 (만원)</Text>
+        <InputBox
+          name="price"
+          placeholder="ex) 500"
+          onChange={handleInputChange}
+        />
+      </TextArea>
+
+      {/* 차량 색상 선택 */}
       <TextArea>
         <Text>차량 색상을 선택해주세요</Text>
         <ColorGrid>
-     
           {colors.map((color) => (
             <ColorOption key={color.name}>
               <ColorBox style={{ backgroundColor: color.value }} />
@@ -68,16 +137,18 @@ export default function CarSellPage() {
         </ColorGrid>
       </TextArea>
 
+      {/* 차량 특이사항 입력 */}
       <TextArea>
-        <Text>
-          차량 특이사항
-        </Text>
+        <Text>차량 특이사항</Text>
         <TextAreaInput
-        value={specialNotes}
-        onChange={(e) => setSpecialNotes(e.target.value)}
-        placeholder="특이사항을 입력해주세요."></TextAreaInput>
+          value={specialNotes}
+          onChange={(e) => setSpecialNotes(e.target.value)}
+          placeholder="특이사항을 입력해주세요."
+        />
       </TextArea>
-      <FormBtn>신청서 제출하기</FormBtn>
+
+      {/* 제출 버튼 */}
+      <FormBtn onClick={submitForm}>신청서 제출하기</FormBtn>
     </CarListContainer>
   );
 }
@@ -116,8 +187,10 @@ const TextAreaInput = styled.textarea`
 `;
 
 const TopTittle = styled.h1`
-  
-`
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+`;
 
 const ColorGrid = styled.div`
   display: grid;
@@ -156,7 +229,7 @@ const RadioInput = styled.input`
 `;
 
 const CarListContainer = styled.div`
-user-select: none;
+  user-select: none;
   min-height: 100%;
   width: 1200px;
   margin: 0 auto;

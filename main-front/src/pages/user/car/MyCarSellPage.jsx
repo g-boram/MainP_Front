@@ -2,6 +2,7 @@ import styled from "@emotion/styled/macro";
 import { HEIGHT_LIST } from "../../../constants/height";
 import { SlArrowRight } from "react-icons/sl";
 import { Link } from "react-router-dom";
+import CarSellimg from "../../../assert/carSellimg.png";
 
 export default function MyCarSellPage(){
     return(
@@ -13,6 +14,9 @@ export default function MyCarSellPage(){
                 <SellButton>HiCar 비교견적<SlArrowRight/></SellButton>
                 </LinkStyle>
             </SellContainer>
+                <ImgArea>
+                <Img src={CarSellimg} alt="Logoimg" />
+                </ImgArea>
             </ScArea>
             
                 <SellContainer2>
@@ -24,6 +28,16 @@ export default function MyCarSellPage(){
     )
 }
 
+const ImgArea = styled.div`
+    
+    width: 100%;
+    display: flex;
+    justify-content: right;
+`
+
+const Img = styled.img`
+    width: 200px;
+`
 
 const SellContainer2 = styled.div`
     width: 140px;
@@ -91,6 +105,7 @@ const SellButton = styled.div`
 `
 
 const CarListContainer = styled.div`
+    background-color: #fbfbfb;
   min-height: 100%;
   width: 1200px;
   margin: 0 auto;
