@@ -3,8 +3,8 @@ import styled from "@emotion/styled";
 import Spacing from "../../shared/Spacing";
 import Flex from "../../shared/Flex";
 import BaseButton from "../../shared/Button";
-import CarInfoForm from "./CarInfoForm";
 import CarOptionForm from "./CarOptionForm";
+import CarInfoUpdateForm from "./CarInfoUpdateForm";
 
 import { colorPalette } from "../../../styles/colorPalette";
 import { useSelector } from "react-redux";
@@ -41,7 +41,7 @@ export default function RepairCarUpdateForm() {
     mileage: "",
     fuelType: "",
     transmission: "",
-    color: "",
+    color: location.state.color,
     status: "AVAILABLE",
     carStatus: "rSuccess",
     sellerStatus: "repair",
@@ -64,30 +64,27 @@ export default function RepairCarUpdateForm() {
   });
 
   useEffect(() => {
-    // setIsLoading(true);
-    // if (location.state) {
-    //   const findCountry = findCountryByCar(location.state.make);
-    //   setCountry(findCountry);
-    //   setFormValues({
-    //     sellerId: location.state.sellerId,
-    //     make: location.state.make,
-    //     model: location.state.model,
-    //     price: location.state.price,
-    //     mileage: location.state.mileage,
-    //     description: location.state.description,
-    //     imageUrl: location.state.imageUrl,
-    //     eventName: location.state.eventName,
-    //     eventEndTime: location.state.eventEndTime,
-    //   });
-    //   setCarId(location.state.carId);
-    //   setTags(location.state.hashTags);
-    //   setYear({ label: location.state.year, value: location.state.year });
-    //   setColor(location.state.color);
-    //   setFuelType({ label: location.state.fuelType, value: location.state.fuelType });
-    //   setTransmission({ label: location.state.transmission, value: location.state.transmission });
-    //   setIsAvailable(location.state.status === "AVAILABLE" ? 1 : 0);
-    // }
-    // setIsLoading(false);
+    setIsLoading(true);
+    if (location.state) {
+      setCarInfoData((preValue) => ({
+        ...preValue,
+        carNumber: location.state.carNumber,
+        make: location.state.make,
+        model: location.state.model,
+        year: location.state.year,
+        price: location.state.price,
+        mileage: location.state.mileage,
+        fuelType: location.state?.fuelType,
+        transmission: location.state.transmission,
+        color: location.state.color,
+        status: "AVAILABLE",
+        carStatus: "rSuccess",
+        sellerStatus: "repair",
+        description: location.state.description,
+        imageUrl: location.state.imageUrl,
+      }));
+    }
+    setIsLoading(false);
   }, [location.state]);
 
   const confirmCreate = (e) => {
@@ -162,7 +159,7 @@ export default function RepairCarUpdateForm() {
       </InfoContainer>
 
       <TitleRow>차량 기본정보</TitleRow>
-      <CarInfoForm carInfoData={carInfoData} setCarInfoData={setCarInfoData} />
+      <CarInfoUpdateForm carInfoData={carInfoData} setCarInfoData={setCarInfoData} />
 
       <TitleRow>차량 옵션</TitleRow>
       <CarOptionForm carOptionData={carOptionData} setCarOptionData={setCarOptionData} />
@@ -170,7 +167,15 @@ export default function RepairCarUpdateForm() {
       <TitleRow>차량 이미지</TitleRow>
       <FileRow>
         <Label>첨부파일</Label>
-        <FileBox>{currentImg ? <img src={currentImg} alt="" /> : ""}</FileBox>
+        <FileBox>
+          {currentImg ? (
+            <img src={currentImg} alt="" />
+          ) : location.state.imageUrl ? (
+            <img src={location.state.imageUrl} alt="" />
+          ) : (
+            ""
+          )}
+        </FileBox>
         <Flex direction="column" justify="flex-end">
           <input type="file" name="file" onChange={handleUploadFile} />
           <Spacing size={10} />
@@ -183,7 +188,7 @@ export default function RepairCarUpdateForm() {
       <Spacing size={80} />
       <Flex justify={"center"}>
         <BaseButton size="medium" color="black" height={"40px"} full onClick={confirmCreate}>
-          차량 등록하기
+          차량 수정하기
         </BaseButton>
       </Flex>
       <Spacing size={50} />

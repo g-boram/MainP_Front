@@ -4,7 +4,7 @@ import Flex from "../../shared/Flex";
 import BaseButton from "../../shared/Button";
 import CarOptionForm from "./CarOptionForm";
 import { colorPalette } from "../../../styles/colorPalette";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { BarLoader } from "react-spinners";
 import { LoadingOverlay } from "../../../styles/managerLayoutStyles";
 import { createCar } from "../../../api/carApi";
@@ -18,6 +18,8 @@ import CarDetailOptionForm from "./CarDetailOptionForm";
 // 관리자-자동차정비 상세보기
 export default function RepairCarDetailForm() {
   const location = useLocation();
+  const navigate = useNavigate();
+
   console.log(location.state);
   const fuel = CAR_OPTION_FUELTYPE.filter((f) => f.value === location.state.fuelType);
 
@@ -33,7 +35,9 @@ export default function RepairCarDetailForm() {
     //   setIsLoading(false);
     // }
   };
-  const handleDetailPage = (e) => {};
+  const handleDetailPage = () => {
+    navigate("/manager/repair/update", { state: { ...location.state } });
+  };
 
   return (
     <FormContainer>

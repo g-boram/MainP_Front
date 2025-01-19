@@ -22,16 +22,6 @@ export const getFilterCarList = async (filters) => {
 };
 
 // 차량 등록
-// export const createCar = async (formData) => {
-//   try {
-//     const response = await axios.post(`${SERVER_URL.LOCAL}/car`, formData);
-//     return response;
-//   } catch (error) {
-//     throw error.response ? error.response.data : error;
-//   }
-// };
-
-// 차량 등록
 export const createCar = async (formData) => {
   try {
     const response = await axios.post(`${SERVER_URL.LOCAL}/car`, formData, {
