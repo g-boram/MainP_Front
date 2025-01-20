@@ -21,6 +21,7 @@ import MyCarSellPage from "./pages/user/car/MyCarSellPage";
 import CarSellEstimate from "./pages/user/car/CarSellEstimate";
 import UserCarinfor from "./pages/user/car/UserCarinfor";
 import CarSellPage from "./pages/user/car/CarSellPage";
+import CompanyPage from "./pages/company/CompanyPage";
 
 // [ 관리자 ]
 import ManagerPage from "./pages/manager/ManagerPage";
@@ -98,6 +99,7 @@ function App() {
           <Route path="/carsellestimate" Component={CarSellEstimate} />
           <Route path="/usercarinfor" Component={UserCarinfor} />
           <Route path="/carsell" Component={CarSellPage} />
+          <Route path="/company" Component={CompanyPage} />
 
           {/* 관리자 페이지 */}
           <Route path="/manager" Component={ManagerPage} />
