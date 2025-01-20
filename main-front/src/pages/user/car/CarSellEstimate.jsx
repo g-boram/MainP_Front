@@ -2,8 +2,6 @@ import { useState } from "react";
 import styled from "@emotion/styled/macro";
 import axios from "axios";
 import { HEIGHT_LIST } from "../../../constants/height";
-import { Link } from "react-router-dom";
-import { DotLoader } from "react-spinners";
 
 const BASE_URL = "http://localhost:8081"; // Spring Boot 서버 URL
 
@@ -12,23 +10,18 @@ export default function CarSellEstimate() {
   const [carNumber, setCarNumber] = useState("");
   const [ownerName, setOwnerName] = useState("");
   const [birthDate, setBirthDate] = useState("");
-  
-  const [loading, setLoading] = useState(false);
 
   // 다음 단계로 이동
   const handleNext = async () => {
+    const isValid = await validateCarNumber(carNumber);
+    console.log("isValid", isValid);
     if (step === 1) {
       if (carNumber.trim() === "") {
         alert("차량번호를 입력해주세요.");
         return;
       }
-      const isValid = await validateCarNumber(carNumber);
       if (isValid) {
-        setLoading(true); // 로딩 시작
-        setTimeout(() => {
-            setStep(2);
-            setLoading(false); // 1초 후 로딩 종료
-          }, 1000);
+        setStep(2);
       } else {
         alert("유효하지 않은 차량번호입니다.");
       }
@@ -50,8 +43,7 @@ export default function CarSellEstimate() {
       }
       const isValid = await validateBirthDateOnServer(birthDate, carNumber);
       if (isValid) {
-        // alert("모든 정보가 유효합니다.");
-        return <Link to="/usercarinfor"/>
+        alert("모든 정보가 유효합니다.");
       } else {
         alert("생년월일이 일치하지 않습니다.");
       }
@@ -61,16 +53,12 @@ export default function CarSellEstimate() {
   // 차량번호 유효성 검증 API 호출 (axios로 변경)
   const validateCarNumber = async (carNumber) => {
     try {
-      // 공백을 허용하도록 정규식을 수정
-      //   const isValidFormat = /^\d{2,3}[가-힣]\s?\d{4}$/.test(carNumber);
-      //   if (!isValidFormat) {
-      //     return false; // 형식이 맞지 않으면 false 반환
-      //   }
       const response = await axios.get(
         `http://localhost:8081/details/validate/${carNumber}`
       );
       console.log(response.data);
       console.log(carNumber);
+
       return response.data.valid; // `isValid` 필드가 true이면 유효한 차량번호로 처리
     } catch (error) {
       console.error("Error validating car number:", error);
@@ -87,6 +75,8 @@ export default function CarSellEstimate() {
           params: { ownerName, carNumber },
         }
       );
+      console.log(response.data);
+      console.log(ownerName);
       return response.data.valid; // `isValid`가 true일 경우 유효한 소유자명
     } catch (error) {
       console.error("Error validating owner name:", error);
@@ -136,7 +126,7 @@ export default function CarSellEstimate() {
   return (
     <CarListContainer>
       {/* 차량번호 입력 */}
-          <TextArea>
+      <TextArea>
         <Text>먼저,</Text>
         <Text>차량의 번호를 입력해주세요</Text>
         <InputBox
@@ -144,7 +134,7 @@ export default function CarSellEstimate() {
           value={carNumber}
           onChange={(e) => setCarNumber(e.target.value)}
           disabled={step > 1}
-          />
+        />
       </TextArea>
 
       {/* 소유자명 입력 */}
@@ -175,30 +165,10 @@ export default function CarSellEstimate() {
       )}
 
       {/* 다음 버튼 */}
-      <FormBtn onClick={handleNext}>{step === 3 ?<Linkstyle to={`/usercarinfor`} state={{carNumber,ownerName}}
-      >
-      완료</Linkstyle>  : "다음"}</FormBtn>
+      <FormBtn onClick={handleNext}>{step === 3 ? "완료" : "다음"}</FormBtn>
     </CarListContainer>
   );
 }
-
-const Linkstyle = styled(Link)`
-    color: #fff;
-    text-decoration: none;
-
-`
-
-const LoaderWrapper = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-`;
 
 const FormBtn = styled.div`
   border-radius: 8px;
@@ -270,4 +240,4 @@ const CarListContainer = styled.div`
   @media (max-width: 600px) {
     flex-direction: column;
   }
-`;  
+`;
