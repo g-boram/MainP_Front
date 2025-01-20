@@ -2,7 +2,6 @@ import { useState } from "react";
 import styled from "@emotion/styled/macro";
 import axios from "axios";
 import { HEIGHT_LIST } from "../../../constants/height";
-import { Link } from "react-router-dom";
 
 const BASE_URL = "http://localhost:8081"; // Spring Boot 서버 URL
 

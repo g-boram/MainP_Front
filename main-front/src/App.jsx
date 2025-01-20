@@ -93,7 +93,7 @@ function App() {
           <Route path="/board/faq/detail/:id" Component={FaQDetailPage} />
           <Route path="/car" Component={CarPage} />
           <Route path="/CarSell" Component={CarSellPage} />
-          <Route path="/CarSell/estimate" Component={CarSellEstimate} />
+          {/* <Route path="/CarSell/estimate" Component={CarSellEstimate} /> */}
           <Route path="/car/detail" Component={CarDetailPage} />
           <Route path="/mycarsellpage" Component={MyCarSellPage} />
           <Route path="/carsellestimate" Component={CarSellEstimate} />
