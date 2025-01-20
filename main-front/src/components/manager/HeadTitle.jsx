@@ -23,6 +23,7 @@ const TitleContainer = styled.div`
   align-items: flex-end;
   height: 70px;
   border-bottom: 2px solid black;
+  padding-bottom: 5px;
 `;
 
 const TitleWrapper = styled.div`

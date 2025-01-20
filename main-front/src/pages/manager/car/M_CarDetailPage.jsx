@@ -11,7 +11,7 @@ export default function M_CarDetailPage() {
       <LeftNavbar />
       <ContentWrapper>
         <ContentBox>
-          <HeadTitle title={"차량 상세보기"} desc={"차량 게시글 상세보기 "}></HeadTitle>
+          <HeadTitle title={"자동차 상세보기"} desc={"자동차 게시글 상세보기 "}></HeadTitle>
           <NavRow>
             <Flex>
               <LinkButton

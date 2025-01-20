@@ -15,8 +15,13 @@ import {
   CAR_F_YEARS,
 } from "../../../constants/carOption";
 import Flex from "../../shared/Flex";
+import { useDispatch, useSelector } from "react-redux";
+import { setTotalItems } from "../../../reduxSlice/paginationSlice";
 
 export default function CarFilterRow({ setIsLoading, setCurrentItems }) {
+  const dispatch = useDispatch();
+  const { currentPage, itemsPerPage } = useSelector((state) => state.pagination);
+
   const [isAvailable, setIsAvailable] = useState(1);
   const [year, setYear] = useState("");
   const [color, setColor] = useState("");
@@ -59,11 +64,15 @@ export default function CarFilterRow({ setIsLoading, setCurrentItems }) {
       status: isAvailable === "" ? "" : isAvailable ? "AVAILABLE" : "SOLD",
       ...filters,
     };
-    console.log("filter: ", data);
+
     setIsLoading(true);
     try {
       const response = await getFilterCarList(data);
-      setCurrentItems(response.data);
+      dispatch(setTotalItems(response.data.length));
+
+      const startIndex = currentPage * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      setCurrentItems(response.data.slice(startIndex, endIndex));
     } catch (error) {
       console.error("Failed to fetch cars", error);
     } finally {

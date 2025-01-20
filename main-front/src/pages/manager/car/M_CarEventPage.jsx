@@ -1,28 +1,22 @@
 import styled from "@emotion/styled";
 import LeftNavbar from "../../../components/manager/LeftNavbar";
 import HeadTitle from "../../../components/manager/HeadTitle";
-import LinkButton from "../../../components/shared/LinkButton";
 import Flex from "../../../components/shared/Flex";
 import ListHeader from "../../../components/shared/ListHeader";
 import CarRow from "../../../components/manager/car/CarRow";
 import CarFilterRow from "../../../components/manager/car/CarFilterRow";
+import CustomPagination from "../../../components/shared/pagination/CustomPagination";
 import { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
-import {
-  ClearLoadingOverlay,
-  ContentBox,
-  ContentWrapper,
-  ManagerContainer,
-  NavRow,
-} from "../../../styles/managerLayoutStyles";
+import { ClearLoadingOverlay, ContentBox, ContentWrapper, ManagerContainer } from "../../../styles/managerLayoutStyles";
 import { BaseIconBox } from "../../../styles/miniComponentStyles";
 import { TbClipboardSearch } from "react-icons/tb";
 import { getCarListAll } from "../../../api/carApi";
 import { useDispatch, useSelector } from "react-redux";
 import { setPage, setTotalItems } from "../../../reduxSlice/paginationSlice";
-import CustomPagination from "../../../components/shared/pagination/CustomPagination";
+import CarEventRow from "../../../components/manager/car/CarEventRow";
 
-export default function M_CarPage() {
+export default function M_CarEventPage() {
   const dispatch = useDispatch();
 
   const [carData, setCarData] = useState([]);
@@ -51,7 +45,10 @@ export default function M_CarPage() {
       <LeftNavbar />
       <ContentWrapper>
         <ContentBox>
-          <HeadTitle title={"자동차 게시글 조회"} desc={"등록된 자동차 관련 게시글 조회 페이지"}></HeadTitle>
+          <HeadTitle
+            title={"자동차 정보 상세조회 및 이벤트 등록"}
+            desc={"자동차 상세보기 이벤트 관련 작업 페이지"}
+          ></HeadTitle>
 
           {/* 필터 버튼 */}
           <CarFilterRow setIsLoading={setIsLoading} setCurrentItems={setCurrentItems} />
@@ -86,7 +83,7 @@ export default function M_CarPage() {
                   ]}
                 />
                 {currentItems.map((car) => (
-                  <CarRow key={car.id} {...car} />
+                  <CarEventRow key={car.id} {...car} />
                 ))}
               </Flex>
             ) : (
