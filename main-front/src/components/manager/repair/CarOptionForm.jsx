@@ -315,7 +315,7 @@ const InputBox = styled.div`
 `;
 
 const RadioBox = styled.div`
-  height: 45px;
+  min-height: 45px;
   width: 100%;
   padding: 5px;
   gap: 10px;
