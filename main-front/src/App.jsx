@@ -18,9 +18,9 @@ import NoticePage from "./pages/user/board/NoticePage";
 import NoticeDetailPage from "./pages/user/board/NoticeDetailPage";
 import ChatBot from "./components/ai/ChatBot";
 import MyCarSellPage from "./pages/user/car/MyCarSellPage";
-// import CarSellEstimate from "./pages/user/car/CarSellEstimate";
+import CarSellEstimate from "./pages/user/car/CarSellEstimate";
 import UserCarinfor from "./pages/user/car/UserCarinfor";
-import CarSellPage from "./pages/user/car/CarsellPage";
+import CarSellPage from "./pages/user/car/CarSellPage";
 
 // [ 관리자 ]
 import ManagerPage from "./pages/manager/ManagerPage";
