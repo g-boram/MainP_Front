@@ -2,6 +2,7 @@ import { useState } from "react";
 import styled from "@emotion/styled/macro";
 import axios from "axios";
 import { HEIGHT_LIST } from "../../../constants/height";
+import { Link } from "react-router-dom";
 
 const BASE_URL = "http://localhost:8081"; // Spring Boot 서버 URL
 
@@ -10,8 +11,6 @@ export default function CarSellEstimate() {
   const [carNumber, setCarNumber] = useState("");
   const [ownerName, setOwnerName] = useState("");
   const [birthDate, setBirthDate] = useState("");
-
-  const [loading, setLoading] = useState(false);
 
   // 다음 단계로 이동
   const handleNext = async () => {
@@ -45,8 +44,7 @@ export default function CarSellEstimate() {
       }
       const isValid = await validateBirthDateOnServer(birthDate, carNumber);
       if (isValid) {
-        // alert("모든 정보가 유효합니다.");
-        return <Link to="/usercarinfor" />;
+        alert("모든 정보가 유효합니다.");
       } else {
         alert("생년월일이 일치하지 않습니다.");
       }
@@ -168,35 +166,10 @@ export default function CarSellEstimate() {
       )}
 
       {/* 다음 버튼 */}
-      <FormBtn onClick={handleNext}>
-        {step === 3 ? (
-          <Linkstyle to={`/usercarinfor`} state={{ carNumber, ownerName }}>
-            완료
-          </Linkstyle>
-        ) : (
-          "다음"
-        )}
-      </FormBtn>
+      <FormBtn onClick={handleNext}>{step === 3 ? "완료" : "다음"}</FormBtn>
     </CarListContainer>
   );
 }
-
-const Linkstyle = styled(Link)`
-  color: #fff;
-  text-decoration: none;
-`;
-
-const LoaderWrapper = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-`;
 
 const FormBtn = styled.div`
   border-radius: 8px;
