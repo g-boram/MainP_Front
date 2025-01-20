@@ -10,9 +10,9 @@ import { colorPalette } from "../../../styles/colorPalette";
 import { useSelector } from "react-redux";
 import { useAlertContext } from "../../../contexts/AlertContextProvider";
 import { useLocation, useNavigate } from "react-router-dom";
-import { BarLoader } from "react-spinners";
-import { LoadingOverlay } from "../../../styles/managerLayoutStyles";
-import { createCar } from "../../../api/carApi";
+import { ClipLoader } from "react-spinners";
+import { ClearLoadingOverlay } from "../../../styles/managerLayoutStyles";
+import { updateCar } from "../../../api/carApi";
 import { toast } from "react-toastify";
 import { MdOutlinePhoneIphone } from "react-icons/md";
 
@@ -27,11 +27,12 @@ export default function RepairCarUpdateForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [currentImg, setCurrentImg] = useState();
   const [file, setFile] = useState(null);
-
+  console.log("location", location.state);
   // 차량 기본정보
   const [carInfoData, setCarInfoData] = useState({
-    sellerId: 0,
-    orderUserId: 0,
+    sellerId: location.state.sellerId,
+    orderUserId: location.state.orderUserId,
+    carId: location.state.carId,
     repairUserId: user?.id,
     carNumber: "",
     make: "",
@@ -90,8 +91,8 @@ export default function RepairCarUpdateForm() {
   const confirmCreate = (e) => {
     e.preventDefault();
     open({
-      title: "차량 등록",
-      description: "차량을 등록 하시겠습니까?",
+      title: "정비내용 수정",
+      description: "정비내용을 수정 하시겠습니까?",
       isCancel: true,
       onButtonClick: () => handleSubmit(),
     });
@@ -99,12 +100,13 @@ export default function RepairCarUpdateForm() {
 
   const handleSubmit = async () => {
     setIsLoading(true);
+    const carId = location.state.carId;
     const data = {
       orderUserId: "",
       carOptionData: [carOptionData],
       ...carInfoData,
     };
-
+    console.log("data", data);
     // 이미지 등록시 사용
     const formTotalData = new FormData();
     formTotalData.append("carReq", JSON.stringify(data));
@@ -113,12 +115,12 @@ export default function RepairCarUpdateForm() {
     }
 
     try {
-      await createCar(data);
-      toast.success("🚓 차량 등록 완료!");
-      navigate("/manager/car");
+      await updateCar({ carId, formTotalData });
+      toast.success("🔧 수정 완료!");
+      navigate("/manager/repair");
     } catch (error) {
       console.error("Error car creation:", error);
-      toast.error("🚓 등록 실패! 관리자 문의 바랍니다.");
+      toast.error("🔧 수정 실패! 관리자 문의 바랍니다.");
     } finally {
       setIsLoading(false);
     }
@@ -149,9 +151,9 @@ export default function RepairCarUpdateForm() {
   return (
     <FormContainer>
       {isLoading && (
-        <LoadingOverlay>
-          <BarLoader color="#000" z-index={11} />
-        </LoadingOverlay>
+        <ClearLoadingOverlay>
+          <ClipLoader color="#000" z-index={11} />
+        </ClearLoadingOverlay>
       )}
       <InfoContainer>
         <MdOutlinePhoneIphone size={20} />

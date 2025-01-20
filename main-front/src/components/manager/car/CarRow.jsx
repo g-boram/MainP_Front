@@ -1,27 +1,61 @@
 import styled from "@emotion/styled";
 import { colorPalette } from "../../../styles/colorPalette";
 import { useNavigate } from "react-router-dom";
+import Flex from "../../shared/Flex";
 
 export default function CarRow(car) {
   const navigate = useNavigate();
 
-  const { carId, color, make, model, fuelType, mileage, price, sellerId, createdAt, status, transmission, year } = car;
+  const {
+    carId,
+    color,
+    make,
+    model,
+    fuelType,
+    mileage,
+    price,
+    sellerId,
+    createdAt,
+    status,
+    transmission,
+    year,
+    imageUrl,
+    eventName,
+  } = car;
 
   const handleDetailPage = () => {
     navigate("/manager/car/detail", { state: { ...car } });
   };
-
+  console.log("car", car);
   return (
     <CarRowWrapper status={status} color={color}>
       <div id="carId">{carId}</div>
-      <div id="make">{make}</div>
-      <div id="model">{model}</div>
-      <div id="price">{price}</div>
-      <div id="year">{year}</div>
-      <div id="fuelType">{fuelType}</div>
-      <div id="mileage">{mileage}</div>
-      <div id="transmission">{transmission}</div>
-      <div id="sellerId">{sellerId}</div>
+      <ImagWrapper>{imageUrl ? <img src={imageUrl} alt="" /> : <></>}</ImagWrapper>
+      <Flex width="15%" direction="column">
+        <div id="make">{make}</div>
+        <div id="model">{model}</div>
+        <div id="year">{year}</div>
+      </Flex>
+      <Flex width="10%">
+        <div id="price">{price}</div>
+      </Flex>
+      <Flex width="15%">
+        {eventName ? (
+          <Flex direction="column">
+            <div>Event</div>
+            <div>{eventName}</div>
+          </Flex>
+        ) : (
+          <Flex>이벤트 없음</Flex>
+        )}
+      </Flex>
+      <Flex width="10%" direction="column">
+        <div id="fuelType">{fuelType}</div>
+        <div id="transmission">{transmission}</div>
+      </Flex>
+      <Flex width="10%">
+        <div id="mileage">{mileage}</div>
+      </Flex>
       <div id="color"></div>
       <div id="createdAt">{createdAt.slice(0, 10)}</div>
       <div id="status">{status === "AVAILABLE" ? "판매중" : "판매종료"}</div>
@@ -32,8 +66,21 @@ export default function CarRow(car) {
   );
 }
 
+const ImagWrapper = styled.div`
+  width: 100px;
+  height: 100px;
+  background-color: #eee;
+  margin: 10px;
+
+  > img {
+    width: 100px;
+    height: auto;
+    object-fit: contain;
+  }
+`;
+
 const CarRowWrapper = styled.div`
-  height: 35px;
+  min-height: 35px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -41,6 +88,7 @@ const CarRowWrapper = styled.div`
   border-bottom: 1px solid #ccc;
   color: ${colorPalette.fontBlack};
   cursor: pointer;
+  gap: 10px;
 
   > div {
     display: flex;
@@ -48,43 +96,16 @@ const CarRowWrapper = styled.div`
     align-items: center;
     overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis;
+    text-overflow: hidden;
   }
 
-  #carId {
-    width: 50px;
-  }
-  #make {
-    width: 100px;
-  }
-  #model {
-    width: 200px;
-  }
-  #price {
-    width: 100px;
-  }
-  #year {
-    width: 100px;
-  }
-  #fuelType {
-    width: 100px;
-  }
-  #mileage {
-    width: 120px;
-  }
-  #transmission {
-    width: 100px;
-  }
-  #sellerId {
-    width: 80px;
-  }
   #color {
-    width: 40px;
+    width: 30px;
     height: 30px;
     background-color: ${({ color }) => color};
   }
   #status {
-    width: 80px;
+    width: 50px;
     color: ${({ status }) => (status === "AVAILABLE" ? "green" : "red")};
   }
   #createdAt {

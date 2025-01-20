@@ -121,13 +121,12 @@ export default function M_RepairPage() {
 }
 
 const CarListWrapper = styled.div`
-  height: 500px;
-  /* overflow-y: scroll; */
+  height: 400px;
 `;
 
 const NotDataWrapper = styled.div`
   width: 100%;
-  height: 500px;
+  height: 400px;
   background-color: #eee;
   display: flex;
   flex-direction: column;

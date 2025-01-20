@@ -2,38 +2,47 @@ import styled from "@emotion/styled";
 import Spacing from "../../shared/Spacing";
 import Flex from "../../shared/Flex";
 import BaseButton from "../../shared/Button";
-import CarOptionForm from "./CarOptionForm";
+import addDelimiter from "../../../utils/addDelimiter";
+import CarDetailOptionForm from "./CarDetailOptionForm";
+
 import { colorPalette } from "../../../styles/colorPalette";
 import { useLocation, useNavigate } from "react-router-dom";
 import { BarLoader } from "react-spinners";
 import { LoadingOverlay } from "../../../styles/managerLayoutStyles";
-import { createCar } from "../../../api/carApi";
+import { deleteCar } from "../../../api/carApi";
 import { toast } from "react-toastify";
 import { MdOutlinePhoneIphone } from "react-icons/md";
-import addDelimiter from "../../../utils/addDelimiter";
 import { CAR_OPTION_FUELTYPE } from "../../../constants/carOption";
 import { css } from "@emotion/react";
-import CarDetailOptionForm from "./CarDetailOptionForm";
+import { useAlertContext } from "../../../contexts/AlertContextProvider";
 
 // 관리자-자동차정비 상세보기
 export default function RepairCarDetailForm() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  console.log(location.state);
+  const { open } = useAlertContext();
   const fuel = CAR_OPTION_FUELTYPE.filter((f) => f.value === location.state.fuelType);
 
-  const handleDelete = (e) => {
-    // try {
-    //   await createCar(data);
-    //   toast.success("🚓 차량 등록 완료!");
-    //   navigate("/manager/car");
-    // } catch (error) {
-    //   console.error("Error car creation:", error);
-    //   toast.error("🚓 등록 실패! 관리자 문의 바랍니다.");
-    // } finally {
-    //   setIsLoading(false);
-    // }
+  const confirmDelete = () => {
+    open({
+      title: "게시글 삭제",
+      description: "게시글을 삭제 하시겠습니까?",
+      isCancel: true,
+      onButtonClick: () => handleDelete(),
+    });
+  };
+
+  const handleDelete = async (e) => {
+    try {
+      await deleteCar(location.state.carId);
+
+      toast.success("🚓 차량 게시글 삭제 완료!");
+      navigate("/manager/repair");
+    } catch (error) {
+      toast.error("차량 게시글 삭제 실패! 관리자 문의 바랍니다.");
+      console.log(error.message || error);
+    }
   };
   const handleDetailPage = () => {
     navigate("/manager/repair/update", { state: { ...location.state } });
@@ -87,12 +96,9 @@ export default function RepairCarDetailForm() {
 
             <HighRow>
               <Label>차량 이미지</Label>
-              {/* <InputBox> */}
               <Flex direction="column" justify="center" align="center" width="100%">
                 <FileBox>{location.state.imageUrl !== "" ? <img src={location.state.imageUrl} alt="" /> : ""}</FileBox>
-                <InputBox>{location.state.imageUrl}</InputBox>
               </Flex>
-              {/* </InputBox> */}
               <Label>특이사항</Label>
               <TextareaBox>{location.state.description}</TextareaBox>
             </HighRow>
@@ -102,7 +108,7 @@ export default function RepairCarDetailForm() {
 
           <Spacing size={80} />
           <Flex justify={"center"}>
-            <BaseButton size="small" color="error" height={"40px"} width={"100px"} onClick={handleDelete}>
+            <BaseButton size="small" color="error" height={"40px"} width={"100px"} onClick={confirmDelete}>
               삭제하기
             </BaseButton>
             <Spacing size={10} direction="width" />
