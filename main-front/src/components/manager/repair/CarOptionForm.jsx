@@ -12,13 +12,13 @@ export default function CarOptionForm({ carOptionData, setCarOptionData }) {
   const location = useLocation();
 
   const [optionIcon, setOptionIcon] = useState(); // icon
-  const [selectedIconArr, setSelectedIconArr] = useState(location.state.carOptionData[0].optionIcon);
+  const [selectedIconArr, setSelectedIconArr] = useState(location.state?.carOptionData[0].optionIcon);
   const [eEmission, setEEmission] = useState(""); // 배출가스
-  const [tuning, setTuning] = useState(location.state.carOptionData[0].tuning); // 튜닝
-  const [special, setSpecial] = useState(location.state.carOptionData[0].special); // 특별이력
-  const [changeUsed, setChangeUsed] = useState(location.state.carOptionData[0].changeUsed); // 용도변경
-  const [accident, setAccident] = useState(location.state.carOptionData[0].accident); // 사고이력
-  const [simpleRepair, setSimpleRepair] = useState(location.state.carOptionData[0].simpleRepair); // 단순수리
+  const [tuning, setTuning] = useState(location.state?.carOptionData[0].tuning); // 튜닝
+  const [special, setSpecial] = useState(location.state?.carOptionData[0].special); // 특별이력
+  const [changeUsed, setChangeUsed] = useState(location.state?.carOptionData[0].changeUsed); // 용도변경
+  const [accident, setAccident] = useState(location.state?.carOptionData[0].accident); // 사고이력
+  const [simpleRepair, setSimpleRepair] = useState(location.state?.carOptionData[0].simpleRepair); // 단순수리
 
   const [title, setTitle] = useState(null);
 
@@ -125,7 +125,7 @@ export default function CarOptionForm({ carOptionData, setCarOptionData }) {
         <RowLabel>옵션선택</RowLabel>
         <IconContainer>
           {carIcons.map((v, index) => {
-            const isIcon = selectedIconArr.includes(index);
+            const isIcon = selectedIconArr?.includes(index);
             return (
               <IconBox color={isIcon ? "#c3453c" : "grey"} onClick={() => handleOptionIcon(index)}>
                 {v.icon}
@@ -138,7 +138,7 @@ export default function CarOptionForm({ carOptionData, setCarOptionData }) {
       <Row>
         <Label>배출가스</Label>
         <InputBox>
-          <PreValue>{location.state.carOptionData[0].eEmission}</PreValue>
+          {location.state?.carOptionData[0] ? <PreValue>{location.state.carOptionData[0]?.eEmission}</PreValue> : <></>}
           <CreatableSelect
             placeholder="배출가스"
             name="eEmission"

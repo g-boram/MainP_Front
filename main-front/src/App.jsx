@@ -35,7 +35,6 @@ import ScrollToTop from "./components/shared/ScrollToTop";
 import M_CarPage from "./pages/manager/car/M_CarPage";
 import M_CarCreatePage from "./pages/manager/car/M_CarCreatePage";
 import M_CarDetailPage from "./pages/manager/car/M_CarDetailPage";
-import M_CarUpdatePage from "./pages/manager/car/M_CarUpdatePage";
 import CarDetailPage from "./pages/user/car/CarDetailPage";
 import M_UsersPage from "./pages/manager/users/M_UsersPage";
 import M_UsersDetailPage from "./pages/manager/users/M_UsersDetailPage";
@@ -47,6 +46,9 @@ import M_RepairPage from "./pages/manager/repair/M_RepairPage";
 import M_RepairCreatePage from "./pages/manager/repair/M_RepairCreatePage";
 import M_RepairUpdatePage from "./pages/manager/repair/M_RepairUpdatePage";
 import M_RepairDetailPage from "./pages/manager/repair/M_RepairDetailPage";
+import M_CarEventPage from "./pages/manager/car/M_CarEventPage";
+import M_CarEventUpdatePage from "./pages/manager/car/M_CarEventUpdatePage";
+import M_CarEventDetailPage from "./pages/manager/car/M_CarEventDetailPage";
 
 function App() {
   return (
@@ -94,10 +96,8 @@ function App() {
           <Route path="/car/detail" Component={CarDetailPage} />
           <Route path="/mycarsellpage" Component={MyCarSellPage} />
           <Route path="/carsellestimate" Component={CarSellEstimate} />
-          <Route path="/usercarinfor" Component={UserCarinfor}/>
-          <Route path="/carsell" Component={CarSellPage}/>
-
-          
+          <Route path="/usercarinfor" Component={UserCarinfor} />
+          <Route path="/carsell" Component={CarSellPage} />
 
           {/* 관리자 페이지 */}
           <Route path="/manager" Component={ManagerPage} />
@@ -108,7 +108,9 @@ function App() {
           <Route path="/manager/car" Component={M_CarPage} />
           <Route path="/manager/car/create" Component={M_CarCreatePage} />
           <Route path="/manager/car/detail" Component={M_CarDetailPage} />
-          <Route path="/manager/car/update" Component={M_CarUpdatePage} />
+          <Route path="/manager/car/event" Component={M_CarEventPage} />
+          <Route path="/manager/car/event/detail" Component={M_CarEventDetailPage} />
+          <Route path="/manager/car/event/update" Component={M_CarEventUpdatePage} />
           <Route path="/manager/users" Component={M_UsersPage} />
           <Route path="/manager/users/create" Component={M_UsersCreatePage} />
           <Route path="/manager/users/detail" Component={M_UsersDetailPage} />

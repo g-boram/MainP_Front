@@ -1,19 +1,19 @@
 import LeftNavbar from "../../../components/manager/LeftNavbar";
 import HeadTitle from "../../../components/manager/HeadTitle";
 import LinkButton from "../../../components/shared/LinkButton";
-import CarUpdateForm from "../../../components/manager/car/CarUpdateForm";
+import CarEventUpdateForm from "../../../components/manager/car/CarEventUpdateForm";
 import { ContentBox, ContentWrapper, ManagerContainer, NavRow } from "../../../styles/managerLayoutStyles";
 
-export default function M_CarUpdatePage() {
+export default function M_CarEventUpdatePage() {
   return (
     <ManagerContainer>
       <LeftNavbar />
       <ContentWrapper>
         <ContentBox>
-          <HeadTitle title={"상품 차량 수정"} desc={"차량 수정하기"}></HeadTitle>
+          <HeadTitle title={"자동차 이벤트 등록하기"} desc={"자동차 이벤트 등록하기"}></HeadTitle>
           <NavRow>
             <LinkButton
-              to="/manager/car"
+              to="/manager/car/event"
               color="white"
               bgColor="black"
               text="상품 목록"
@@ -22,7 +22,7 @@ export default function M_CarUpdatePage() {
               fontSize="12px"
             />
           </NavRow>
-          <CarUpdateForm />
+          <CarEventUpdateForm />
         </ContentBox>
       </ContentWrapper>
     </ManagerContainer>

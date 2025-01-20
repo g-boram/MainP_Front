@@ -57,9 +57,9 @@ export default function LeftNavbar() {
           <Desc>- FAQ</Desc>
           <Desc>- 기타</Desc>
         </SubDescBox>
-        <StyledLink to="/manager/car">자동차 목록 조회</StyledLink>
+        <StyledLink to="/manager/car">자동차 게시글 조회</StyledLink>
+        <StyledLink to="/manager/car/event">자동차 이벤트 등록</StyledLink>
         <StyledLink to="/manager/repair">정비소</StyledLink>
-        <StyledLink to="/manager">Nav 4</StyledLink>
         <StyledLink to="/manager">Nav 5</StyledLink>
       </LinkMenuBox>
       <BottomLinkBox>

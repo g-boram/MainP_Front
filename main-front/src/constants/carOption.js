@@ -159,3 +159,16 @@ export const REPAIR_STATUS = [
   { label: "차량 점겅중", value: "repair" },
   { label: "차량 점겅 완료", value: "rSuccess" },
 ];
+
+export const CAR_ICON = [
+  "네비게이션",
+  "하이패스",
+  "열선시트",
+  "썬루프",
+  "스마트키",
+  "경보시스템",
+  "스피커",
+  "USB",
+  "디스플레이",
+  "스마트컨트롤",
+];
