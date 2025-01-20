@@ -62,33 +62,13 @@ export default function M_CarPage() {
               </ClearLoadingOverlay>
             )}
             {currentItems && currentItems.length !== 0 ? (
-              <Flex direction="column">
-                <ListHeader
-                  height="30px"
-                  borderB="#000"
-                  borderT="#000"
-                  fontSize="13px"
-                  bgColor="#eeeeee"
-                  rowTitle={[
-                    "ID.-50",
-                    "제조사-100",
-                    "모델명-200",
-                    "가격-100",
-                    "제조 연도-100",
-                    "연료종류-100",
-                    "주행거리-120",
-                    "변속기종류-100",
-                    "판매자 ID-80",
-                    "색상-40",
-                    "작성일-120",
-                    "판매상태-80",
-                    "-100",
-                  ]}
-                />
-                {currentItems.map((car) => (
-                  <CarRow key={car.id} {...car} />
-                ))}
-              </Flex>
+              <DataWrapper>
+                <Flex direction="column">
+                  {currentItems.map((car) => (
+                    <CarRow key={car.id} {...car} />
+                  ))}
+                </Flex>
+              </DataWrapper>
             ) : (
               <NotDataWrapper>
                 <BaseIconBox>
@@ -112,6 +92,16 @@ export default function M_CarPage() {
 
 const CarListWrapper = styled.div`
   height: 450px;
+`;
+
+const DataWrapper = styled.div`
+  width: 100%;
+  height: 450px;
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+  border-top: 1px solid #777;
+  border-bottom: 1px solid #777;
 `;
 
 const NotDataWrapper = styled.div`
