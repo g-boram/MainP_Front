@@ -1,0 +1,118 @@
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import styled from "@emotion/styled";
+import { css } from "@emotion/react";
+import { ClipLoader } from "react-spinners";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { LoadingOverlay } from "../../../../styles/managerLayoutStyles";
+
+import mainSlideImg1 from "../../../../assert/main_slide/mainSlide1.jpg";
+import mainSlideImg2 from "../../../../assert/main_slide/mainSlide2.jpg";
+import mainSlideImg3 from "../../../../assert/main_slide/mainSlide3.jpg";
+import mainSlideImg4 from "../../../../assert/main_slide/mainSlide4.jpg";
+import mainSlideImg5 from "../../../../assert/main_slide/mainSlide5.jpg";
+import Text from "../../../shared/Text";
+
+const ImgSlideBanner = () => {
+  const navigate = useNavigate();
+  const [bannerImage, setBannerImage] = useState(null);
+  const [isLoading, setIsLoading] = useState();
+
+  useEffect(() => {
+    setIsLoading(true);
+
+    setBannerImage([
+      { img: mainSlideImg1, alt: "mainSlideImg1" },
+      { img: mainSlideImg2, alt: "mainSlideImg1" },
+      { img: mainSlideImg3, alt: "mainSlideImg1" },
+      { img: mainSlideImg4, alt: "mainSlideImg1" },
+      { img: mainSlideImg5, alt: "mainSlideImg1" },
+    ]);
+    setIsLoading(false);
+  }, []);
+
+  if (bannerImage == null || isLoading) {
+    return (
+      <LoadingOverlay>
+        <ClipLoader color="#000" z-index={11} />
+      </LoadingOverlay>
+    );
+  }
+
+  return (
+    <>
+      <TitleRow>
+        <Text typography="t16" bold>
+          이벤트
+        </Text>
+        <Text typography="t11" color="grey" onClick={() => navigate("/board/event")}>
+          자세히보기
+        </Text>
+      </TitleRow>
+      <MainBannerContainer>
+        <Swiper
+          className="custom-swiper"
+          spaceBetween={30}
+          centeredSlides={true}
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+          }}
+          pagination={{
+            clickable: true,
+          }}
+          navigation={true}
+          modules={[Autoplay, Pagination, Navigation]}
+        >
+          {bannerImage.map((image, idx) => (
+            <SwiperSlide>
+              <img src={image.img} alt={image.alt} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </MainBannerContainer>
+    </>
+  );
+};
+const TitleRow = styled.div`
+  width: 500px;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 100px; // 추후 지우기
+`;
+const MainBannerContainer = styled.div`
+  display: flex;
+  width: 500px;
+  height: 300px;
+
+  .custom-swiper {
+    .swiper {
+      width: 500px;
+      height: 300px;
+    }
+    .swiper-button-next,
+    .swiper-button-prev {
+      color: #fff !important; /* 기본 스타일 덮어쓰기 */
+    }
+    .swiper-pagination-bullet-active {
+      background: #fff !important; /* 기본 스타일 덮어쓰기 */
+    }
+    .swiper-slide {
+      width: 500px;
+      height: 300px;
+      > img {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+      }
+    }
+  }
+`;
+
+export default ImgSlideBanner;

@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import addDelimiter from "../../utils/addDelimiter";
-import noCarImg from "../../assert/NotCarBoxImg.png";
 import { CAR_OPTION_FUELTYPE } from "../../constants/carOption";
 import { colorPalette } from "../../styles/colorPalette";
 import { useNavigate } from "react-router-dom";

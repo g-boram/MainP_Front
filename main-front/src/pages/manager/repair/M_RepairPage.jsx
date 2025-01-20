@@ -4,8 +4,9 @@ import HeadTitle from "../../../components/manager/HeadTitle";
 import LinkButton from "../../../components/shared/LinkButton";
 import Flex from "../../../components/shared/Flex";
 import ListHeader from "../../../components/shared/ListHeader";
-import CarRow from "../../../components/manager/car/CarRow";
 import CarFilterRow from "../../../components/manager/car/CarFilterRow";
+import CustomPagination from "../../../components/shared/pagination/CustomPagination";
+import RepairCarRow from "../../../components/manager/repair/RepairCarRow";
 import { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
 import {
@@ -18,7 +19,6 @@ import {
 import { BaseIconBox } from "../../../styles/miniComponentStyles";
 import { TbClipboardSearch } from "react-icons/tb";
 import { getCarListAll } from "../../../api/carApi";
-import CustomPagination from "../../../components/shared/pagination/CustomPagination";
 import { useDispatch, useSelector } from "react-redux";
 import { setPage, setTotalItems } from "../../../reduxSlice/paginationSlice";
 
@@ -96,7 +96,7 @@ export default function M_RepairPage() {
                   ]}
                 />
                 {currentItems.map((car) => (
-                  <CarRow key={car.id} {...car} />
+                  <RepairCarRow key={car.id} {...car} />
                 ))}
               </Flex>
             ) : (

@@ -1,24 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import Spacing from "../../shared/Spacing";
 import Flex from "../../shared/Flex";
 import BaseButton from "../../shared/Button";
-import CarInfoForm from "./CarInfoForm";
 import CarOptionForm from "./CarOptionForm";
+import CarInfoUpdateForm from "./CarInfoUpdateForm";
 
 import { colorPalette } from "../../../styles/colorPalette";
 import { useSelector } from "react-redux";
 import { useAlertContext } from "../../../contexts/AlertContextProvider";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { BarLoader } from "react-spinners";
 import { LoadingOverlay } from "../../../styles/managerLayoutStyles";
 import { createCar } from "../../../api/carApi";
 import { toast } from "react-toastify";
 import { MdOutlinePhoneIphone } from "react-icons/md";
 
-// 관리자-자동차정비 등록
-export default function RepairCarForm() {
+// 관리자-자동차정비 수정
+export default function RepairCarUpdateForm() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { user } = useSelector((state) => state.auth);
   const { open } = useAlertContext();
@@ -29,7 +30,7 @@ export default function RepairCarForm() {
 
   // 차량 기본정보
   const [carInfoData, setCarInfoData] = useState({
-    sellerId: "18", // 변경필요
+    sellerId: 0,
     orderUserId: 0,
     repairUserId: user?.id,
     carNumber: "",
@@ -40,7 +41,7 @@ export default function RepairCarForm() {
     mileage: "",
     fuelType: "",
     transmission: "",
-    color: "",
+    color: location.state.color,
     status: "AVAILABLE",
     carStatus: "rSuccess",
     sellerStatus: "repair",
@@ -54,13 +55,37 @@ export default function RepairCarForm() {
   // 차량 옵션정보
   const [carOptionData, setCarOptionData] = useState({
     optionIcon: "", // icon
-    eEmission: "soot", // 배출가스
+    eEmission: "", // 배출가스
     tuning: "", // 튜닝
     special: "", // 특별이력
     changeUsed: "", // 용도변경
     accident: "", // 사고이력
     simpleRepair: "", // 단순수리
   });
+
+  useEffect(() => {
+    setIsLoading(true);
+    if (location.state) {
+      setCarInfoData((preValue) => ({
+        ...preValue,
+        carNumber: location.state.carNumber,
+        make: location.state.make,
+        model: location.state.model,
+        year: location.state.year,
+        price: location.state.price,
+        mileage: location.state.mileage,
+        fuelType: location.state?.fuelType,
+        transmission: location.state.transmission,
+        color: location.state.color,
+        status: "AVAILABLE",
+        carStatus: "rSuccess",
+        sellerStatus: "repair",
+        description: location.state.description,
+        imageUrl: location.state.imageUrl,
+      }));
+    }
+    setIsLoading(false);
+  }, [location.state]);
 
   const confirmCreate = (e) => {
     e.preventDefault();
@@ -74,7 +99,6 @@ export default function RepairCarForm() {
 
   const handleSubmit = async () => {
     setIsLoading(true);
-
     const data = {
       orderUserId: "",
       carOptionData: [carOptionData],
@@ -89,7 +113,7 @@ export default function RepairCarForm() {
     }
 
     try {
-      await createCar(formTotalData);
+      await createCar(data);
       toast.success("🚓 차량 등록 완료!");
       navigate("/manager/car");
     } catch (error) {
@@ -135,7 +159,7 @@ export default function RepairCarForm() {
       </InfoContainer>
 
       <TitleRow>차량 기본정보</TitleRow>
-      <CarInfoForm carInfoData={carInfoData} setCarInfoData={setCarInfoData} />
+      <CarInfoUpdateForm carInfoData={carInfoData} setCarInfoData={setCarInfoData} />
 
       <TitleRow>차량 옵션</TitleRow>
       <CarOptionForm carOptionData={carOptionData} setCarOptionData={setCarOptionData} />
@@ -143,7 +167,15 @@ export default function RepairCarForm() {
       <TitleRow>차량 이미지</TitleRow>
       <FileRow>
         <Label>첨부파일</Label>
-        <FileBox>{currentImg ? <img src={currentImg} alt="" /> : ""}</FileBox>
+        <FileBox>
+          {currentImg ? (
+            <img src={currentImg} alt="" />
+          ) : location.state.imageUrl ? (
+            <img src={location.state.imageUrl} alt="" />
+          ) : (
+            ""
+          )}
+        </FileBox>
         <Flex direction="column" justify="flex-end">
           <input type="file" name="file" onChange={handleUploadFile} />
           <Spacing size={10} />
@@ -156,7 +188,7 @@ export default function RepairCarForm() {
       <Spacing size={80} />
       <Flex justify={"center"}>
         <BaseButton size="medium" color="black" height={"40px"} full onClick={confirmCreate}>
-          차량 등록하기
+          차량 수정하기
         </BaseButton>
       </Flex>
       <Spacing size={50} />

@@ -76,6 +76,7 @@ const FormContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  border-bottom: 1px solid #eee;
 `;
 
 const InfoBox = styled.div`
@@ -91,7 +92,7 @@ const Label = styled.div`
   margin-right: 10px;
   align-items: center;
   justify-content: flex-start;
-  font-size: 14px;
+  font-size: 11px;
   padding-left: 20px;
   font-weight: bold;
   background-color: #fafafa;
@@ -116,6 +117,7 @@ const UserImgBox = styled.div`
   align-items: center;
   justify-content: center;
   background-color: #f4f4f4;
+  margin-right: 10px;
 
   > img {
     height: 200px;
