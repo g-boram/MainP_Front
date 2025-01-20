@@ -21,24 +21,18 @@ export default function QnAPage() {
   const [currentItems, setCurrentItems] = useState([]);
 
   const { filteredBoards, isLoading } = useSelector((state) => state.boardList);
-  const { currentPage, itemsPerPage } = useSelector(
-    (state) => state.pagination
-  );
+  const { currentPage, itemsPerPage } = useSelector((state) => state.pagination);
 
   useEffect(() => {
     const fetchBoards = async () => {
-      await dispatch(
-        fetchPagedBoards({ page: 0, size: 10, sort: "boardId,desc" })
-      );
+      await dispatch(fetchPagedBoards({ page: 0, size: 10, sort: "boardId,desc" }));
     };
 
     fetchBoards();
   }, [dispatch]);
 
   useEffect(() => {
-    const setNoticeData = filteredBoards.filter(
-      (board) => board.category === "faq" && board.status === "ACTIVE"
-    );
+    const setNoticeData = filteredBoards.filter((board) => board.category === "faq" && board.status === "ACTIVE");
     dispatch(setTotalItems(setNoticeData.length));
 
     const startIndex = currentPage * itemsPerPage;
@@ -46,12 +40,9 @@ export default function QnAPage() {
     setCurrentItems(setNoticeData.slice(startIndex, endIndex));
   }, [currentPage, itemsPerPage, filteredBoards, dispatch]);
 
-  console.log(currentItems);
-
   return (
     <PageContainer>
       <PageTopImgBox imgName={"board"} title={"FAQ"} desc={"자주하는 질문"} />
-      <BoardSearch />
       <BoardListContainer>
         {isLoading && (
           <ClearLoadingOverlay>
@@ -62,7 +53,6 @@ export default function QnAPage() {
           currentItems.map((board) => (
             <>
               <FaQBoardRow key={board.id} {...board} />
-              
             </>
           ))
         ) : (

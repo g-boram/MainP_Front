@@ -46,7 +46,7 @@ export default function NoticePage() {
         title={"공지사항"}
         desc={"00의 새로운 소식과 각 부분의 다양한 서비스 등을 알려 드립니다."}
       />
-      <BoardSearch />
+
       <BoardListContainer>
         {isLoading && (
           <ClearLoadingOverlay>

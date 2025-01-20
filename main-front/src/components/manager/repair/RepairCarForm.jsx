@@ -10,8 +10,8 @@ import { colorPalette } from "../../../styles/colorPalette";
 import { useSelector } from "react-redux";
 import { useAlertContext } from "../../../contexts/AlertContextProvider";
 import { useNavigate } from "react-router-dom";
-import { BarLoader } from "react-spinners";
-import { LoadingOverlay } from "../../../styles/managerLayoutStyles";
+import { BarLoader, ClipLoader } from "react-spinners";
+import { ClearLoadingOverlay, LoadingOverlay } from "../../../styles/managerLayoutStyles";
 import { createCar } from "../../../api/carApi";
 import { toast } from "react-toastify";
 import { MdOutlinePhoneIphone } from "react-icons/md";
@@ -125,9 +125,9 @@ export default function RepairCarForm() {
   return (
     <FormContainer>
       {isLoading && (
-        <LoadingOverlay>
-          <BarLoader color="#000" z-index={11} />
-        </LoadingOverlay>
+        <ClearLoadingOverlay>
+          <ClipLoader color="#000" z-index={11} />
+        </ClearLoadingOverlay>
       )}
       <InfoContainer>
         <MdOutlinePhoneIphone size={20} />

@@ -66,7 +66,7 @@ const CarFilterCountry = ({ country, manufacturer, model, setCountry, setManufac
             <Flex
               justify="space-between"
               width="100%"
-              height="20px"
+              height="25px"
               style={{
                 display: "flex",
                 justifyContent: "space-between",
@@ -75,6 +75,7 @@ const CarFilterCountry = ({ country, manufacturer, model, setCountry, setManufac
                 borderRadius: "15px",
                 backgroundColor: selectedCountry === country ? "#000" : "#fff",
                 color: selectedCountry === country ? "#fff" : "#000",
+                fontWeight: selectedCountry === country ? "bold" : "",
               }}
             >
               <label for={country} key={country}>
@@ -106,7 +107,7 @@ const CarFilterCountry = ({ country, manufacturer, model, setCountry, setManufac
               <Flex
                 justify="space-between"
                 width="100%"
-                height="20px"
+                height="25px"
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
@@ -115,6 +116,7 @@ const CarFilterCountry = ({ country, manufacturer, model, setCountry, setManufac
                   borderRadius: "15px",
                   backgroundColor: selectedManufacturer === manufacturer ? "#000" : "#fff",
                   color: selectedManufacturer === manufacturer ? "#fff" : "#000",
+                  fontWeight: selectedManufacturer === manufacturer ? "bold" : "",
                 }}
               >
                 <label for={manufacturer} key={manufacturer}>
@@ -146,7 +148,7 @@ const CarFilterCountry = ({ country, manufacturer, model, setCountry, setManufac
               <Flex
                 justify="space-between"
                 width="100%"
-                height="20px"
+                height="25px"
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
@@ -155,6 +157,7 @@ const CarFilterCountry = ({ country, manufacturer, model, setCountry, setManufac
                   borderRadius: "15px",
                   backgroundColor: selectedModel === mol ? "#000" : "#fff",
                   color: selectedModel === mol ? "#fff" : "#000",
+                  fontWeight: selectedModel === mol ? "bold" : "",
                 }}
               >
                 <label for={mol} key={mol}>
@@ -211,7 +214,8 @@ const OptionBox = styled.div`
   align-items: flex-start;
   justify-content: flex-start;
   flex-direction: column;
-  font-size: 12px;
+  font-size: 13px;
+  gap: 15px;
   padding: 0 10px;
   border-left: 1px solid ${colorPalette.grey};
 

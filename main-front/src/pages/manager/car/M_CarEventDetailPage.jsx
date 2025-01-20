@@ -5,6 +5,8 @@ import Flex from "../../../components/shared/Flex";
 import styled from "@emotion/styled";
 import Modal from "../../../components/shared/Modal";
 import CarEventUpdateForm from "../../../components/manager/car/CarEventUpdateForm";
+import Spacing from "../../../components/shared/Spacing";
+import BaseButton from "../../../components/shared/Button";
 
 import {
   ContentBox,
@@ -19,11 +21,9 @@ import { toast } from "react-toastify";
 import { useAlertContext } from "../../../contexts/AlertContextProvider";
 import { useLocation, useNavigate } from "react-router-dom";
 import { updateCar } from "../../../api/carApi";
-import Spacing from "../../../components/shared/Spacing";
 import { BarLoader } from "react-spinners";
 import { colorPalette } from "../../../styles/colorPalette";
 import { RxCross2 } from "react-icons/rx";
-import BaseButton from "../../../components/shared/Button";
 
 export default function M_CarEventDetailPage() {
   const location = useLocation();

@@ -1,13 +1,16 @@
-import { useState } from "react";
 import styled from "@emotion/styled/macro";
 import axios from "axios";
+import { useState } from "react";
 import { HEIGHT_LIST } from "../../../constants/height";
-import { Link } from "react-router-dom";
-import { DotLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
+import { SERVER_URL } from "../../../constants/urlList";
+import { toast } from "react-toastify";
+import { useAlertContext } from "../../../contexts/AlertContextProvider";
 
 export default function CarSellPage() {
+  const { open } = useAlertContext();
   const navigate = useNavigate();
+
   const [step, setStep] = useState(1); // 단계
   const [selectedColor, setSelectedColor] = useState(""); // 차량 색상 상태
   const [specialNotes, setSpecialNotes] = useState(""); // 차량 특이사항 상태
@@ -19,7 +22,7 @@ export default function CarSellPage() {
     price: "",
   });
 
-  // 색상 목록 
+  // 색상 목록
   const colors = [
     { name: "검정색", value: "#000000" },
     { name: "흰색", value: "#FFFFFF" },
@@ -37,6 +40,16 @@ export default function CarSellPage() {
     setFormData({ ...formData, [name]: value });
   };
 
+  const confirmCreate = (e) => {
+    e.preventDefault();
+    open({
+      title: "신청서 제출",
+      description: "신청서를 제출 하시겠습니까?",
+      isCancel: true,
+      onButtonClick: () => submitForm(),
+    });
+  };
+
   const submitForm = async () => {
     const payload = {
       ...formData,
@@ -45,113 +58,121 @@ export default function CarSellPage() {
     };
 
     try {
-      const response = await axios.post("http://localhost:8081/api/carsell", payload);
+      const response = await axios.post(`${SERVER_URL.LOCAL}/api/carsell`, payload);
       if (response.status === 200) {
-        alert("신청서가 성공적으로 제출되었습니다!");
-        navigate("/")
+        toast.success("신청서가 성공적으로 제출되었습니다!");
+        navigate("/");
       } else {
-        alert("제출에 실패했습니다. 다시 시도해주세요.");
+        toast.error("제출에 실패했습니다. 다시 시도해주세요.");
       }
     } catch (error) {
       console.error("Error submitting form", error);
-      alert("서버와 통신 중 오류가 발생했습니다.");
+      toast.error("서버와 통신 중 오류가 발생했습니다.");
     }
   };
 
   return (
     <CarListContainer>
-      <TopTittle>방문 차량 판매신청</TopTittle>
+      <CarListWrapper>
+        <TopTittle>방문 차량 판매신청</TopTittle>
 
-      {/* 지역 입력 */}
-      <TextArea>
-        <Text>원하시는 지역을 입력해주세요</Text>
-        <InputBox
-          name="region"
-          placeholder="ex)서울 특별시 구로구 OO길 OO"
-          disabled={step > 1}
-          onChange={handleInputChange}
-        />
-      </TextArea>
+        {/* 지역 입력 */}
+        <TextArea>
+          <Text>원하시는 지역을 입력해주세요</Text>
+          <InputBox
+            name="region"
+            placeholder="ex)서울 특별시 구로구 OO길 OO"
+            disabled={step > 1}
+            onChange={handleInputChange}
+          />
+        </TextArea>
 
-      {/* 휴대폰 번호 입력 */}
-      <TextArea>
-        <Text>휴대폰 번호를 입력해 주세요.</Text>
-        <InputBox
-          name="phone"
-          placeholder="ex) 010-0000-0000"
-          disabled={step > 2}
-          onChange={handleInputChange}
-        />
-      </TextArea>
+        {/* 휴대폰 번호 입력 */}
+        <TextArea>
+          <Text>휴대폰 번호를 입력해 주세요.</Text>
+          <InputBox name="phone" placeholder="ex) 010-0000-0000" disabled={step > 2} onChange={handleInputChange} />
+        </TextArea>
 
-      {/* 시간대 입력 */}
-      <TextArea>
-        <Text>원하는 시간대를 입력해주세요</Text>
-        <InputBox
-          name="time"
-          placeholder="ex)14시20분"
-          disabled={step > 3}
-          onChange={handleInputChange}
-        />
-      </TextArea>
+        {/* 시간대 입력 */}
+        <TextArea>
+          <Text>원하는 시간대를 입력해주세요</Text>
+          <InputBox name="time" placeholder="ex)14시20분" disabled={step > 3} onChange={handleInputChange} />
+        </TextArea>
 
-      {/* 차량 주행거리 입력 */}
-      <TextArea>
-        <Text>차량 주행거리를 입력해주세요 (km)</Text>
-        <InputBox
-          name="mileage"
-          placeholder="ex) 120,000"
-          onChange={handleInputChange}
-        />
-      </TextArea>
+        {/* 차량 주행거리 입력 */}
+        <TextArea>
+          <Text>차량 주행거리를 입력해주세요 (km)</Text>
+          <InputBox name="mileage" placeholder="ex) 120,000" onChange={handleInputChange} />
+        </TextArea>
 
-      {/* 판매 희망 금액 입력 */}
-      <TextArea>
-        <Text>판매 희망 금액을 입력해주세요 (만원)</Text>
-        <InputBox
-          name="price"
-          placeholder="ex) 500"
-          onChange={handleInputChange}
-        />
-      </TextArea>
+        {/* 판매 희망 금액 입력 */}
+        <TextArea>
+          <Text>판매 희망 금액을 입력해주세요 (만원)</Text>
+          <InputBox name="price" placeholder="ex) 500" onChange={handleInputChange} />
+        </TextArea>
 
-      {/* 차량 색상 선택 */}
-      <TextArea>
-        <Text>차량 색상을 선택해주세요</Text>
-        <ColorGrid>
-          {colors.map((color) => (
-            <ColorOption key={color.name}>
-              <ColorBox style={{ backgroundColor: color.value }} />
-              <ColorName>{color.name}</ColorName>
-              <RadioLabel>
-                <RadioInput
-                  type="radio"
-                  name="carColor"
-                  value={color.name}
-                  checked={selectedColor === color.name}
-                  onChange={(e) => setSelectedColor(e.target.value)}
-                />
-              </RadioLabel>
-            </ColorOption>
-          ))}
-        </ColorGrid>
-      </TextArea>
+        {/* 차량 색상 선택 */}
+        <TextArea>
+          <Text>차량 색상을 선택해주세요</Text>
+          <ColorGrid>
+            {colors.map((color) => (
+              <ColorOption key={color.name}>
+                <ColorBox style={{ backgroundColor: color.value }} />
+                <ColorName>{color.name}</ColorName>
+                <RadioLabel>
+                  <RadioInput
+                    type="radio"
+                    name="carColor"
+                    value={color.name}
+                    checked={selectedColor === color.name}
+                    onChange={(e) => setSelectedColor(e.target.value)}
+                  />
+                </RadioLabel>
+              </ColorOption>
+            ))}
+          </ColorGrid>
+        </TextArea>
 
-      {/* 차량 특이사항 입력 */}
-      <TextArea>
-        <Text>차량 특이사항</Text>
-        <TextAreaInput
-          value={specialNotes}
-          onChange={(e) => setSpecialNotes(e.target.value)}
-          placeholder="특이사항을 입력해주세요."
-        />
-      </TextArea>
+        {/* 차량 특이사항 입력 */}
+        <TextArea>
+          <Text>차량 특이사항</Text>
+          <TextAreaInput
+            value={specialNotes}
+            onChange={(e) => setSpecialNotes(e.target.value)}
+            placeholder="특이사항을 입력해주세요."
+          />
+        </TextArea>
 
-      {/* 제출 버튼 */}
-      <FormBtn onClick={submitForm}>신청서 제출하기</FormBtn>
+        {/* 제출 버튼 */}
+        <FormBtn onClick={confirmCreate}>신청서 제출하기</FormBtn>
+      </CarListWrapper>
     </CarListContainer>
   );
 }
+
+const CarListContainer = styled.div`
+  user-select: none;
+  min-height: 100%;
+  width: 100%;
+  margin-bottom: 100px;
+  display: flex;
+  justify-content: center;
+  padding-top: ${HEIGHT_LIST.HEADER + HEIGHT_LIST.NAVBAR}px;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
+`;
+
+const CarListWrapper = styled.div`
+  width: 600px;
+  min-height: 100%;
+  padding: 20px;
+  border: 2px solid #eee;
+  box-shadow: 0px 0px 10px 5px #eee;
+  border-radius: 20px;
+  margin-top: 50px;
+`;
 
 const FormBtn = styled.div`
   border-radius: 8px;
@@ -171,15 +192,15 @@ const FormBtn = styled.div`
 
 const TextAreaInput = styled.textarea`
   width: 100%;
-  height: 150px; 
-  resize: vertical; 
+  height: 150px;
+  resize: vertical;
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 10px;
   font-size: 16px;
-  font-weight:bold;
+  font-weight: bold;
   line-height: 1.5;
-  margin-top:10px;
+  margin-top: 10px;
 
   ::placeholder {
     color: #c4c4c4;
@@ -188,8 +209,9 @@ const TextAreaInput = styled.textarea`
 
 const TopTittle = styled.h1`
   text-align: center;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: bold;
+  height: 50px;
 `;
 
 const ColorGrid = styled.div`
@@ -204,12 +226,12 @@ const ColorOption = styled.div`
 `;
 
 const ColorBox = styled.div`
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   margin: 0 auto;
-  border: 2px solid #ccc;
+  margin-top: 10px;
+  border: 1px solid #ccc;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 `;
 
 const ColorName = styled.div`
@@ -228,49 +250,35 @@ const RadioInput = styled.input`
   cursor: pointer;
 `;
 
-const CarListContainer = styled.div`
-  user-select: none;
-  min-height: 100%;
-  width: 1200px;
-  margin: 0 auto;
-  margin-bottom: 100px;
-  padding-top: ${HEIGHT_LIST.HEADER + HEIGHT_LIST.NAVBAR}px;
-
-  @media (max-width: 600px) {
-    flex-direction: column;
-  }
-`;
-
 const TextArea = styled.div`
-  margin-top: 30px;
+  margin-top: 25px;
 `;
 
 const Text = styled.span`
-  color: #1a1a1a;
+  color: #333;
   display: block;
-  font-size: 22px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: -0.44px;
   line-height: 30px;
 `;
 
 const InputBox = styled.input`
-  margin-top: 15px;
+  margin-top: 5px;
   background: none;
-  border: 1px solid #000;
-  border-radius: 8px;
+  border: 1px solid #eee;
+  border-radius: 5px;
   box-sizing: border-box;
   color: rgb(51, 51, 51);
-  font-size: 30px;
+  font-size: 18px;
   font-weight: 600;
   height: 100%;
-  letter-spacing: -0.6px;
+  letter-spacing: 0.5px;
   line-height: 36px;
   outline: none;
-  padding: 7px 30px;
+  padding: 7px 20px;
   width: 100%;
-  box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2);
-  margin-bottom: 80px;
+  margin-bottom: 30px;
 
   ::placeholder {
     color: #c4c4c4;

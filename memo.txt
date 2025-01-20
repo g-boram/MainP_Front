@@ -1,215 +1,235 @@
-import styled from "@emotion/styled";
-import Spacing from "../shared/Spacing";
-import { colorPalette } from "../../styles/colorPalette";
-import { CAR_COUNTRY, CAR_MANUFACTURERE } from "../../constants/carOption";
-import { GoCheck } from "react-icons/go";
+import styled from "@emotion/styled/macro";
+import axios from "axios";
+import { motion } from "framer-motion";
 import { useState } from "react";
-import Flex from "../shared/Flex";
+import { HEIGHT_LIST } from "../../../constants/height";
+import { Link } from "react-router-dom";
+import { SERVER_URL } from "../../../constants/urlList";
+import { ClearLoadingOverlay, LoadingOverlay } from "../../../styles/managerLayoutStyles";
+import { BarLoader, ClipLoader } from "react-spinners";
 
-const CarMakeCascadingSelect = ({ country, manufacturer, model, setCountry, setManufacturer, setModel }) => {
-  const [selectedCountry, setSelectedCountry] = useState("");
-  const [selectedManufacturer, setSelectedManufacturer] = useState("");
-  const [selectedModel, setSelectedModel] = useState("");
+export default function CarSellEstimate() {
+  const [step, setStep] = useState(1); // 1: 차량번호 입력, 2: 소유자명 입력, 3: 생년월일 입력
+  const [carNumber, setCarNumber] = useState("");
+  const [ownerName, setOwnerName] = useState("");
+  const [birthDate, setBirthDate] = useState("");
 
-  // 나라
-  const handleCountryChange = (e) => {
-    setCountry(e.target.value);
-    setSelectedCountry(e.target.value);
+  const [isLoading, setIsLoading] = useState(false);
 
-    setManufacturer("");
-    setSelectedManufacturer("");
+  // 차량번호 유효성 검증 API 호출 (axios로 변경)
+  const validateCarNumber = async (carNumber) => {
+    try {
+      const response = await axios.get(`${SERVER_URL.LOCAL}/details/validate/${carNumber}`);
 
-    setModel("");
-    setSelectedModel("");
+      return response.data.valid; // `isValid` 필드가 true이면 유효한 차량번호로 처리
+    } catch (error) {
+      console.error("Error validating car number:", error);
+      return false;
+    }
   };
 
-  // 제조사
-  const handleManufacturerChange = (e) => {
-    setManufacturer(e.target.value);
-    setSelectedManufacturer(e.target.value);
-
-    setModel("");
-    setSelectedModel("");
+  // 소유자명 유효성 검증 API 호출 (axios로 변경)
+  const validateOwnerName = async (ownerName, carNumber) => {
+    try {
+      const response = await axios.get(`${SERVER_URL.LOCAL}/details/validate/ownername`, {
+        params: { ownerName, carNumber },
+      });
+      return response.data.valid; // `isValid`가 true일 경우 유효한 소유자명
+    } catch (error) {
+      console.error("Error validating owner name:", error);
+      return false;
+    }
   };
 
-  // 모델 선택 핸들러
-  const handleModelChange = (e) => {
-    setModel(e.target.value);
-    setSelectedModel(e.target.value);
+  // 생년월일 유효성 검증 API 호출 (axios로 변경)
+  const validateBirthDateOnServer = async (birthDate, carNumber) => {
+    try {
+      const response = await axios.get(`${SERVER_URL.LOCAL}/details/validate/birthdate`, {
+        params: { birthDate, carNumber },
+        withCredentials: true,
+      });
+      return response.data.valid; // `isValid`가 true이면 생년월일이 유효함
+    } catch (error) {
+      console.error("Error validating birth date:", error);
+      return false;
+    }
+  };
+
+  // 생년월일 유효성 검사 (형식 확인)
+  const validateBirthDate = (date) => {
+    const regex = /^\d{4}-\d{2}-\d{2}$/; // YYYY-MM-DD 형식
+    if (!regex.test(date)) return false; // 잘못된 형식일 경우 false 반환
+    const parsedDate = new Date(date);
+    return !isNaN(parsedDate.getTime());
+  };
+
+  // 생년월일 입력 포맷팅
+  const handleBirthDateChange = (e) => {
+    const input = e.target.value.replace(/[^0-9]/g, ""); // 숫자만 허용
+    let formattedDate = input;
+
+    if (input.length > 4) {
+      formattedDate = `${input.slice(0, 4)}-${input.slice(4)}`;
+    }
+    if (input.length > 6) {
+      formattedDate = `${formattedDate.slice(0, 7)}-${input.slice(6)}`;
+    }
+    setBirthDate(formattedDate.slice(0, 10)); // 최대 10자리
+  };
+
+  const handleNext = async () => {
+    setIsLoading(true);
+    if (step === 1 && carNumber.trim()) {
+      const isValid = await validateCarNumber(carNumber);
+      if (isValid) setStep(2);
+      else alert("유효하지 않은 차량번호입니다.");
+    } else if (step === 2 && ownerName.trim()) {
+      const isValid = await validateOwnerName(ownerName, carNumber);
+      if (isValid) setStep(3);
+      else alert("차량번호와 소유자명이 일치하지 않습니다.");
+    } else if (step === 3 && validateBirthDate(birthDate)) {
+      const isValid = await validateBirthDateOnServer(birthDate, carNumber);
+      if (isValid) {
+        return <Link to="/usercarinfor" />;
+      } else alert("생년월일이 일치하지 않습니다.");
+    } else {
+      alert("모든 필드를 올바르게 입력해주세요.");
+    }
+    setIsLoading(false);
+  };
+
+  // 애니메이션 설정
+  const slideVariants = {
+    hidden: { opacity: 0, y: -70 },
+    visible: { opacity: 1, y: 0 },
   };
 
   return (
-    <RowWrapper>
-      <FlexRow>
-        <Label>
-          <Box />
-          나라
-        </Label>
-        <OptionBox>
-          {Object.keys(CAR_COUNTRY).map((country) => (
-            <Flex
-              justify="space-between"
-              width="100%"
-              height="20px"
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                padding: "5px 10px",
-                borderRadius: "15px",
-                backgroundColor: selectedCountry === country ? "#000" : "#fff",
-                color: selectedCountry === country ? "#fff" : "#000",
-              }}
-            >
-              <label for={country} key={country}>
-                {country}
-              </label>
-              <input
-                type="radio"
-                id={country}
-                name={country}
-                value={country}
-                checked={selectedCountry === country}
-                onChange={handleCountryChange}
+    <CarListContainer>
+      {isLoading && (
+        <ClearLoadingOverlay>
+          <ClipLoader color="#000" z-index={11} />
+        </ClearLoadingOverlay>
+      )}
+      <CarListWrapper>
+        <motion.div variants={slideVariants} initial="hidden" animate="visible" transition={{ duration: 0.5 }}>
+          <TextArea>
+            <Text>먼저,</Text>
+            <Text>차량의 번호를 입력해주세요</Text>
+            <InputBox
+              placeholder="123가 1234"
+              value={carNumber}
+              onChange={(e) => setCarNumber(e.target.value)}
+              disabled={step > 1}
+            />
+          </TextArea>
+        </motion.div>
+
+        {step >= 2 && (
+          <motion.div
+            variants={slideVariants}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <TextArea>
+              <Text>이제,</Text>
+              <Text>소유주 이름을 입력해주세요</Text>
+              <InputBox
+                placeholder="홍길동"
+                value={ownerName}
+                onChange={(e) => setOwnerName(e.target.value)}
+                disabled={step > 2}
               />
-              {selectedCountry === country ? <GoCheck size={15} /> : <></>}
-            </Flex>
-          ))}
-        </OptionBox>
-      </FlexRow>
-      <Spacing size={10} />
-
-      <FlexRow>
-        <Label>
-          <Box />
-          제조사
-        </Label>
-        {country && (
-          <OptionBox>
-            {CAR_COUNTRY[country].map((manufacturer) => (
-              <Flex
-                justify="space-between"
-                width="100%"
-                height="20px"
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  padding: "5px 10px",
-                  borderRadius: "15px",
-                  backgroundColor: selectedManufacturer === manufacturer ? "#000" : "#fff",
-                  color: selectedManufacturer === manufacturer ? "#fff" : "#000",
-                }}
-              >
-                <label for={manufacturer} key={manufacturer}>
-                  {manufacturer}
-                </label>
-                <input
-                  type="radio"
-                  id={manufacturer}
-                  name={manufacturer}
-                  value={manufacturer}
-                  checked={selectedManufacturer === manufacturer}
-                  onChange={handleManufacturerChange}
-                />
-                {selectedManufacturer === manufacturer ? <GoCheck size={15} /> : <></>}
-              </Flex>
-            ))}
-          </OptionBox>
+            </TextArea>
+          </motion.div>
         )}
-      </FlexRow>
 
-      <FlexRow>
-        <Label>
-          <Box />
-          모델
-        </Label>
-        {manufacturer && (
-          <OptionBox>
-            {CAR_MANUFACTURERE[manufacturer].map((mol) => (
-              <Flex
-                justify="space-between"
-                width="100%"
-                height="20px"
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  padding: "5px 10px",
-                  borderRadius: "15px",
-                  backgroundColor: selectedModel === mol ? "#000" : "#fff",
-                  color: selectedModel === mol ? "#fff" : "#000",
-                }}
-              >
-                <label for={mol} key={mol}>
-                  {mol}
-                </label>
-                <input
-                  type="radio"
-                  id={mol}
-                  name={mol}
-                  value={mol}
-                  checked={selectedModel === mol}
-                  onChange={handleModelChange}
-                />
-                {selectedModel === mol ? <GoCheck size={15} /> : <></>}
-              </Flex>
-            ))}
-          </OptionBox>
+        {step >= 3 && (
+          <motion.div
+            variants={slideVariants}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            <TextArea>
+              <Text>마지막으로,</Text>
+              <Text>소유주의 생년월일을 입력해주세요</Text>
+              <InputBox placeholder="YYYY-MM-DD" value={birthDate} onChange={handleBirthDateChange} />
+            </TextArea>
+          </motion.div>
         )}
-      </FlexRow>
-    </RowWrapper>
+
+        <FormBtn onClick={handleNext}>
+          {step === 3 ? (
+            <Linkstyle to={`/usercarinfor`} state={{ carNumber, ownerName }}>
+              완료
+            </Linkstyle>
+          ) : (
+            "다음"
+          )}
+        </FormBtn>
+      </CarListWrapper>
+    </CarListContainer>
   );
-};
+}
 
-const RowWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+// 스타일 컴포넌트
+const Linkstyle = styled(Link)`
+  color: #fff;
+  text-decoration: none;
 `;
-const FlexRow = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-
-  > select {
-    font-size: "13px";
-    width: 100%;
-  }
-`;
-
-const Box = styled.div`
-  height: 5px;
-  width: 5px;
-  background-color: ${colorPalette.black};
-  margin-right: 10px;
-`;
-
-const Label = styled.div`
-  width: 100%;
-  height: 35px;
+const FormBtn = styled.div`
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  height: 40px;
+  line-height: 50px;
+  width: 80%;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  font-size: 12px;
-  color: ${colorPalette.fontBlack};
+  justify-content: center;
+  margin: 30px auto;
+  color: #fff;
+  background-color: #d72e36;
+  cursor: pointer;
 `;
 
-const OptionBox = styled.div`
+const Text = styled.span`
+  color: #1a1a1a;
+  display: block;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.44px;
+  line-height: 30px;
+`;
+
+const TextArea = styled.div`
+  margin-top: 30px;
+`;
+
+const InputBox = styled.input`
+  margin-top: 15px;
+  background: none;
+  border: 1px solid #000;
+  border-radius: 8px;
+  color: rgb(51, 51, 51);
+  font-size: 20px;
+  font-weight: 600;
+  padding: 7px 30px;
+  width: 100%;
+`;
+
+const CarListWrapper = styled.div`
+  width: 500px;
+`;
+
+const CarListContainer = styled.div`
+  min-height: 100%;
+  width: 900px;
   display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
   flex-direction: column;
-  font-size: 12px;
-  padding: 0 10px;
-  border-left: 1px solid ${colorPalette.grey};
-
-  div > label {
-    cursor: pointer;
-  }
-  div > input {
-    display: none;
-  }
+  align-items: center;
+  margin: 0 auto;
+  padding-top: ${HEIGHT_LIST.HEADER + HEIGHT_LIST.NAVBAR}px;
 `;
-
-export default CarMakeCascadingSelect;
