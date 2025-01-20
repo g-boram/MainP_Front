@@ -17,8 +17,10 @@ import SignupPage from "./pages/user/SignupPage";
 import NoticePage from "./pages/user/board/NoticePage";
 import NoticeDetailPage from "./pages/user/board/NoticeDetailPage";
 import ChatBot from "./components/ai/ChatBot";
-import CarSellPage from "./pages/user/car/CarsellPage";
-import CarSellEsTimatePage from "./pages/user/car/CarSellEsTimate";
+import MyCarSellPage from "./pages/user/car/MyCarSellPage";
+import CarSellEstimate from "./pages/user/car/CarSellEstimate";
+import UserCarinfor from "./pages/user/car/UserCarinfor";
+import CarSellPage from "./pages/user/car/CarSellPage";
 
 // [ 관리자 ]
 import ManagerPage from "./pages/manager/ManagerPage";
@@ -41,6 +43,8 @@ import M_UsersCreatePage from "./pages/manager/users/M_UsersCreatePage";
 import M_UsersUpdatePage from "./pages/manager/users/M_UsersUpdatePage";
 import FaQPage from "./pages/user/board/FaQPage";
 import FaQDetailPage from "./pages/user/board/FaQDetailPage";
+import M_RepairPage from "./pages/manager/repair/M_RepairPage";
+import M_RepairCreatePage from "./pages/manager/repair/M_RepairCreatePage";
 
 function App() {
   return (
@@ -88,6 +92,12 @@ function App() {
           <Route path="/CarSell" Component={CarSellPage} />
           <Route path="/CarSell/estimate" Component={CarSellEsTimatePage} />
           <Route path="/car/detail" Component={CarDetailPage} />
+          <Route path="/mycarsellpage" Component={MyCarSellPage} />
+          <Route path="/carsellestimate" Component={CarSellEstimate} />
+          <Route path="/usercarinfor" Component={UserCarinfor}/>
+          <Route path="/carsell" Component={CarSellPage}/>
+
+          
 
           {/* 관리자 페이지 */}
           <Route path="/manager" Component={ManagerPage} />
@@ -112,6 +122,10 @@ function App() {
           <Route path="/manager/users/create" Component={M_UsersCreatePage} />
           <Route path="/manager/users/detail" Component={M_UsersDetailPage} />
           <Route path="/manager/users/update" Component={M_UsersUpdatePage} />
+          <Route path="/manager/repair" Component={M_RepairPage} />
+          <Route path="/manager/repair/create" Component={M_RepairCreatePage} />
+          <Route path="/manager/repair/update" Component={M_RepairPage} />
+          <Route path="/manager/repair/delete" Component={M_RepairPage} />
 
           {/* @TODO: 인증이 필요한 페이지 나누기 ex) 관리자,유저의 등급, 로그인 여부 ... */}
           {/* <Route path="/my" element={

@@ -20,25 +20,24 @@ const TitleContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  height: 80px;
+  align-items: flex-end;
+  height: 70px;
   border-bottom: 2px solid black;
 `;
 
 const TitleWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
 `;
 
 const Title = styled.div`
-  font-size: 24px;
+  font-size: 22px;
   font-weight: bold;
   color: ${colorPalette.fontBlack};
 `;
 
 const Desc = styled.div`
-  font-size: 12px;
+  font-size: 11px;
   color: ${colorPalette.fontGrey};
 `;
 

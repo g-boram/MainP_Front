@@ -16,7 +16,7 @@ import {
 } from "../../../constants/carOption";
 import Flex from "../../shared/Flex";
 
-export default function CarFilterRow({ setIsLoading, setCarData }) {
+export default function CarFilterRow({ setIsLoading, setCurrentItems }) {
   const [isAvailable, setIsAvailable] = useState(1);
   const [year, setYear] = useState("");
   const [color, setColor] = useState("");
@@ -36,6 +36,7 @@ export default function CarFilterRow({ setIsLoading, setCarData }) {
     setTransmission("");
     setPrice("");
     setFilters({ make: "", model: "" });
+    setIsAvailable("");
   };
 
   const handleChange = (e) => {
@@ -55,14 +56,14 @@ export default function CarFilterRow({ setIsLoading, setCarData }) {
       year: year.value,
       fuelType: fuelType.value,
       transmission: transmission.value,
-      status: isAvailable ? "AVAILABLE" : "SOLD",
+      status: isAvailable === "" ? "" : isAvailable ? "AVAILABLE" : "SOLD",
       ...filters,
     };
     console.log("filter: ", data);
     setIsLoading(true);
     try {
       const response = await getFilterCarList(data);
-      setCarData(response.data);
+      setCurrentItems(response.data);
     } catch (error) {
       console.error("Failed to fetch cars", error);
     } finally {
@@ -90,6 +91,7 @@ export default function CarFilterRow({ setIsLoading, setCarData }) {
   };
   return (
     <CarFilterWrapper>
+      <Spacing size={10} />
       <FilterRow>
         <FilterBox>
           <Box />
@@ -114,13 +116,12 @@ export default function CarFilterRow({ setIsLoading, setCarData }) {
           />
           <Spacing size={7} direction="width" />
         </FilterBox>
-
         <FilterBox>
           <Box />
           <Label>판매상태</Label>
           <Spacing size={10} direction="width" />
           <BaseButton
-            width="75px"
+            width="70px"
             height="30px"
             color={isAvailable === 1 ? "success" : "grey"}
             onClick={() => setIsAvailable(1)}
@@ -129,7 +130,7 @@ export default function CarFilterRow({ setIsLoading, setCarData }) {
           </BaseButton>
           <Spacing size={5} direction="width" />
           <BaseButton
-            width="75px"
+            width="70px"
             height="30px"
             color={isAvailable === 0 ? "error" : "grey"}
             onClick={() => setIsAvailable(0)}
@@ -138,7 +139,6 @@ export default function CarFilterRow({ setIsLoading, setCarData }) {
           </BaseButton>
         </FilterBox>
       </FilterRow>
-      <Spacing size={10} />
 
       <FilterRow>
         <FilterBox>
@@ -191,7 +191,6 @@ export default function CarFilterRow({ setIsLoading, setCarData }) {
           />
         </FilterBox>
       </FilterRow>
-      <Spacing size={10} />
 
       <FilterRow>
         <FilterBox>
@@ -200,7 +199,7 @@ export default function CarFilterRow({ setIsLoading, setCarData }) {
           <CarColorList color={color} setColor={setColor} />
         </FilterBox>
       </FilterRow>
-      <Flex width="100%" height="60px" justify="flex-end" align="flex-end">
+      <Flex width="100%" height="50px" justify="flex-end" align="flex-end">
         <SearchBtn onClick={handleSearch}>
           <IoMdSearch size={15} />
           <div>Search</div>
@@ -210,7 +209,7 @@ export default function CarFilterRow({ setIsLoading, setCarData }) {
           <div>초기화</div>
         </SearchBtn>
       </Flex>
-      <Spacing size={20} />
+      <Spacing size={10} />
     </CarFilterWrapper>
   );
 }
