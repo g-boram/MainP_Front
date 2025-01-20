@@ -21,6 +21,7 @@ import MyCarSellPage from "./pages/user/car/MyCarSellPage";
 import CarSellEstimate from "./pages/user/car/CarSellEstimate";
 import UserCarinfor from "./pages/user/car/UserCarinfor";
 import CarSellPage from "./pages/user/car/CarSellPage";
+import CompanyPage from "./pages/company/CompanyPage";
 
 // [ 관리자 ]
 import ManagerPage from "./pages/manager/ManagerPage";
@@ -94,17 +95,25 @@ function App() {
           <Route path="/car/detail" Component={CarDetailPage} />
           <Route path="/mycarsellpage" Component={MyCarSellPage} />
           <Route path="/carsellestimate" Component={CarSellEstimate} />
-          <Route path="/usercarinfor" Component={UserCarinfor}/>
-          <Route path="/carsell" Component={CarSellPage}/>
-
-          
+          <Route path="/usercarinfor" Component={UserCarinfor} />
+          <Route path="/carsell" Component={CarSellPage} />
+          <Route path="/company" Component={CompanyPage} />
 
           {/* 관리자 페이지 */}
           <Route path="/manager" Component={ManagerPage} />
           <Route path="/manager/board/notice" Component={M_NoticePage} />
-          <Route path="/manager/board/notice/create" Component={M_NoticeCreatePage} />
-          <Route path="/manager/board/notice/detail" Component={M_NoticeDetailPage} />
-          <Route path="/manager/board/notice/update" Component={M_NoticeUpdatePage} />
+          <Route
+            path="/manager/board/notice/create"
+            Component={M_NoticeCreatePage}
+          />
+          <Route
+            path="/manager/board/notice/detail"
+            Component={M_NoticeDetailPage}
+          />
+          <Route
+            path="/manager/board/notice/update"
+            Component={M_NoticeUpdatePage}
+          />
           <Route path="/manager/car" Component={M_CarPage} />
           <Route path="/manager/car/create" Component={M_CarCreatePage} />
           <Route path="/manager/car/detail" Component={M_CarDetailPage} />

@@ -13,6 +13,7 @@ import styled from "@emotion/styled";
 import Flex from "../shared/Flex";
 import BaseButton from "../shared/Button";
 import Spacing from "../shared/Spacing";
+import Logo from "../../assert/Logo.png";
 
 export default function Header() {
   const [isPath, setIsPath] = useState(false);
@@ -42,7 +43,9 @@ export default function Header() {
       ) : (
         <UserHeaderContainer>
           <HeaderBox>
-            <LogoBox onClick={() => navigate("/")}>Logo</LogoBox>
+            <LogoBox onClick={() => navigate("/")}>
+              <Img src={Logo}></Img>
+            </LogoBox>
             <div>
               {user == null ? (
                 <Flex>
@@ -53,23 +56,38 @@ export default function Header() {
                 <LoginUserBox>
                   <Flex>
                     <TextRow>{user.username} 님 환영합니다.</TextRow>
-                    <BaseButton size="small" color="white" height="30px" width="70px" onClick={handleLogout}>
+                    <BaseButton
+                      size="small"
+                      color="white"
+                      height="30px"
+                      width="70px"
+                      onClick={handleLogout}
+                    >
                       로그아웃
                     </BaseButton>
                     <Spacing size={10} direction="width" />
                     <Link to={`/mypage`}>
-                      <BaseButton size="small" color="white" height="30px" width="80px">
+                      <BaseButton
+                        size="small"
+                        color="white"
+                        height="30px"
+                        width="80px"
+                      >
                         마이페이지
                       </BaseButton>
                     </Link>
                   </Flex>
-                  {user.role === "ADMIN" ? <ManagerLink to="/manager">관리자 페이지</ManagerLink> : <></>}
+                  {user.role === "ADMIN" ? (
+                    <ManagerLink to="/manager">관리자 페이지</ManagerLink>
+                  ) : (
+                    <></>
+                  )}
                 </LoginUserBox>
               )}
             </div>
           </HeaderBox>
           <NavbarContainer>
-            <StyledLink to="/">Nav1</StyledLink>
+            <StyledLink to="/company">회사 소개</StyledLink>
             <StyledLink to="/mycarsellpage">내차 팔기</StyledLink>
             <StyledLink to="/car">내차 사기</StyledLink>
             <StyledLink to="/board/notice">공지사항</StyledLink>
@@ -81,6 +99,17 @@ export default function Header() {
     </>
   );
 }
+
+const Img = styled.img`
+  position: absolute;
+  height: 100px;
+  margin-left: 10px;
+  cursor: pointer;
+
+  @media (max-width: 930px) {
+    display: none;
+  }
+`;
 
 const UserHeaderContainer = styled.div`
   height: auto;
@@ -123,14 +152,17 @@ const NavbarContainer = styled.div`
 `;
 
 const LogoBox = styled.div`
-  margin-left: 20px;
-  cursor: pointer;
+  margin-left: 0;
+  padding-left: 20px;
+  display: flex;
 
-  > img {
+  align-items: center;
+  justify-content: flex-start; // 이미지를 왼쪽으로 정렬
+
+  /* > img {
     width: 100px;
-
     object-fit: contain;
-  }
+  } */
 `;
 
 const TextRow = styled.div`

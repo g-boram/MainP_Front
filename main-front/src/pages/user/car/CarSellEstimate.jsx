@@ -12,7 +12,7 @@ export default function CarSellEstimate() {
   const [carNumber, setCarNumber] = useState("");
   const [ownerName, setOwnerName] = useState("");
   const [birthDate, setBirthDate] = useState("");
-  
+
   const [loading, setLoading] = useState(false);
 
   // 다음 단계로 이동
@@ -24,11 +24,7 @@ export default function CarSellEstimate() {
       }
       const isValid = await validateCarNumber(carNumber);
       if (isValid) {
-        setLoading(true); // 로딩 시작
-        setTimeout(() => {
-            setStep(2);
-            setLoading(false); // 1초 후 로딩 종료
-          }, 1000);
+        setStep(2);
       } else {
         alert("유효하지 않은 차량번호입니다.");
       }
@@ -51,7 +47,7 @@ export default function CarSellEstimate() {
       const isValid = await validateBirthDateOnServer(birthDate, carNumber);
       if (isValid) {
         // alert("모든 정보가 유효합니다.");
-        return <Link to="/usercarinfor"/>
+        return <Link to="/usercarinfor" />;
       } else {
         alert("생년월일이 일치하지 않습니다.");
       }
@@ -136,7 +132,7 @@ export default function CarSellEstimate() {
   return (
     <CarListContainer>
       {/* 차량번호 입력 */}
-          <TextArea>
+      <TextArea>
         <Text>먼저,</Text>
         <Text>차량의 번호를 입력해주세요</Text>
         <InputBox
@@ -144,7 +140,7 @@ export default function CarSellEstimate() {
           value={carNumber}
           onChange={(e) => setCarNumber(e.target.value)}
           disabled={step > 1}
-          />
+        />
       </TextArea>
 
       {/* 소유자명 입력 */}
@@ -175,18 +171,23 @@ export default function CarSellEstimate() {
       )}
 
       {/* 다음 버튼 */}
-      <FormBtn onClick={handleNext}>{step === 3 ?<Linkstyle to={`/usercarinfor`} state={{carNumber,ownerName}}
-      >
-      완료</Linkstyle>  : "다음"}</FormBtn>
+      <FormBtn onClick={handleNext}>
+        {step === 3 ? (
+          <Linkstyle to={`/usercarinfor`} state={{ carNumber, ownerName }}>
+            완료
+          </Linkstyle>
+        ) : (
+          "다음"
+        )}
+      </FormBtn>
     </CarListContainer>
   );
 }
 
 const Linkstyle = styled(Link)`
-    color: #fff;
-    text-decoration: none;
-
-`
+  color: #fff;
+  text-decoration: none;
+`;
 
 const LoaderWrapper = styled.div`
   position: absolute;
@@ -270,4 +271,4 @@ const CarListContainer = styled.div`
   @media (max-width: 600px) {
     flex-direction: column;
   }
-`;  
+`;

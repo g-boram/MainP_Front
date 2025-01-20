@@ -2,13 +2,18 @@ import { useState } from "react";
 import styled from "@emotion/styled/macro";
 import axios from "axios";
 import { HEIGHT_LIST } from "../../../constants/height";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { DotLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
+import { useAlertContext } from "../../../contexts/AlertContextProvider";
 
 export default function CarSellPage() {
+  const location = useLocation();
+  const { open } = useAlertContext();
+
+  // const carNum = location.state;
   const navigate = useNavigate();
-  const [step, setStep] = useState(1); // 단계
+  // const [step, setStep] = useState(1); // 단계
   const [selectedColor, setSelectedColor] = useState(""); // 차량 색상 상태
   const [specialNotes, setSpecialNotes] = useState(""); // 차량 특이사항 상태
   const [formData, setFormData] = useState({
@@ -17,9 +22,11 @@ export default function CarSellPage() {
     time: "",
     mileage: "",
     price: "",
+    carNum: location.state,
   });
-
-  // 색상 목록 
+  console.log(location.state);
+  console.log(location);
+  // 색상 목록
   const colors = [
     { name: "검정색", value: "#000000" },
     { name: "흰색", value: "#FFFFFF" },
@@ -45,10 +52,14 @@ export default function CarSellPage() {
     };
 
     try {
-      const response = await axios.post("http://localhost:8081/api/carsell", payload);
+      const response = await axios.post(
+        "http://localhost:8081/api/carsell",
+        payload
+      );
       if (response.status === 200) {
         alert("신청서가 성공적으로 제출되었습니다!");
-        navigate("/")
+
+        navigate("/");
       } else {
         alert("제출에 실패했습니다. 다시 시도해주세요.");
       }
@@ -68,7 +79,6 @@ export default function CarSellPage() {
         <InputBox
           name="region"
           placeholder="ex)서울 특별시 구로구 OO길 OO"
-          disabled={step > 1}
           onChange={handleInputChange}
         />
       </TextArea>
@@ -79,7 +89,6 @@ export default function CarSellPage() {
         <InputBox
           name="phone"
           placeholder="ex) 010-0000-0000"
-          disabled={step > 2}
           onChange={handleInputChange}
         />
       </TextArea>
@@ -90,7 +99,6 @@ export default function CarSellPage() {
         <InputBox
           name="time"
           placeholder="ex)14시20분"
-          disabled={step > 3}
           onChange={handleInputChange}
         />
       </TextArea>
@@ -171,15 +179,15 @@ const FormBtn = styled.div`
 
 const TextAreaInput = styled.textarea`
   width: 100%;
-  height: 150px; 
-  resize: vertical; 
+  height: 150px;
+  resize: vertical;
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 10px;
   font-size: 16px;
-  font-weight:bold;
+  font-weight: bold;
   line-height: 1.5;
-  margin-top:10px;
+  margin-top: 10px;
 
   ::placeholder {
     color: #c4c4c4;
