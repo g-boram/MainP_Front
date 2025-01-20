@@ -24,10 +24,15 @@ export const getFilterCarList = async (filters) => {
 // 차량 등록
 export const createCar = async (formData) => {
   try {
-    const response = await axios.post(`${SERVER_URL.LOCAL}/car`, formData);
-    return response;
+    const response = await axios.post(`${SERVER_URL.LOCAL}/car`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data", // FormData로 보내는 경우 자동 설정
+      },
+    });
+    return response.data; // 성공적인 응답 데이터 반환
   } catch (error) {
-    throw error.response ? error.response.data : error;
+    // 오류 응답 처리
+    throw error.response ? error.response.data : error.message;
   }
 };
 

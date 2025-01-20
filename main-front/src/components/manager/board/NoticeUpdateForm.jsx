@@ -143,7 +143,7 @@ export default function NoticeUpdateForm() {
                     container: (containerStyles) => ({
                       ...containerStyles,
                       width: "100%",
-                      fontSize: "13px",
+                      fontSize: "11px",
                       border: "1px solid #eee",
                       borderRadius: 0,
                     }),
@@ -229,7 +229,7 @@ const Label = styled.div`
   margin-right: 10px;
   align-items: center;
   justify-content: flex-start;
-  font-size: 14px;
+  font-size: 12px;
   padding: 0 10px;
   font-weight: bold;
   color: ${colorPalette.fontBlack};

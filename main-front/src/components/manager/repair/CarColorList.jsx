@@ -4,6 +4,7 @@ import { colorPalette } from "../../../styles/colorPalette";
 import { css } from "@emotion/react";
 
 export default function CarColorList({ color, setColor, setTitle }) {
+  console.log("color", color);
   return (
     <Container>
       {CAR_COLOR.map((colorOption) => (

@@ -81,7 +81,7 @@ const Label = styled.div`
   margin-right: 10px;
   align-items: center;
   justify-content: flex-start;
-  font-size: 14px;
+  font-size: 12px;
   padding-left: 10px;
   font-weight: bold;
   background-color: #fafafa;
@@ -106,7 +106,7 @@ const ContentBox = styled.div`
   margin-top: 10px;
   margin-bottom: 100px;
   padding: 10px;
-  font-size: 14px;
+  font-size: 12px;
   display: flex;
   justify-content: flex-start;
   color: ${colorPalette.fontBlack};

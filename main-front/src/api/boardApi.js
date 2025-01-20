@@ -37,3 +37,14 @@ export const detailBoardById = async (boardId) => {
     throw error.response ? error.response.data : error;
   }
 };
+
+// 게시판 수정내역 조회
+export const getUpdatedBoardHistory = async (boardId) => {
+  try {
+    const response = await axios.get(`${SERVER_URL.LOCAL}/board/history/${boardId}`);
+
+    return response.data;
+  } catch (error) {
+    throw error.response ? error.response.data : error;
+  }
+};
