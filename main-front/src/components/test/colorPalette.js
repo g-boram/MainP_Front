@@ -1,6 +1,7 @@
 import { css } from "styled-components";
 
 // 사용하려는 색상 정해두기
+//123123
 export const colorPalette = css`
   :root {
     --red: #f44336;

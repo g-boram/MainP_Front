@@ -8,6 +8,7 @@ import Comlogo from "../../assert/comlogo.png";
 import { isCancel } from "axios";
 import { toast } from "react-toastify";
 
+//123123
 export default function CompanyPage() {
   const { open } = useAlertContext();
 

@@ -3,6 +3,7 @@ import { typographyMap } from "../test/typography";
 import styled from "@emotion/styled";
 
 // Text 컴포넌트
+//123123
 const Text = styled.span(
   ({ color = "black", display, textAlign, fontWeight, bold }) => ({
     color: colors[color],
