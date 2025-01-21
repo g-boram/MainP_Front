@@ -12,13 +12,23 @@ export default function CarOptionForm({ carOptionData, setCarOptionData }) {
   const location = useLocation();
 
   const [optionIcon, setOptionIcon] = useState(); // icon
-  const [selectedIconArr, setSelectedIconArr] = useState(location.state?.carOptionData[0].optionIcon);
+  const [selectedIconArr, setSelectedIconArr] = useState(
+    location.state?.carOptionData[0].optionIcon || []
+  );
   const [eEmission, setEEmission] = useState(""); // 배출가스
   const [tuning, setTuning] = useState(location.state?.carOptionData[0].tuning); // 튜닝
-  const [special, setSpecial] = useState(location.state?.carOptionData[0].special); // 특별이력
-  const [changeUsed, setChangeUsed] = useState(location.state?.carOptionData[0].changeUsed); // 용도변경
-  const [accident, setAccident] = useState(location.state?.carOptionData[0].accident); // 사고이력
-  const [simpleRepair, setSimpleRepair] = useState(location.state?.carOptionData[0].simpleRepair); // 단순수리
+  const [special, setSpecial] = useState(
+    location.state?.carOptionData[0].special
+  ); // 특별이력
+  const [changeUsed, setChangeUsed] = useState(
+    location.state?.carOptionData[0].changeUsed
+  ); // 용도변경
+  const [accident, setAccident] = useState(
+    location.state?.carOptionData[0].accident
+  ); // 사고이력
+  const [simpleRepair, setSimpleRepair] = useState(
+    location.state?.carOptionData[0].simpleRepair
+  ); // 단순수리
 
   const [title, setTitle] = useState(null);
 
@@ -26,11 +36,17 @@ export default function CarOptionForm({ carOptionData, setCarOptionData }) {
     if (title != null) {
       switch (title) {
         case "optionIcon":
-          setCarOptionData((prevValues) => ({ ...prevValues, optionIcon: selectedIconArr }));
+          setCarOptionData((prevValues) => ({
+            ...prevValues,
+            optionIcon: selectedIconArr,
+          }));
           setTitle("");
           break;
         case "eEmission":
-          setCarOptionData((prevValues) => ({ ...prevValues, eEmission: eEmission.value }));
+          setCarOptionData((prevValues) => ({
+            ...prevValues,
+            eEmission: eEmission.value,
+          }));
           setTitle("");
           break;
         case "tuning":
@@ -38,19 +54,31 @@ export default function CarOptionForm({ carOptionData, setCarOptionData }) {
           setTitle("");
           break;
         case "special":
-          setCarOptionData((prevValues) => ({ ...prevValues, special: special }));
+          setCarOptionData((prevValues) => ({
+            ...prevValues,
+            special: special,
+          }));
           setTitle("");
           break;
         case "changeUsed":
-          setCarOptionData((prevValues) => ({ ...prevValues, changeUsed: changeUsed }));
+          setCarOptionData((prevValues) => ({
+            ...prevValues,
+            changeUsed: changeUsed,
+          }));
           setTitle("");
           break;
         case "accident":
-          setCarOptionData((prevValues) => ({ ...prevValues, accident: accident }));
+          setCarOptionData((prevValues) => ({
+            ...prevValues,
+            accident: accident,
+          }));
           setTitle("");
           break;
         case "simpleRepair":
-          setCarOptionData((prevValues) => ({ ...prevValues, simpleRepair: simpleRepair }));
+          setCarOptionData((prevValues) => ({
+            ...prevValues,
+            simpleRepair: simpleRepair,
+          }));
           setTitle("");
           break;
         default:
@@ -127,7 +155,10 @@ export default function CarOptionForm({ carOptionData, setCarOptionData }) {
           {carIcons.map((v, index) => {
             const isIcon = selectedIconArr?.includes(index);
             return (
-              <IconBox color={isIcon ? "#c3453c" : "grey"} onClick={() => handleOptionIcon(index)}>
+              <IconBox
+                color={isIcon ? "#c3453c" : "grey"}
+                onClick={() => handleOptionIcon(index)}
+              >
                 {v.icon}
                 {v.value}
               </IconBox>
@@ -138,7 +169,11 @@ export default function CarOptionForm({ carOptionData, setCarOptionData }) {
       <Row>
         <Label>배출가스</Label>
         <InputBox>
-          {location.state?.carOptionData[0] ? <PreValue>{location.state.carOptionData[0]?.eEmission}</PreValue> : <></>}
+          {location.state?.carOptionData[0] ? (
+            <PreValue>{location.state.carOptionData[0]?.eEmission}</PreValue>
+          ) : (
+            <></>
+          )}
           <CreatableSelect
             placeholder="배출가스"
             name="eEmission"

@@ -23,7 +23,7 @@ import { useState } from "react";
 export default function CarDetailBox() {
   const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  console.log(location);
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
