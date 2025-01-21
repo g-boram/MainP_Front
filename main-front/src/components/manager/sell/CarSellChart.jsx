@@ -1,16 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import dayjs from "dayjs";
 import styled from "@emotion/styled";
+import Flex from "../../shared/Flex";
+import Spacing from "../../shared/Spacing";
+import Text from "../../shared/Text";
 import { Bar, Doughnut, Pie } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from "chart.js";
-import Flex from "../../shared/Flex";
 import { makeRandomColor } from "../../../utils/makeRandomColor";
-import Spacing from "../../shared/Spacing";
+import { ClearLoadingOverlay } from "../../../styles/managerLayoutStyles";
+import { ClipLoader } from "react-spinners";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllCarSellList } from "../../../reduxSlice/carSellSlice";
+import { Link } from "react-router-dom";
 
 // Chart.js 기본 요소와 스케일을 등록
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
 
-const CarSellChart = ({ carSellData }) => {
+const CarSellChart = ({ carSellData, isLoading, sellerItem }) => {
+  const dispatch = useDispatch();
+
+  const { user } = useSelector((state) => state.auth);
+  const { carSellList, notSellerList } = useSelector((state) => state.carSell);
+  console.log("carSellList", carSellList);
+
+  useEffect(() => {
+    dispatch(getAllCarSellList());
+  }, [dispatch]);
+
   // 월별 데이터 가공
   const groupedByMonth = carSellData.reduce((acc, curr) => {
     const month = dayjs(curr.createdAt).format("YYYY-MM"); // "2025-01", "2025-02" 형식
@@ -134,7 +150,6 @@ const CarSellChart = ({ carSellData }) => {
       },
     },
   };
-
   const otherChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -156,7 +171,7 @@ const CarSellChart = ({ carSellData }) => {
     responsive: true,
     maintainAspectRatio: false,
   };
-  // 7. 차트 렌더링
+
   return (
     <ChartContainer>
       <Flex>
@@ -167,17 +182,28 @@ const CarSellChart = ({ carSellData }) => {
           <Bar data={chartData} options={chartOptions} />
         </MainChartWrapper>
         <MainCharDesc>
-          {/* <NavRow>
-            <LinkButton
-              to="/manager/users/create"
-              color="white"
-              bgColor="black"
-              text="회원 등록하기"
-              width="100px"
-              height="40px"
-              fontSize="12px"
-            />
-          </NavRow> */}
+          {isLoading && (
+            <ClearLoadingOverlay>
+              <ClipLoader color="#000" z-index={11} />
+            </ClearLoadingOverlay>
+          )}
+          <Flex justify="flex-end" width="100%" height="50px">
+            <Text typography="t18" bold color="#333">{`${user?.username} 님 반갑습니다!`}</Text>
+          </Flex>
+          <Flex height="60px" justify="space-between" align="flex-end">
+            <Text typography="t14">내가 판매중인 차량</Text>
+            <Text typography="t18" bold color="red">
+              {sellerItem?.length} 건
+            </Text>
+          </Flex>
+          <Flex height="60px" justify="space-between" align="flex-end">
+            <Text typography="t14">미확인 견적서</Text>
+            <Text typography="t18" bold color="red">
+              {notSellerList.length} 건
+            </Text>
+          </Flex>
+          <Spacing size={30} />
+          <StyledLink to="/manager/car/sell">확인하러 가기</StyledLink>
         </MainCharDesc>
       </Flex>
       <Line />
@@ -221,14 +247,17 @@ const ChartContainer = styled.div`
 
 const MainChartWrapper = styled.div`
   height: 250px;
-  width: 700px;
+  width: 750px;
   margin-bottom: 50px;
 `;
 const MainCharDesc = styled.div`
   height: 300px;
-  width: 350px;
-  margin-left: 20px;
-  background-color: #eee;
+  width: 250px;
+  margin-left: 30px;
+  border: 1px solid #eee;
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  padding: 30px 20px;
 `;
 
 const SubChartWrapper = styled.div`
@@ -256,4 +285,19 @@ const Line = styled.div`
   width: 100%;
   background-color: #eee;
   margin: 30px 0 50px 0;
+`;
+
+const StyledLink = styled(Link)`
+  color: #fff;
+  background-color: #000;
+  font-weight: bold;
+  border-radius: 3px;
+  font-size: 14px;
+  margin-bottom: 15px;
+  padding: 5px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
 `;

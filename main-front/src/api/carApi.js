@@ -21,6 +21,16 @@ export const getFilterCarList = async (filters) => {
   }
 };
 
+// 특정 판매자가 담당하는 차량 조회
+export const getSellCarList = async (id) => {
+  try {
+    const response = await axios.get(`${SERVER_URL.LOCAL}/car/seller/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error.response ? error.response.data : error;
+  }
+};
+
 // 차량 등록
 export const createCar = async (formData) => {
   try {

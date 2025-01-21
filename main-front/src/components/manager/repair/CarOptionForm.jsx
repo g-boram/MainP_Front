@@ -12,7 +12,7 @@ export default function CarOptionForm({ carOptionData, setCarOptionData }) {
   const location = useLocation();
 
   const [optionIcon, setOptionIcon] = useState(); // icon
-  const [selectedIconArr, setSelectedIconArr] = useState(location.state?.carOptionData[0].optionIcon);
+  const [selectedIconArr, setSelectedIconArr] = useState(location.state?.carOptionData[0].optionIcon || []);
   const [eEmission, setEEmission] = useState(""); // 배출가스
   const [tuning, setTuning] = useState(location.state?.carOptionData[0].tuning); // 튜닝
   const [special, setSpecial] = useState(location.state?.carOptionData[0].special); // 특별이력
@@ -70,7 +70,7 @@ export default function CarOptionForm({ carOptionData, setCarOptionData }) {
   ]);
 
   const handleOptionIcon = (index) => {
-    if (selectedIconArr.includes(index)) {
+    if (selectedIconArr?.includes(index)) {
       setSelectedIconArr(selectedIconArr.filter((item) => item !== index));
     } else {
       setSelectedIconArr([...selectedIconArr, index]);

@@ -8,16 +8,15 @@ import Badge from "../shared/Badge";
 import CarDetailInfoBox from "../manager/car/CarDetailInfoBox";
 import CarSellerInfoBox from "../manager/car/CarSellerInfoBox";
 import CarIconOption from "../manager/car/CarIconOption";
+import CarDetailTimer from "./CarDetailTimer";
 import { FaCheckCircle } from "react-icons/fa";
 import { RiCustomerService2Fill } from "react-icons/ri";
-
 import { css } from "@emotion/react";
 import { useLocation } from "react-router-dom";
 import { CAR_OPTION_FUELTYPE } from "../../constants/carOption";
 import { ClearLoadingOverlay } from "../../styles/managerLayoutStyles";
 import { ClipLoader } from "react-spinners";
 import { MdOutlineImageNotSupported } from "react-icons/md";
-import CarDetailTimer from "./CarDetailTimer";
 import { useState } from "react";
 
 export default function CarDetailBox() {
@@ -60,34 +59,18 @@ export default function CarDetailBox() {
         <MainContainer>
           {/* 왼쪽 고정 영역 */}
           <FixedBox>
-            {eventName ? (
-              <CarDetailTimer
-                eventEndTime={eventEndTime}
-                eventName={eventName}
-              />
-            ) : (
-              <></>
-            )}
+            {eventName ? <CarDetailTimer eventEndTime={eventEndTime} eventName={eventName} /> : <></>}
             <CarImgBox>
-              {imageUrl ? (
-                <img src={imageUrl} alt="carImg" />
-              ) : (
-                <MdOutlineImageNotSupported size={50} color="#ddd" />
-              )}
+              {imageUrl ? <img src={imageUrl} alt="carImg" /> : <MdOutlineImageNotSupported size={50} color="#ddd" />}
             </CarImgBox>
             <CarDetailInfoBox />
             <CarSellerInfoBox id={sellerId} />
           </FixedBox>
-
           {/* 오른쪽 스크롤 영역 */}
           <ScrollBox>
             <TopIconRow>
               <TopRowLeft>
-                {hashTags && hashTags?.length !== 0 ? (
-                  hashTags.map((tag) => <TagText>#{tag}</TagText>)
-                ) : (
-                  <></>
-                )}
+                {hashTags && hashTags?.length !== 0 ? hashTags.map((tag) => <TagText>#{tag}</TagText>) : <></>}
               </TopRowLeft>
               <Flex>right</Flex>
             </TopIconRow>
@@ -111,9 +94,7 @@ export default function CarDetailBox() {
                 <Spacing size={10} direction="width" />
                 <CounselBtn>Icon / Tel</CounselBtn>
               </Flex>
-              <OnCovenantBtn onClick={handleOpenModal}>
-                HiCar에서 구매하기
-              </OnCovenantBtn>
+              <OnCovenantBtn onClick={handleOpenModal}>HiCar에서 구매하기</OnCovenantBtn>
             </CarMainTitleRow>
 
             <CarDataBox>
@@ -126,138 +107,58 @@ export default function CarDetailBox() {
                 </Text>
               </Flex>
               <Flex height="30px" justify="space-between" align="center">
-                <Text
-                  typography="t13"
-                  color="grey"
-                  width="80px"
-                  textAlign="left"
-                >
+                <Text typography="t13" color="grey" width="80px" textAlign="left">
                   제조사
                 </Text>
-                <Text
-                  typography="t13"
-                  color="black"
-                  width="100px"
-                  textAlign="left"
-                >
+                <Text typography="t13" color="black" width="100px" textAlign="left">
                   {make}
                 </Text>
-                <Text
-                  typography="t13"
-                  color="grey"
-                  width="80px"
-                  textAlign="left"
-                >
+                <Text typography="t13" color="grey" width="80px" textAlign="left">
                   모델명
                 </Text>
-                <Text
-                  typography="t13"
-                  color="black"
-                  width="100px"
-                  textAlign="left"
-                >
+                <Text typography="t13" color="black" width="100px" textAlign="left">
                   {model}
                 </Text>
               </Flex>
               <Flex height="30px" justify="space-between" align="center">
-                <Text
-                  typography="t13"
-                  color="grey"
-                  width="80px"
-                  textAlign="left"
-                >
+                <Text typography="t13" color="grey" width="80px" textAlign="left">
                   차량번호
                 </Text>
-                <Text
-                  typography="t13"
-                  color="black"
-                  width="100px"
-                  textAlign="left"
-                >
+                <Text typography="t13" color="black" width="100px" textAlign="left">
                   {carId}
                 </Text>
-                <Text
-                  typography="t13"
-                  color="grey"
-                  width="80px"
-                  textAlign="left"
-                >
+                <Text typography="t13" color="grey" width="80px" textAlign="left">
                   주행거리
                 </Text>
-                <Text
-                  typography="t13"
-                  color="black"
-                  width="100px"
-                  textAlign="left"
-                >
+                <Text typography="t13" color="black" width="100px" textAlign="left">
                   {addDelimiter(mileage)} km
                 </Text>
               </Flex>
               <Flex height="30px" justify="space-between" align="center">
-                <Text
-                  typography="t13"
-                  color="grey"
-                  width="80px"
-                  textAlign="left"
-                >
+                <Text typography="t13" color="grey" width="80px" textAlign="left">
                   연식
                 </Text>
-                <Text
-                  typography="t13"
-                  color="black"
-                  width="100px"
-                  textAlign="left"
-                >
+                <Text typography="t13" color="black" width="100px" textAlign="left">
                   {year}
                 </Text>
-                <Text
-                  typography="t13"
-                  color="grey"
-                  width="80px"
-                  textAlign="left"
-                >
+                <Text typography="t13" color="grey" width="80px" textAlign="left">
                   색상
                 </Text>
-                <Text
-                  typography="t13"
-                  color="black"
-                  width="100px"
-                  textAlign="left"
-                >
+                <Text typography="t13" color="black" width="100px" textAlign="left">
                   <ColorBox color={color} />
                 </Text>
               </Flex>
               <Flex height="30px" justify="space-between" align="center">
-                <Text
-                  typography="t13"
-                  color="grey"
-                  width="80px"
-                  textAlign="left"
-                >
+                <Text typography="t13" color="grey" width="80px" textAlign="left">
                   연료타입
                 </Text>
-                <Text
-                  typography="t13"
-                  color="black"
-                  width="100px"
-                  textAlign="left"
-                >
+                <Text typography="t13" color="black" width="100px" textAlign="left">
                   {fuel[0].label}
                 </Text>
-                <Text
-                  typography="t13"
-                  color="grey"
-                  width="80px"
-                  textAlign="left"
-                >
+                <Text typography="t13" color="grey" width="80px" textAlign="left">
                   변속기
                 </Text>
-                <Text
-                  typography="t13"
-                  color="black"
-                  width="100px"
-                  textAlign="left"
-                >
+                <Text typography="t13" color="black" width="100px" textAlign="left">
                   {transmission}
                 </Text>
               </Flex>
