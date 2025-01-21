@@ -79,22 +79,21 @@ const ImgSlideBanner = () => {
   );
 };
 const TitleRow = styled.div`
-  width: 500px;
+  width: 400px;
   height: 50px;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-top: 100px; // 추후 지우기
 `;
 const MainBannerContainer = styled.div`
   display: flex;
-  width: 500px;
-  height: 300px;
+  width: 400px;
+  height: 200px;
 
   .custom-swiper {
     .swiper {
-      width: 500px;
-      height: 300px;
+      width: 400px;
+      height: 200px;
     }
     .swiper-button-next,
     .swiper-button-prev {
@@ -104,12 +103,12 @@ const MainBannerContainer = styled.div`
       background: #fff !important; /* 기본 스타일 덮어쓰기 */
     }
     .swiper-slide {
-      width: 500px;
-      height: 300px;
+      width: 400px;
+      height: 200px;
       > img {
         width: 100%;
-        height: auto;
-        object-fit: contain;
+        height: 200px;
+        object-fit: cover;
       }
     }
   }

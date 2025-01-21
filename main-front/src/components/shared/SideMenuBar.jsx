@@ -195,7 +195,7 @@ const Accordion = styled.ul`
   margin: 0;
   padding: 0;
   background-color: white;
-  width: 300px;
+  width: 280px;
 `;
 
 const AccordionItem = styled.li`
@@ -208,7 +208,7 @@ const AccordionItem = styled.li`
 const AccordionTitle = styled.div`
   padding: 15px 20px;
   margin: 0;
-  max-width: 300px;
+  max-width: 280px;
   font-size: 14px;
   color: #000;
   display: flex;

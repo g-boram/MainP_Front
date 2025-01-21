@@ -10,7 +10,7 @@ export default function RepairCarRow(car) {
   const handleDetailPage = () => {
     navigate("/manager/repair/detail", { state: { ...car } });
   };
-  console.log("car :", car);
+
   return (
     <CarRowWrapper status={status} color={color}>
       <div id="carId">{carId}</div>

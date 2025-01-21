@@ -56,11 +56,11 @@ const FlexRow = styled.div`
 `;
 
 const YearBadge = styled.div`
-  height: 22px;
-  width: 40px;
+  height: 24px;
+  width: 45px;
   border-radius: 15px;
-  padding: 2px 12px;
-  margin-right: 10px;
+  padding: 2px 10px;
+  margin-right: 5px;
   font-size: 11px;
   display: flex;
   justify-content: center;

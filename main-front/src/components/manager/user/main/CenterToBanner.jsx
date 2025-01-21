@@ -13,6 +13,8 @@ const images = [
   { src: img1, position: "center" },
   { src: img2, position: "left" },
   { src: img3, position: "right" },
+  { src: img4, position: "left_left" },
+  { src: img5, position: "right_right" },
 ];
 
 const CenterToBanner = () => {
@@ -27,7 +29,7 @@ const CenterToBanner = () => {
       } else {
         clearInterval(interval);
       }
-    }, 3000); // 1초 간격으로 등장
+    }, 5000); // 1초 간격으로 등장
 
     return () => clearInterval(interval);
   }, []);
@@ -47,35 +49,33 @@ export default CenterToBanner;
 const fadeInCenter = keyframes`
   from {
     opacity: 0;
-    transform: scale(0.8);
+    transform: scale(0.6);
   }
   to {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1.6);
   }
 `;
 
-// 애니메이션 키프레임 (왼쪽으로 등장)
 const fadeInLeft = keyframes`
   from {
     opacity: 0;
-    transform: translateX(50px); /* 오른쪽에서 시작 */
+    transform: translateX(100px); 
   }
   to {
-    opacity: 1;
-    transform: translateX(0); /* 제자리 */
+    opacity: 0.8;
+    transform: translateX(0); 
   }
 `;
 
-// 애니메이션 키프레임 (오른쪽으로 등장)
 const fadeInRight = keyframes`
   from {
     opacity: 0;
-    transform: translateX(-50px); /* 왼쪽에서 시작 */
+    transform: translateX(-50px); 
   }
   to {
-    opacity: 1;
-    transform: translateX(0); /* 제자리 */
+    opacity: 0.8;
+    transform: translateX(0); 
   }
 `;
 
@@ -85,39 +85,41 @@ const ImageContainer = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
-  width: 600px;
-  height: 400px;
+  width: 100%;
+  height: 350px;
   overflow: hidden;
-  background-color: pink;
 `;
 
 // 이미지 스타일
 const Image = styled.img`
   position: absolute;
-  width: 150px;
-  height: 150px;
+  width: 250px;
+  height: 250px;
   object-fit: cover;
   opacity: 0;
 
   ${({ position }) =>
     position === "center" &&
     css`
-      animation: ${fadeInCenter} 0.8s ease-in-out forwards;
+      animation: ${fadeInCenter} 1s ease-in-out forwards;
+      z-index: 5;
     `}
 
   ${({ position }) =>
     position === "left" &&
     css`
-      left: 100px; /* 왼쪽 위치 */
-      animation: ${fadeInLeft} 0.8s ease-in-out forwards;
+      left: 250px;
+      animation: ${fadeInLeft} 2s ease-in-out forwards;
     `}
 
   ${({ position }) =>
     position === "right" &&
     css`
-      right: 100px; /* 오른쪽 위치 */
-      animation: ${fadeInRight} 0.8s ease-in-out forwards;
+      right: 250px;
+      animation: ${fadeInRight} 2s ease-in-out forwards;
     `}
+
+
 
   ${({ isVisible }) =>
     isVisible &&
