@@ -15,10 +15,8 @@ import BaseButton from "../shared/Button";
 import Spacing from "../shared/Spacing";
 
 export default function Header() {
-  const [isPath, setIsPath] = useState(false);
-  // const [user, setUser] = useState(JSON.parse(sessionStorage.getItem("user")));
-
   const { user } = useSelector((state) => state.auth);
+  const [isPath, setIsPath] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();

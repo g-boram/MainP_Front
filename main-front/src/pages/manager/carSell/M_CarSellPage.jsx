@@ -22,6 +22,7 @@ import {
   NavRow,
 } from "../../../styles/managerLayoutStyles";
 import { getAllCarSellList } from "../../../api/CarSellApi";
+import CarSellRow from "../../../components/manager/sell/CarSellRow";
 
 export default function M_CarSellPage() {
   const dispatch = useDispatch();
@@ -81,28 +82,29 @@ export default function M_CarSellPage() {
                   fontSize="13px"
                   bgColor="#eeeeee"
                   rowTitle={[
-                    "ID.-50",
-                    "권한-70",
-                    "이름-100",
+                    "No.-50",
+                    "소유주 ID-100",
+                    "소유주 이름-100",
+                    "색상-70",
+                    "이메일-100",
                     "핸드폰 번호-110",
-                    "이메일-110",
-                    "주소-230",
-                    "생년월일-80",
-                    "성별-40",
+                    "판매 담당자-110",
                     "등록일-80",
-                    "수정일-80",
-                    "-170",
+                    "희망지역-40",
+                    "희망가격-80",
+                    "특이사항-100",
+                    "처리상태-80",
                   ]}
                 />
-                {/* {currentItems.map((user) => (
-                  <UserRow key={user.userId} {...user} />
-                ))} */}
+                {currentItems.map((car) => (
+                  <CarSellRow key={car.id} {...car} />
+                ))}
               </Flex>
             ) : (
               <NotDataWrapper>
                 <BaseIconBox>
                   <LuUserRoundX size={40} />
-                  <div>사용자가 없습니다.</div>
+                  <div>신청자가 없습니다.</div>
                 </BaseIconBox>
               </NotDataWrapper>
             )}

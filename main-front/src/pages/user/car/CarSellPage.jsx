@@ -1,26 +1,42 @@
 import styled from "@emotion/styled/macro";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HEIGHT_LIST } from "../../../constants/height";
 import { useNavigate } from "react-router-dom";
 import { SERVER_URL } from "../../../constants/urlList";
 import { toast } from "react-toastify";
 import { useAlertContext } from "../../../contexts/AlertContextProvider";
+import { useSelector } from "react-redux";
+import { ClearLoadingOverlay } from "../../../styles/managerLayoutStyles";
+import { ClipLoader } from "react-spinners";
 
 export default function CarSellPage() {
   const { open } = useAlertContext();
+  const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
-
-  const [step, setStep] = useState(1); // 단계
+  console.log(user);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedColor, setSelectedColor] = useState(""); // 차량 색상 상태
   const [specialNotes, setSpecialNotes] = useState(""); // 차량 특이사항 상태
   const [formData, setFormData] = useState({
+    username: user.username,
+    orderUserId: user.id,
+    email: user.email,
     region: "",
     phone: "",
     time: "",
     mileage: "",
     price: "",
   });
+
+  useEffect(() => {
+    setIsLoading(true);
+    if (user === null) {
+      alert("로그인 후 이용 가능합니다.");
+      navigate("/signin");
+    }
+    setIsLoading(false);
+  }, [navigate, user]);
 
   // 색상 목록
   const colors = [
@@ -73,45 +89,35 @@ export default function CarSellPage() {
 
   return (
     <CarListContainer>
+      {isLoading && (
+        <ClearLoadingOverlay>
+          <ClipLoader color="#000" z-index={11} />
+        </ClearLoadingOverlay>
+      )}
       <CarListWrapper>
         <TopTittle>방문 차량 판매신청</TopTittle>
 
         {/* 지역 입력 */}
         <TextArea>
           <Text>원하시는 지역을 입력해주세요</Text>
-          <InputBox
-            name="region"
-            placeholder="ex)서울 특별시 구로구 OO길 OO"
-            disabled={step > 1}
-            onChange={handleInputChange}
-          />
+          <InputBox name="region" placeholder="ex)서울 특별시 구로구 OO길 OO" onChange={handleInputChange} />
         </TextArea>
-
-        {/* 휴대폰 번호 입력 */}
         <TextArea>
           <Text>휴대폰 번호를 입력해 주세요.</Text>
-          <InputBox name="phone" placeholder="ex) 010-0000-0000" disabled={step > 2} onChange={handleInputChange} />
+          <InputBox name="phone" placeholder="ex) 010-0000-0000" onChange={handleInputChange} />
         </TextArea>
-
-        {/* 시간대 입력 */}
         <TextArea>
           <Text>원하는 시간대를 입력해주세요</Text>
-          <InputBox name="time" placeholder="ex)14시20분" disabled={step > 3} onChange={handleInputChange} />
+          <InputBox name="time" placeholder="ex)14시20분" onChange={handleInputChange} />
         </TextArea>
-
-        {/* 차량 주행거리 입력 */}
         <TextArea>
           <Text>차량 주행거리를 입력해주세요 (km)</Text>
           <InputBox name="mileage" placeholder="ex) 120,000" onChange={handleInputChange} />
         </TextArea>
-
-        {/* 판매 희망 금액 입력 */}
         <TextArea>
           <Text>판매 희망 금액을 입력해주세요 (만원)</Text>
           <InputBox name="price" placeholder="ex) 500" onChange={handleInputChange} />
         </TextArea>
-
-        {/* 차량 색상 선택 */}
         <TextArea>
           <Text>차량 색상을 선택해주세요</Text>
           <ColorGrid>
@@ -132,8 +138,6 @@ export default function CarSellPage() {
             ))}
           </ColorGrid>
         </TextArea>
-
-        {/* 차량 특이사항 입력 */}
         <TextArea>
           <Text>차량 특이사항</Text>
           <TextAreaInput
@@ -142,7 +146,6 @@ export default function CarSellPage() {
             placeholder="특이사항을 입력해주세요."
           />
         </TextArea>
-
         {/* 제출 버튼 */}
         <FormBtn onClick={confirmCreate}>신청서 제출하기</FormBtn>
       </CarListWrapper>
@@ -251,7 +254,7 @@ const RadioInput = styled.input`
 `;
 
 const TextArea = styled.div`
-  margin-top: 25px;
+  margin-top: 20px;
 `;
 
 const Text = styled.span`
@@ -278,7 +281,7 @@ const InputBox = styled.input`
   outline: none;
   padding: 7px 20px;
   width: 100%;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 
   ::placeholder {
     color: #c4c4c4;

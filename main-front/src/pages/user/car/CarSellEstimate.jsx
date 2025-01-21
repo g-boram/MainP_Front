@@ -275,8 +275,6 @@ export default function CarSellEstimate() {
   );
 }
 
-// 스타일 컴포넌트들 (변경 없음)
-// 스타일 컴포넌트
 const CarListContainer = styled.div`
   min-height: 100%;
   width: 1200px;
