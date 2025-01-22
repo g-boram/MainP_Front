@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import { useAlertContext } from "../../../contexts/AlertContextProvider";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
-import { LoadingOverlay } from "../../../styles/managerLayoutStyles";
+import { ClearLoadingOverlay } from "../../../styles/managerLayoutStyles";
 import { updateBoard } from "../../../api/boardApi";
 import { css } from "@emotion/react";
 import { toast } from "react-toastify";
@@ -43,7 +43,8 @@ export default function NoticeUpdateForm() {
         imageUrl: location.state.imageUrl,
         updateUserId: user.id,
       });
-      setIsLoading(false); // 데이터 로딩 후 로딩 상태를 false로 설정
+      setIsLoading(false);
+      setIsActive(location.state.status === "ACTIVE" ? 1 : 0);
     }
   }, [location.state, user.id]);
 
@@ -86,7 +87,7 @@ export default function NoticeUpdateForm() {
     if (file) {
       formData.append("file", file);
     }
-
+    console.log("updateData", updateData);
     try {
       await updateBoard(formData);
 
@@ -101,9 +102,9 @@ export default function NoticeUpdateForm() {
   return (
     <FormContainer>
       {isLoading || formValues == null ? (
-        <LoadingOverlay>
+        <ClearLoadingOverlay>
           <ClipLoader color="#000" z-index={11} />
-        </LoadingOverlay>
+        </ClearLoadingOverlay>
       ) : (
         <>
           <Flex direction="column">

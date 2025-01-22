@@ -82,7 +82,7 @@ export default function M_RepairPage() {
                   rowTitle={[
                     "ID.-50",
                     "제조사-100",
-                    "모델명-200",
+                    "모델명-150",
                     "가격-100",
                     "제조 연도-100",
                     "연료종류-100",
@@ -91,7 +91,7 @@ export default function M_RepairPage() {
                     "판매자 ID-80",
                     "색상-40",
                     "작성일-120",
-                    "판매상태-80",
+                    "점검상태-130",
                     "-100",
                   ]}
                 />

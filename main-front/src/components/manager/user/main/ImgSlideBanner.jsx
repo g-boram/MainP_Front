@@ -2,13 +2,12 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import styled from "@emotion/styled";
-import { css } from "@emotion/react";
 import { ClipLoader } from "react-spinners";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { LoadingOverlay } from "../../../../styles/managerLayoutStyles";
+import { ClearLoadingOverlay } from "../../../../styles/managerLayoutStyles";
 
 import mainSlideImg1 from "../../../../assert/main_slide/mainSlide1.jpg";
 import mainSlideImg2 from "../../../../assert/main_slide/mainSlide2.jpg";
@@ -37,9 +36,9 @@ const ImgSlideBanner = () => {
 
   if (bannerImage == null || isLoading) {
     return (
-      <LoadingOverlay>
+      <ClearLoadingOverlay>
         <ClipLoader color="#000" z-index={11} />
-      </LoadingOverlay>
+      </ClearLoadingOverlay>
     );
   }
 
