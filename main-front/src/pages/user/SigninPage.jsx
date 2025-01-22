@@ -21,10 +21,12 @@ export default function SigninPage() {
 
   useEffect(() => {
     if (user) {
+      localStorage.setItem("userId", user.id);
       toast.success(`🎉 ${user.username} 님, 환영합니다!`);
       dispatch(resetLoginState());
       navigate("/");
     }
+
     if (error) {
       toast.error("로그인 실패! 다시 확인바랍니다.");
       dispatch(resetLoginState());

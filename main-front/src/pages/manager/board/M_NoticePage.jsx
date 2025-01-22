@@ -8,7 +8,10 @@ import ListHeader from "../../../components/shared/ListHeader";
 import BoardRow from "../../../components/manager/board/BoardRow";
 import FilterButtons from "../../../components/shared/FilterButtons";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPagedBoards, setStatusFilter } from "../../../reduxSlice/boardListSlice";
+import {
+  fetchPagedBoards,
+  setStatusFilter,
+} from "../../../reduxSlice/boardListSlice";
 import { MdDoNotDisturbAlt } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
@@ -33,7 +36,9 @@ export default function M_NoticePage() {
   const dispatch = useDispatch();
   const [category, setCategory] = useState("ALL");
   const [boardData, setBoardData] = useState([]);
-  const { filteredBoards, isLoading, error, statusFilter } = useSelector((state) => state.boardList);
+  const { filteredBoards, isLoading, error, statusFilter } = useSelector(
+    (state) => state.boardList
+  );
 
   // 게시글 데이터 로딩 및 필터 적용
   useEffect(() => {
@@ -62,7 +67,9 @@ export default function M_NoticePage() {
   };
 
   const handlePageChange = (newPage) => {
-    dispatch(fetchPagedBoards({ page: newPage, size: 10, sort: "boardId,desc" }));
+    dispatch(
+      fetchPagedBoards({ page: newPage, size: 10, sort: "boardId,desc" })
+    );
   };
 
   return (
@@ -70,7 +77,10 @@ export default function M_NoticePage() {
       <LeftNavbar />
       <ContentWrapper>
         <ContentBox>
-          <HeadTitle title={"공지사항 목록"} desc={"공지사항 게시글 작업 페이지"}></HeadTitle>
+          <HeadTitle
+            title={"공지사항 목록"}
+            desc={"공지사항 게시글 작업 페이지"}
+          ></HeadTitle>
           <NavRow>
             <LinkButton
               to="/manager/board/notice/create"
@@ -83,8 +93,14 @@ export default function M_NoticePage() {
             />
           </NavRow>
           {/* 필터 버튼 */}
-          <FilterButtons currentFilter={statusFilter} onFilterChange={handleFilterChange} />
-          <BoardCategoryButtons currentFilter={category} setCategory={setCategory} />
+          <FilterButtons
+            currentFilter={statusFilter}
+            onFilterChange={handleFilterChange}
+          />
+          <BoardCategoryButtons
+            currentFilter={category}
+            setCategory={setCategory}
+          />
           <NoticeListWrapper>
             {isLoading && (
               <ClearLoadingOverlay>
@@ -118,7 +134,9 @@ export default function M_NoticePage() {
                   ]}
                 />
                 {boardData && boardData.length > 0 ? (
-                  boardData.map((board) => <BoardRow {...board} key={board.boardId} />)
+                  boardData.map((board) => (
+                    <BoardRow {...board} key={board.boardId} />
+                  ))
                 ) : (
                   <NotBoardOverlay>
                     <NotBoardBox>

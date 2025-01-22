@@ -8,7 +8,17 @@ import { useLocation } from "react-router-dom";
 export default function BoardDetailForm() {
   const location = useLocation();
 
-  const { boardId, category, title, content, createdAt, updatedAt, status, username, imageUrl } = location.state || {};
+  const {
+    boardId,
+    category,
+    title,
+    content,
+    createdAt,
+    updatedAt,
+    status,
+    username,
+    imageUrl,
+  } = location.state || {};
 
   return (
     <FormContainer>
@@ -41,7 +51,9 @@ export default function BoardDetailForm() {
           </>
           <>
             <Label>활성화 여부</Label>
-            <ActiveRow status={status}>{status === "ACTIVE" ? "활성화" : "비활성화"}</ActiveRow>
+            <ActiveRow status={status}>
+              {status === "ACTIVE" ? "활성화" : "비활성화"}
+            </ActiveRow>
           </>
         </Flex>
         <Spacing size={20} />
