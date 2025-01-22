@@ -26,11 +26,17 @@ export default function CarOptionForm({ carOptionData, setCarOptionData }) {
     if (title != null) {
       switch (title) {
         case "optionIcon":
-          setCarOptionData((prevValues) => ({ ...prevValues, optionIcon: selectedIconArr }));
+          setCarOptionData((prevValues) => ({
+            ...prevValues,
+            optionIcon: selectedIconArr,
+          }));
           setTitle("");
           break;
         case "eEmission":
-          setCarOptionData((prevValues) => ({ ...prevValues, eEmission: eEmission.value }));
+          setCarOptionData((prevValues) => ({
+            ...prevValues,
+            eEmission: eEmission.value,
+          }));
           setTitle("");
           break;
         case "tuning":
@@ -38,19 +44,31 @@ export default function CarOptionForm({ carOptionData, setCarOptionData }) {
           setTitle("");
           break;
         case "special":
-          setCarOptionData((prevValues) => ({ ...prevValues, special: special }));
+          setCarOptionData((prevValues) => ({
+            ...prevValues,
+            special: special,
+          }));
           setTitle("");
           break;
         case "changeUsed":
-          setCarOptionData((prevValues) => ({ ...prevValues, changeUsed: changeUsed }));
+          setCarOptionData((prevValues) => ({
+            ...prevValues,
+            changeUsed: changeUsed,
+          }));
           setTitle("");
           break;
         case "accident":
-          setCarOptionData((prevValues) => ({ ...prevValues, accident: accident }));
+          setCarOptionData((prevValues) => ({
+            ...prevValues,
+            accident: accident,
+          }));
           setTitle("");
           break;
         case "simpleRepair":
-          setCarOptionData((prevValues) => ({ ...prevValues, simpleRepair: simpleRepair }));
+          setCarOptionData((prevValues) => ({
+            ...prevValues,
+            simpleRepair: simpleRepair,
+          }));
           setTitle("");
           break;
         default:

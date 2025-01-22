@@ -23,6 +23,7 @@ import CarSellPage from "./pages/user/car/CarSellPage";
 import EventPage from "./pages/user/board/EventPage";
 import EventDetailPage from "./pages/user/board/EventDetailPage";
 import ScrollToTop from "./components/shared/ScrollToTop";
+import CompanyPage from "./pages/company/Company";
 
 // [ 관리자 ]
 import ManagerPage from "./pages/manager/ManagerPage";
@@ -98,19 +99,35 @@ function App() {
           <Route path="/mycarsellpage" Component={MyCarSellPage} />
           <Route path="/carsellestimate" Component={CarSellEstimate} />
           <Route path="/carsell" Component={CarSellPage} />
+          <Route path="/company" Component={CompanyPage} />
 
           {/* 관리자 페이지 */}
           <Route path="/manager" Component={ManagerPage} />
           <Route path="/manager/board/notice" Component={M_NoticePage} />
-          <Route path="/manager/board/notice/create" Component={M_NoticeCreatePage} />
-          <Route path="/manager/board/notice/detail" Component={M_NoticeDetailPage} />
-          <Route path="/manager/board/notice/update" Component={M_NoticeUpdatePage} />
+          <Route
+            path="/manager/board/notice/create"
+            Component={M_NoticeCreatePage}
+          />
+          <Route
+            path="/manager/board/notice/detail"
+            Component={M_NoticeDetailPage}
+          />
+          <Route
+            path="/manager/board/notice/update"
+            Component={M_NoticeUpdatePage}
+          />
           <Route path="/manager/car" Component={M_CarPage} />
           <Route path="/manager/car/create" Component={M_CarCreatePage} />
           <Route path="/manager/car/detail" Component={M_CarDetailPage} />
           <Route path="/manager/car/event" Component={M_CarEventPage} />
-          <Route path="/manager/car/event/detail" Component={M_CarEventDetailPage} />
-          <Route path="/manager/car/event/update" Component={M_CarEventUpdatePage} />
+          <Route
+            path="/manager/car/event/detail"
+            Component={M_CarEventDetailPage}
+          />
+          <Route
+            path="/manager/car/event/update"
+            Component={M_CarEventUpdatePage}
+          />
           <Route path="/manager/users" Component={M_UsersPage} />
           <Route path="/manager/users/create" Component={M_UsersCreatePage} />
           <Route path="/manager/users/detail" Component={M_UsersDetailPage} />
@@ -121,7 +138,6 @@ function App() {
           <Route path="/manager/repair/detail" Component={M_RepairDetailPage} />
           <Route path="/manager/car/sell" Component={M_CarSellPage} />
           <Route path="/manager/seller" Component={M_SellerPage} />
-
           {/* @TODO: 인증이 필요한 페이지 나누기 ex) 관리자,유저의 등급, 로그인 여부 ... */}
           {/* <Route path="/my" element={
                   <PrivateRoute>

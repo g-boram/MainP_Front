@@ -17,7 +17,7 @@ export default function CarDetailInfoBox() {
           투명하고 믿을 수 있는
         </Text>
         <Text typography="t15" color="#d42424" bold>
-          하이미디어 인증 중고차
+          HiCar 인증 중고차
         </Text>
       </Flex>
       <Flex width="60%">
