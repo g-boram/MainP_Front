@@ -3,7 +3,6 @@ import "./App.css";
 import styled from "@emotion/styled";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import styled from "@emotion/styled";
 import { Global, css } from "@emotion/react";
 
 import Header from "./components/layout/Header";
@@ -65,11 +64,11 @@ function App() {
       />
       <Global
         styles={css`
-          @import url("https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&display=swap");
+          /* @import url("https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&display=swap"); */
           body {
             margin: 0;
             padding: 0;
-            font-family: "Nanum Gothic Coding", monospace;
+            font-family: "NanumHumanTTFBold", sans-serif;
             color: #333;
             line-height: 1.6;
           }
