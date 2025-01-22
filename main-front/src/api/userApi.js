@@ -46,7 +46,9 @@ export const getSimpleUser = async (id) => {
 // 이메일 중복체크
 export const checkUserEmail = async (email) => {
   try {
-    const response = await axios.get(`${SERVER_URL.LOCAL}/users/checkEmail?email=${email}`);
+    const response = await axios.get(
+      `${SERVER_URL.LOCAL}/users/checkEmail?email=${email}`
+    );
     return response.data;
   } catch (error) {
     throw error.response ? error.response.data : error;

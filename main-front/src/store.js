@@ -5,6 +5,7 @@ import registerReducer from "./reduxSlice/registerSlice";
 import boardCreateReducer from "./reduxSlice/boardCreateSlice";
 import boardListReducer from "./reduxSlice/boardListSlice";
 import paginationReducer from "./reduxSlice/paginationSlice";
+import carSellSliceReducer from "./reduxSlice/carSellSlice";
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     boardCreate: boardCreateReducer,
     boardList: boardListReducer,
     pagination: paginationReducer,
+    carSell: carSellSliceReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

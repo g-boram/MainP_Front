@@ -12,7 +12,7 @@ export default function CarOptionForm({ carOptionData, setCarOptionData }) {
   const location = useLocation();
 
   const [optionIcon, setOptionIcon] = useState(); // icon
-  const [selectedIconArr, setSelectedIconArr] = useState(location.state?.carOptionData[0].optionIcon);
+  const [selectedIconArr, setSelectedIconArr] = useState(location.state?.carOptionData[0].optionIcon || []);
   const [eEmission, setEEmission] = useState(""); // 배출가스
   const [tuning, setTuning] = useState(location.state?.carOptionData[0].tuning); // 튜닝
   const [special, setSpecial] = useState(location.state?.carOptionData[0].special); // 특별이력
@@ -26,11 +26,17 @@ export default function CarOptionForm({ carOptionData, setCarOptionData }) {
     if (title != null) {
       switch (title) {
         case "optionIcon":
-          setCarOptionData((prevValues) => ({ ...prevValues, optionIcon: selectedIconArr }));
+          setCarOptionData((prevValues) => ({
+            ...prevValues,
+            optionIcon: selectedIconArr,
+          }));
           setTitle("");
           break;
         case "eEmission":
-          setCarOptionData((prevValues) => ({ ...prevValues, eEmission: eEmission.value }));
+          setCarOptionData((prevValues) => ({
+            ...prevValues,
+            eEmission: eEmission.value,
+          }));
           setTitle("");
           break;
         case "tuning":
@@ -38,19 +44,31 @@ export default function CarOptionForm({ carOptionData, setCarOptionData }) {
           setTitle("");
           break;
         case "special":
-          setCarOptionData((prevValues) => ({ ...prevValues, special: special }));
+          setCarOptionData((prevValues) => ({
+            ...prevValues,
+            special: special,
+          }));
           setTitle("");
           break;
         case "changeUsed":
-          setCarOptionData((prevValues) => ({ ...prevValues, changeUsed: changeUsed }));
+          setCarOptionData((prevValues) => ({
+            ...prevValues,
+            changeUsed: changeUsed,
+          }));
           setTitle("");
           break;
         case "accident":
-          setCarOptionData((prevValues) => ({ ...prevValues, accident: accident }));
+          setCarOptionData((prevValues) => ({
+            ...prevValues,
+            accident: accident,
+          }));
           setTitle("");
           break;
         case "simpleRepair":
-          setCarOptionData((prevValues) => ({ ...prevValues, simpleRepair: simpleRepair }));
+          setCarOptionData((prevValues) => ({
+            ...prevValues,
+            simpleRepair: simpleRepair,
+          }));
           setTitle("");
           break;
         default:
@@ -70,7 +88,7 @@ export default function CarOptionForm({ carOptionData, setCarOptionData }) {
   ]);
 
   const handleOptionIcon = (index) => {
-    if (selectedIconArr.includes(index)) {
+    if (selectedIconArr?.includes(index)) {
       setSelectedIconArr(selectedIconArr.filter((item) => item !== index));
     } else {
       setSelectedIconArr([...selectedIconArr, index]);

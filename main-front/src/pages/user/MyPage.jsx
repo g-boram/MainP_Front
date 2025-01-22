@@ -1,11 +1,17 @@
-import { PageContainer } from "../../styles/pageLayoutStyles";
+import { useEffect, useState } from "react";
+import { getAllUser } from "../../api/userApi";
 
 export default function MyPage() {
-  // const { id } = useParams();
+  const [userData, setUserData] = useState([]); // 초기값을 빈 배열로 설정
 
-  return (
-    <PageContainer>
-      <h1>MyPage</h1>
-    </PageContainer>
-  );
+  useEffect(() => {
+    const allData = async () => {
+      const data = await getAllUser();
+      setUserData(data);
+    };
+    allData();
+  }, []);
+  console.log(userData);
+
+  return <></>;
 }

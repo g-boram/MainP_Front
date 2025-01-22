@@ -1,53 +1,36 @@
-import styled from "@emotion/styled";
 import LeftNavbar from "../../../components/manager/LeftNavbar";
 import HeadTitle from "../../../components/manager/HeadTitle";
-import LinkButton from "../../../components/shared/LinkButton";
-import Flex from "../../../components/shared/Flex";
-import ListHeader from "../../../components/shared/ListHeader";
-import UserFilterRow from "../../../components/manager/user/UserFilterRow";
-import UserRow from "../../../components/manager/user/UserRow";
-import CustomPagination from "../../../components/shared/pagination/CustomPagination";
-import { useEffect, useState } from "react";
-import { ClipLoader } from "react-spinners";
-import { BaseIconBox } from "../../../styles/miniComponentStyles";
-import { useDispatch, useSelector } from "react-redux";
-import { getAllUser } from "../../../api/userApi";
-import { LuUserRoundX } from "react-icons/lu";
-import { setPage, setTotalItems } from "../../../reduxSlice/paginationSlice";
-import {
-  ClearLoadingOverlay,
-  ContentBox,
-  ContentWrapper,
-  ManagerContainer,
-  NavRow,
-} from "../../../styles/managerLayoutStyles";
 import CarSellChart from "../../../components/manager/sell/CarSellChart";
+import { useEffect, useState } from "react";
+import { ContentBox, ContentWrapper, ManagerContainer } from "../../../styles/managerLayoutStyles";
 import { getAllCarSellList } from "../../../api/CarSellApi";
+import { getSellCarList } from "../../../api/carApi";
+import { useSelector } from "react-redux";
 
 export default function M_SellerPage() {
-  const dispatch = useDispatch();
-
-  const [userData, setUserData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [currentItems, setCurrentItems] = useState([]);
+  const [sellerItem, setSellerItems] = useState([]);
   const [carSellData, setCarSellData] = useState([]);
-  const { currentPage, itemsPerPage } = useSelector((state) => state.pagination);
-  console.log(carSellData);
+
+  const { user } = useSelector((state) => state.auth);
+
   useEffect(() => {
+    const sellerData = async () => {
+      const data = await getSellCarList(user.id);
+      setSellerItems(data);
+    };
+    sellerData();
+  }, [user.id]);
+
+  useEffect(() => {
+    setIsLoading(true);
     const allData = async () => {
       const data = await getAllCarSellList();
       setCarSellData(data);
     };
     allData();
+    setIsLoading(false);
   }, []);
-
-  useEffect(() => {
-    dispatch(setTotalItems(userData.length));
-
-    const startIndex = currentPage * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    setCurrentItems(userData.slice(startIndex, endIndex));
-  }, [userData, currentPage, itemsPerPage, dispatch]);
 
   return (
     <ManagerContainer>
@@ -56,24 +39,9 @@ export default function M_SellerPage() {
         <ContentBox>
           <HeadTitle title={"M_SellerPage"} desc={"SELLER 권한 메인 페이지"}></HeadTitle>
           {/* 메인 차트 */}
-          <CarSellChart carSellData={carSellData} />
+          <CarSellChart carSellData={carSellData} isLoading={isLoading} sellerItem={sellerItem} />
         </ContentBox>
       </ContentWrapper>
     </ManagerContainer>
   );
 }
-
-const CarListWrapper = styled.div`
-  height: 500px;
-  /* overflow-y: scroll; */
-`;
-
-const NotDataWrapper = styled.div`
-  width: 100%;
-  height: 500px;
-  background-color: #eee;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
