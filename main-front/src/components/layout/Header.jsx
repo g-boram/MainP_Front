@@ -66,22 +66,17 @@ export default function Header() {
                       </BaseButton>
                     </Link>
                     <Spacing size={10} direction="width" />
-                    <Link to={`/mypage`}>
-                      <BaseButton
-                        size="small"
-                        color="white"
-                        height="30px"
-                        width="80px"
-                      >
-                        마이페이지
-                      </BaseButton>
-                    </Link>
+                    {user !== null ? (
+                      <Link to={`/mypage`}>
+                        <BaseButton size="small" color="white" height="30px" width="80px">
+                          마이페이지
+                        </BaseButton>
+                      </Link>
+                    ) : (
+                      <></>
+                    )}
                   </Flex>
-                  {user.role === "ADMIN" ? (
-                    <ManagerLink to="/manager">관리자 페이지</ManagerLink>
-                  ) : (
-                    <></>
-                  )}
+                  {user.role === "ADMIN" ? <ManagerLink to="/manager">관리자 페이지</ManagerLink> : <></>}
                 </LoginUserBox>
               )}
             </div>

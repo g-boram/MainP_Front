@@ -90,18 +90,22 @@ export default function EventPage() {
           </NotBoardWrapper>
         )}
       </BoardListContainer>
-      <CustomPagination
-        currentPage={currentPage}
-        totalItems={filteredBoards.length}
-        itemsPerPage={itemsPerPage}
-        onPageChange={(page) => dispatch(setPage(page))}
-      />
+      {currentItems && currentItems.length !== 0 ? (
+        <CustomPagination
+          currentPage={currentPage}
+          totalItems={filteredBoards.length}
+          itemsPerPage={itemsPerPage}
+          onPageChange={(page) => dispatch(setPage(page))}
+        />
+      ) : (
+        <></>
+      )}
     </PageContainer>
   );
 }
 
 const BoardListContainer = styled.div`
-  width: 1200px;
+  width: 1000px;
   margin: 50px auto;
   display: flex;
   flex-direction: column;

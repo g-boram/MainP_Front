@@ -7,7 +7,7 @@ import addDelimiter from "../../../utils/addDelimiter";
 import { colorPalette } from "../../../styles/colorPalette";
 import { useLocation } from "react-router-dom";
 import { css } from "@emotion/react";
-import { CAR_ICON, SELLER_STATUS } from "../../../constants/carOption";
+import { CAR_ICON } from "../../../constants/carOption";
 import Text from "../../shared/Text";
 
 export default function CarEventUpdateForm() {

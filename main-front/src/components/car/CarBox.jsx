@@ -73,7 +73,7 @@ export default function CarBox(car) {
 }
 
 const CarContainer = styled.div`
-  width: 250px;
+  width: 230px;
   height: 360px;
   display: flex;
   flex-wrap: nowrap;
@@ -89,21 +89,22 @@ const CarWrapper = styled.div`
 `;
 
 const ImgWrapper = styled.div`
-  height: 180px;
-  width: 250px;
+  height: 150px;
+  width: 230px;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #eee;
+  background-color: #f2f2f2;
+  border: 1px solid #eee;
   border-radius: 10px;
   margin-bottom: 20px;
 
   & img {
     border-radius: 10px;
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
+    width: 230px;
+    height: 150px;
+    object-fit: contain;
   }
 `;
 
@@ -119,7 +120,7 @@ const DescRow = styled.div`
 `;
 
 const NameText = styled.div`
-  height: 40px;
+  height: 50px;
   overflow: hidden;
   font-size: 16px;
   font-weight: 600;
@@ -149,7 +150,7 @@ const GreyText = styled.div`
 const Container = styled.div`
   position: absolute;
   bottom: 0px;
-  width: 250px;
+  width: 230px;
   height: 40px;
   display: flex;
   justify-content: center;

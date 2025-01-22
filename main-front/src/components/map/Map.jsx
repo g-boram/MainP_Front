@@ -1,12 +1,12 @@
 import styled from "@emotion/styled/macro";
 import Flex from "../test/Flex";
 import Spacing from "../test/Spacing";
-import stores from "../test/storeData.json";
+import stores from "../../constants/storeData.json";
 import Skeleton from "../test/Skeleton";
 import Text from "../test/Text";
 import Logo from "../../assert/MapLogo2.png";
 
-import { IoStorefrontOutline } from "react-icons/io5";
+import { FaCar } from "react-icons/fa";
 import { HiOutlineCursorClick } from "react-icons/hi";
 import { IoIosSend } from "react-icons/io";
 import { MdPhoneIphone } from "react-icons/md";
@@ -14,7 +14,6 @@ import { css } from "@emotion/react";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
-//123123
 function Map() {
   const mapContainer = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -41,24 +40,15 @@ function Map() {
 
         const map = new window.kakao.maps.Map(mapContainer.current, mapOption);
         storeDatas.map((store) => {
-          const imageSrc = store?.category
-              ? `${Logo}`
-              : "/images/markers/default.png", // 마커이미지의 주소입니다
+          const imageSrc = store?.category ? `${Logo}` : "/images/markers/default.png", // 마커이미지의 주소입니다
             imageSize = new window.kakao.maps.Size(40, 40), // 마커이미지의 크기입니다
             imageOption = { offset: new window.kakao.maps.Point(27, 69) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
           // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-          const markerImage = new window.kakao.maps.MarkerImage(
-            imageSrc,
-            imageSize,
-            imageOption
-          );
+          const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 
           // 마커가 표시될 위치입니다 y:위도, x:경도
-          const markerPosition = new window.kakao.maps.LatLng(
-            store?.lat,
-            store?.lng
-          );
+          const markerPosition = new window.kakao.maps.LatLng(store?.lat, store?.lng);
 
           // 마커를 생성합니다
           const marker = new window.kakao.maps.Marker({
@@ -69,7 +59,8 @@ function Map() {
           marker.setMap(map);
 
           // 마커 커서가 오버되었을 때 마커 위에 표시할 인포윈도우 생성
-          const content = `<div class="infowindow" style="background-color: #000; color: #fff; padding:6px 15px; border-radius: 10px; font-weight: bold;">${store?.name}</div>`;
+          const content = `
+            <div class="infowindow" style="background-color: #000; color: #fff; padding:6px 15px; border-radius: 10px; font-weight: bold;">${store?.name}</div>`;
 
           // 커스텀 오버레이를 생성합니다
           const customOverlay = new window.kakao.maps.CustomOverlay({
@@ -107,33 +98,16 @@ function Map() {
 
   return (
     <>
-      <MapBox>
-        {isLoading ? (
-          <Skeleton width={"100%"} height={600} />
-        ) : (
-          <MapArea ref={mapContainer}></MapArea>
-        )}
-      </MapBox>
+      <MapBox>{isLoading ? <Skeleton width={"100%"} height={600} /> : <MapArea ref={mapContainer}></MapArea>}</MapBox>
       <StoreDescBox>
         <HeadLine />
         <DescBox>
           <DescWrapper>
             {currentStore ? (
-              <Flex
-                css={flexMobileStyle}
-                justify={"space-between"}
-                align={"center"}
-              >
+              <Flex css={flexMobileStyle} justify={"space-between"} align={"center"}>
                 <Flex align={"center"} css={markerMobileStyle}>
                   <IconBox>
-                    <img
-                      src={
-                        currentStore?.category
-                          ? `${Logo}`
-                          : "/images/markers/default.png"
-                      }
-                      alt=""
-                    />
+                    <img src={currentStore?.category ? `${Logo}` : "/images/markers/default.png"} alt="" />
                   </IconBox>
                   <Flex
                     direction="column"
@@ -171,7 +145,7 @@ function Map() {
                   </Flex>
                 </Flex>
                 <Flex css={flexMobileJustify}>
-                  <a href={`tel:${currentStore.tel_no}`}>
+                  <a href={`tel:${currentStore.tel_no}`} style={{ textDecoration: "none", color: "#000" }}>
                     <Flex direction="column" align={"center"}>
                       <MdPhoneIphone size={30} />
                       <Spacing size={10} />
@@ -179,7 +153,7 @@ function Map() {
                     </Flex>
                   </a>
                   <Spacing size={20} direction="horizontal" />
-                  <Link to={"/"}>
+                  <Link to={"/"} style={{ textDecoration: "none", color: "#000" }}>
                     <Flex direction="column" align={"center"}>
                       <IoIosSend size={30} />
                       <Spacing size={10} />
@@ -191,7 +165,7 @@ function Map() {
             ) : (
               <NoCurrentBox>
                 <Flex>
-                  <IoStorefrontOutline size={30} />
+                  <FaCar size={30} />
                   <Spacing size={10} direction="horizontal" />
                   <HiOutlineCursorClick size={20} />
                 </Flex>
@@ -201,13 +175,12 @@ function Map() {
                 <Spacing size={30} />
                 <Text typography="t5">지도에 표시된 마커를 클릭 해보세요</Text>
                 <Spacing size={10} />
-                <Text typography="t5">
-                  오프라인 매장의 정보를 확인할 수 있습니다
-                </Text>
+                <Text typography="t5">오프라인 매장의 정보를 확인할 수 있습니다</Text>
               </NoCurrentBox>
             )}
           </DescWrapper>
         </DescBox>
+        <HeadLine />
       </StoreDescBox>
     </>
   );
@@ -231,18 +204,16 @@ const MapBox = styled.div`
 `;
 
 const HeadLine = styled.div`
-  height: 50px;
-  width: 95%;
+  height: 1px;
+  width: 100%;
   margin-top: 40px;
   background-color: #303030;
-  border-radius: 15px 15px 0 0;
 `;
 const DescWrapper = styled.div`
-  width: 95%;
-  min-height: 170px;
+  width: 100%;
+  min-height: 175px;
   background-color: white;
   padding: 10px;
-  border-radius: 10px;
 
   @media (max-width: 600px) {
     width: 87%;
@@ -256,14 +227,14 @@ const DescBox = styled.div`
   min-height: 200px;
   padding: 15px 0;
   width: 95%;
-  background-color: #eee;
+  background-color: #fff;
   border-radius: 0 0 15px 15px;
 `;
 const IconBox = styled.div`
   height: 100px;
   width: 100px;
   margin-left: 15px;
-  margin-right: 20px;
+  margin-right: 100px;
 
   @media (max-width: 600px) {
     height: 60px;

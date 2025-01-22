@@ -1,3 +1,3 @@
 export const SERVER_URL = {
-  LOCAL: "http://localhost:8081",
+  LOCAL: "http://localhost:8080",
 };

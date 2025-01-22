@@ -1,12 +1,28 @@
 import styled from "@emotion/styled";
 import { colorPalette } from "../../../styles/colorPalette";
 import { useNavigate } from "react-router-dom";
+import { SELLER_STATUS } from "../../../constants/carOption";
+import addDelimiter from "../../../utils/addDelimiter";
 
 export default function RepairCarRow(car) {
   const navigate = useNavigate();
 
-  const { carId, color, make, model, fuelType, mileage, price, sellerId, createdAt, status, transmission, year } = car;
-
+  const {
+    carId,
+    color,
+    make,
+    model,
+    fuelType,
+    mileage,
+    price,
+    sellerId,
+    sellerStatus,
+    createdAt,
+    status,
+    transmission,
+    year,
+  } = car;
+  const rStatus = SELLER_STATUS.find((item) => item.value === sellerStatus);
   const handleDetailPage = () => {
     navigate("/manager/repair/detail", { state: { ...car } });
   };
@@ -16,15 +32,15 @@ export default function RepairCarRow(car) {
       <div id="carId">{carId}</div>
       <div id="make">{make}</div>
       <div id="model">{model}</div>
-      <div id="price">{price}</div>
+      <div id="price">{addDelimiter(price)}</div>
       <div id="year">{year}</div>
       <div id="fuelType">{fuelType}</div>
-      <div id="mileage">{mileage}</div>
+      <div id="mileage">{addDelimiter(mileage)}</div>
       <div id="transmission">{transmission}</div>
       <div id="sellerId">{sellerId}</div>
       <div id="color"></div>
       <div id="createdAt">{createdAt.slice(0, 10)}</div>
-      <div id="status">{status === "AVAILABLE" ? "판매중" : "판매종료"}</div>
+      <div id="status">{rStatus.label}</div>
       <div id="btnBox">
         <DetailBtn onClick={handleDetailPage}>상세보기</DetailBtn>
       </div>
@@ -58,7 +74,7 @@ const CarRowWrapper = styled.div`
     width: 100px;
   }
   #model {
-    width: 200px;
+    width: 150px;
   }
   #price {
     width: 100px;
@@ -84,8 +100,8 @@ const CarRowWrapper = styled.div`
     background-color: ${({ color }) => color};
   }
   #status {
-    width: 80px;
-    color: ${({ status }) => (status === "AVAILABLE" ? "green" : "red")};
+    width: 130px;
+    color: green;
   }
   #createdAt {
     width: 120px;

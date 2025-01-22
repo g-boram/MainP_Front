@@ -36,10 +36,9 @@ export default function M_NoticePage() {
   const dispatch = useDispatch();
   const [category, setCategory] = useState("ALL");
   const [boardData, setBoardData] = useState([]);
-  const { filteredBoards, isLoading, error, statusFilter } = useSelector(
-    (state) => state.boardList
-  );
 
+  const { filteredBoards, isLoading, error, statusFilter } = useSelector((state) => state.boardList);
+  console.log("boardData", boardData);
   // 게시글 데이터 로딩 및 필터 적용
   useEffect(() => {
     dispatch(fetchPagedBoards({ page: 0, size: 10, sort: "boardId,desc" }));

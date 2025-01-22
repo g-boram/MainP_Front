@@ -15,6 +15,7 @@ import { ClearLoadingOverlay } from "../../../styles/managerLayoutStyles";
 import { updateCar } from "../../../api/carApi";
 import { toast } from "react-toastify";
 import { MdOutlinePhoneIphone } from "react-icons/md";
+import { formatPhoneNumber } from "../../../utils/formatNumber";
 
 // 관리자-자동차정비 수정
 export default function RepairCarUpdateForm() {
@@ -157,7 +158,9 @@ export default function RepairCarUpdateForm() {
       )}
       <InfoContainer>
         <MdOutlinePhoneIphone size={20} />
-        차량소유자-아이디, 이름, 핸드폰번호 판매담당자-아이디, 이름, 핸드폰번호 / 점검담당자: {user?.id} {user?.phone}
+        {/* @TODO */}
+        {/* 판매담당자 : id, 이름, 핸드폰번호 / 점검담당자 : {user?.id}, {user?.username}, {formatPhoneNumber(user?.phone)} */}
+        판매 담당자 : / 점검 담당자 : {user?.id}, {user?.username}, {formatPhoneNumber(user?.phone)}
       </InfoContainer>
 
       <TitleRow>차량 기본정보</TitleRow>

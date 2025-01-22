@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useAlertContext } from "../../../contexts/AlertContextProvider";
 import { useNavigate } from "react-router-dom";
-import { BarLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners";
 import { createBoard, resetBoardState } from "../../../reduxSlice/boardCreateSlice";
 import { LoadingOverlay } from "../../../styles/managerLayoutStyles";
 import { toast } from "react-toastify";
@@ -94,7 +94,7 @@ export default function NoticeForm() {
     <FormContainer>
       {isLoading && (
         <LoadingOverlay>
-          <BarLoader color="#000" z-index={11} />
+          <ClipLoader color="#000" z-index={11} />
         </LoadingOverlay>
       )}
       <Flex direction="column">
