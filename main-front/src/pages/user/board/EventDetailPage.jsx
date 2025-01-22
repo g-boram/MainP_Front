@@ -43,7 +43,6 @@ export default function EventDetailPage() {
                   {boardData.title}
                 </div>
                 <div id="headRight">
-                  <div>Todo</div>
                   <div>{boardData.createdAt.slice(0, 10)}</div>
                 </div>
               </Header>
@@ -92,11 +91,11 @@ const BoardDetailWrapper = styled.div`
 `;
 
 const Header = styled.div`
-  height: 80px;
+  height: 70px;
   margin-top: 50px;
   display: flex;
   padding-bottom: 20px;
-  border-bottom: 2px solid #000;
+  border-bottom: 1px solid #eee;
   font-weight: bold;
   justify-content: space-between;
   align-items: flex-end;

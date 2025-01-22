@@ -45,7 +45,7 @@ const ImgContainer = styled.div`
 const TitleWrapper = styled.div`
   position: absolute;
   bottom: 10px;
-  left: 10px;
+  left: 80px;
   text-align: left;
 
   #title {

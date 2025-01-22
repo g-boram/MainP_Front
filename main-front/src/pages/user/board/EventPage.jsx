@@ -14,55 +14,50 @@ import { ClipLoader } from "react-spinners";
 import { TbClipboardSearch } from "react-icons/tb";
 import { BaseIconBox } from "../../../styles/miniComponentStyles";
 import { setPage, setTotalItems } from "../../../reduxSlice/paginationSlice";
+import { getAllBoardList } from "../../../api/boardApi";
 
 export default function EventPage() {
   const dispatch = useDispatch();
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [boardList, setBoardList] = useState([]);
   const [currentItems, setCurrentItems] = useState([]);
   const [activeTab, setActiveTab] = useState("ing");
 
-  const { filteredBoards, isLoading } = useSelector((state) => state.boardList);
   const { currentPage, itemsPerPage } = useSelector((state) => state.pagination);
 
   useEffect(() => {
-    const fetchBoards = async () => {
-      await dispatch(fetchPagedBoards({ page: 0, size: 10, sort: "boardId,desc" }));
+    setIsLoading(true);
+    const allBoardData = async () => {
+      const data = await getAllBoardList();
+      setBoardList(data.filter((board) => board.category === "event" && board.status === "ACTIVE"));
     };
+    allBoardData();
+    setIsLoading(false);
+  }, []);
 
-    fetchBoards();
-  }, [dispatch]);
-
-  // Memoize ingEventData
-  const ingEventData = useCallback(() => {
-    const setEventData = filteredBoards.filter((board) => board.category === "event" && board.status === "ACTIVE");
-    dispatch(setTotalItems(setEventData.length));
-
-    const startIndex = currentPage * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    setCurrentItems(setEventData.slice(startIndex, endIndex));
-  }, [filteredBoards, dispatch, currentPage, itemsPerPage]);
-
-  // Memoize finishEventData
-  const finishEventData = useCallback(() => {
-    const setEventData = filteredBoards.filter((board) => board.category === "event" && board.status === "INACTIVE");
-    dispatch(setTotalItems(setEventData.length));
+  useEffect(() => {
+    const setNoticeData = boardList.filter((board) => board.category === "event" && board.status === "ACTIVE");
+    dispatch(setTotalItems(boardList.length));
 
     const startIndex = currentPage * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    setCurrentItems(setEventData.slice(startIndex, endIndex));
-  }, [filteredBoards, dispatch, currentPage, itemsPerPage]);
+    setCurrentItems(setNoticeData.slice(startIndex, endIndex));
+  }, [currentPage, itemsPerPage, boardList, dispatch]);
 
   useEffect(() => {
     if (activeTab === "ing") {
-      ingEventData();
+      const status = boardList.filter((board) => board.status === "ACTIVE");
+      setCurrentItems(status);
     } else {
-      finishEventData();
+      const status = boardList.filter((board) => board.status === "INACTIVE");
+      setCurrentItems(status);
     }
-  }, [activeTab, ingEventData, finishEventData]);
+  }, [activeTab, boardList]);
 
   return (
     <PageContainer>
-      <PageTopImgBox imgName={"board"} title={"이벤트"} desc={"00에서 진행중인 이벤트 소식을 확인해보세요."} />
+      <PageTopImgBox imgName={"board"} title={"이벤트"} desc={"HiCar 에서 진행중인 이벤트 소식을 확인해보세요."} />
       <EventBtnRow>
         <Flex>
           <Badge onClickFn={() => setActiveTab("ing")} label={"진행 중 이벤트"} color={"#1a831d"} />
@@ -93,7 +88,7 @@ export default function EventPage() {
       {currentItems && currentItems.length !== 0 ? (
         <CustomPagination
           currentPage={currentPage}
-          totalItems={filteredBoards.length}
+          totalItems={boardList.length}
           itemsPerPage={itemsPerPage}
           onPageChange={(page) => dispatch(setPage(page))}
         />
@@ -105,7 +100,7 @@ export default function EventPage() {
 }
 
 const BoardListContainer = styled.div`
-  width: 1000px;
+  width: 1200px;
   margin: 50px auto;
   display: flex;
   flex-direction: column;
