@@ -9,9 +9,9 @@ import Spacing from "../../../components/shared/Spacing";
 import BaseButton from "../../../components/shared/Button";
 
 import {
+  ClearLoadingOverlay,
   ContentBox,
   ContentWrapper,
-  LoadingOverlay,
   ManagerContainer,
   NavRow,
 } from "../../../styles/managerLayoutStyles";
@@ -21,7 +21,7 @@ import { toast } from "react-toastify";
 import { useAlertContext } from "../../../contexts/AlertContextProvider";
 import { useLocation, useNavigate } from "react-router-dom";
 import { updateCar } from "../../../api/carApi";
-import { BarLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners";
 import { colorPalette } from "../../../styles/colorPalette";
 import { RxCross2 } from "react-icons/rx";
 
@@ -103,9 +103,9 @@ export default function M_CarEventDetailPage() {
       <LeftNavbar />
       <ContentWrapper>
         {isLoading && (
-          <LoadingOverlay>
-            <BarLoader color="#000" z-index={11} />
-          </LoadingOverlay>
+          <ClearLoadingOverlay>
+            <ClipLoader color="#000" z-index={11} />
+          </ClearLoadingOverlay>
         )}
         <ContentBox>
           <HeadTitle title={"자동차 상세보기"} desc={"자동차 상세보기 "}></HeadTitle>

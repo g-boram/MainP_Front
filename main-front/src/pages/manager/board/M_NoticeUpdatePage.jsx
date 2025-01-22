@@ -25,7 +25,7 @@ export default function M_NoticeUpdatePage() {
     if (boardId) {
       const getHistory = async () => {
         const res = await getUpdatedBoardHistory(boardId);
-        setHistory(res.data);
+        setHistory(res);
       };
       getHistory();
     }

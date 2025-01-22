@@ -199,7 +199,7 @@ export default function CarDetailForm() {
               </CarDataBox>
             </ScrollBox>
           </MainContainer>
-          <Flex justify="center" align="center" height="200px" width="100%">
+          {/* <Flex justify="center" align="center" height="200px" width="100%">
             <BaseButton
               size="small"
               color="primary"
@@ -213,7 +213,7 @@ export default function CarDetailForm() {
             <BaseButton size="small" color="error" height={"40px"} width={"100px"} onClick={() => confirmDelete()}>
               삭제
             </BaseButton>
-          </Flex>
+          </Flex> */}
         </>
       ) : (
         <ClearLoadingOverlay>

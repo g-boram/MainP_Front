@@ -9,8 +9,8 @@ export const CAR_COUNTRY = {
   Japan: ["Toyota", "Honda"],
 };
 export const CAR_MANUFACTURERE = {
-  Hyundai: ["Elantra", "Sonata"],
-  Kia: ["Sorento", "Sportage"],
+  Hyundai: ["EV", "K-series"],
+  Kia: ["EV", "K-series", "Morning", "Ray", "Niro"],
   Ford: ["Mustang", "F-150"],
   Tesla: ["Model S", "Model 3"],
   Toyota: ["Corolla", "Camry"],

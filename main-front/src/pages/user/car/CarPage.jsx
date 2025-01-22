@@ -22,7 +22,7 @@ export default function CarPage() {
       try {
         const res = await getCarListAll();
         const cars = res.data.filter((car) => car.status === "AVAILABLE");
-        const eventCars = res.data.filter((car) => car.eventName !== null);
+        const eventCars = res.data.filter((car) => car.eventName !== "");
         setCarData(cars);
         setEventCarData(eventCars);
       } catch (e) {
@@ -78,11 +78,11 @@ export default function CarPage() {
 
 const CarListContainer = styled.div`
   min-height: 100%;
-  width: 1200px;
+  width: 1000px;
   margin: 0 auto;
   display: flex;
   margin-bottom: 100px;
-  padding-top: ${HEIGHT_LIST.HEADER + HEIGHT_LIST.NAVBAR}px;
+  padding-top: ${HEIGHT_LIST.HEADER + HEIGHT_LIST.NAVBAR + 30}px;
 
   @media (max-width: 600px) {
     flex-direction: column;
@@ -91,7 +91,7 @@ const CarListContainer = styled.div`
 
 const LeftCategoryBox = styled.div`
   height: 100%;
-  min-width: 300px;
+  min-width: 250px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -103,7 +103,7 @@ const LeftCategoryBox = styled.div`
 `;
 
 const LeftTopBox = styled.div`
-  width: 300px;
+  width: 250px;
   height: 200px;
   margin-top: 30px;
   margin-bottom: 30px;
@@ -111,7 +111,7 @@ const LeftTopBox = styled.div`
 `;
 
 const CarEventList = styled.div`
-  width: 850px;
+  width: 800px;
   height: auto;
   padding: 20px;
   display: flex;
@@ -120,18 +120,19 @@ const CarEventList = styled.div`
   overflow-x: scroll;
   margin-top: 30px;
   margin-bottom: 50px;
+  margin-left: 15px;
   gap: 20px;
   border-radius: 15px;
   box-shadow: 0px 0px 10px -2px #ccc;
 `;
 
 const CarListBox = styled.div`
-  width: 900px;
+  width: 850px;
 `;
 
 const RightContentBox = styled.div`
   height: 100%;
-  width: 900px;
+  width: 800px;
   display: flex;
   flex-direction: column;
   justify-content: center;
