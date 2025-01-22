@@ -68,7 +68,7 @@ const Chatbot = () => {
   };
 
   const toggleChatVisibility = () => {
-    setIsChatVisible((prev) => !prev); // 버튼 클릭 시 채팅 창 보이거나 숨기기
+    setIsChatVisible((prev) => !prev);
   };
 
   return (
@@ -84,6 +84,9 @@ const Chatbot = () => {
           <ChatbotContainer>
             <Title>질문</Title>
             <ChatContainer>
+              <Message>
+                믿음 중고차 HiCar 채팅 상담 입니다! 무엇이든 물어보세요 !
+              </Message>
               {messages.map((msg, index) => (
                 <Message key={index} sender={msg.sender}>
                   <strong>{msg.sender === "user" ? "You" : "Bot"}:</strong>{" "}
@@ -124,11 +127,11 @@ const Overlay = styled.div`
 
 const ChatbotContainer = styled.div`
   position: fixed;
-  top: 50%;
-  /* left: 57%; */
-  right: 24%;
-  transform: translate(100%, -40%);
-  width: 400px;
+  top: 24%;
+  right: 6%;
+  width: 90%;
+  max-width: 400px;
+  height: 60%;
   background-color: #fff;
   border-radius: 10px;
   padding: 20px;
@@ -136,8 +139,8 @@ const ChatbotContainer = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  height: 500px;
   z-index: 1000;
+  overflow: hidden;
 `;
 
 const ShowChatButton = styled.button`

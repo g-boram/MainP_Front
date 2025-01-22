@@ -22,7 +22,18 @@ import { useState } from "react";
 export default function CarDetailBox() {
   const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+
   console.log(location);
+
+  const handleOpenPaymentModal = () => {
+    setIsPaymentModalOpen(true);
+  };
+
+  const handleClosePaymentModal = () => {
+    setIsPaymentModalOpen(false);
+  };
+
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -51,6 +62,8 @@ export default function CarDetailBox() {
     hashTags,
   } = location.state;
 
+  console.log(location);
+
   const fuel = CAR_OPTION_FUELTYPE.filter((f) => f.value === fuelType);
 
   return (
@@ -59,9 +72,20 @@ export default function CarDetailBox() {
         <MainContainer>
           {/* 왼쪽 고정 영역 */}
           <FixedBox>
-            {eventName ? <CarDetailTimer eventEndTime={eventEndTime} eventName={eventName} /> : <></>}
+            {eventName ? (
+              <CarDetailTimer
+                eventEndTime={eventEndTime}
+                eventName={eventName}
+              />
+            ) : (
+              <></>
+            )}
             <CarImgBox>
-              {imageUrl ? <img src={imageUrl} alt="carImg" /> : <MdOutlineImageNotSupported size={50} color="#ddd" />}
+              {imageUrl ? (
+                <img src={imageUrl} alt="carImg" />
+              ) : (
+                <MdOutlineImageNotSupported size={50} color="#ddd" />
+              )}
             </CarImgBox>
             <CarDetailInfoBox />
             <CarSellerInfoBox id={sellerId} />
@@ -70,7 +94,11 @@ export default function CarDetailBox() {
           <ScrollBox>
             <TopIconRow>
               <TopRowLeft>
-                {hashTags && hashTags?.length !== 0 ? hashTags.map((tag) => <TagText>#{tag}</TagText>) : <></>}
+                {hashTags && hashTags?.length !== 0 ? (
+                  hashTags.map((tag) => <TagText>#{tag}</TagText>)
+                ) : (
+                  <></>
+                )}
               </TopRowLeft>
               <Flex>right</Flex>
             </TopIconRow>
@@ -94,7 +122,9 @@ export default function CarDetailBox() {
                 <Spacing size={10} direction="width" />
                 <CounselBtn>Icon / Tel</CounselBtn>
               </Flex>
-              <OnCovenantBtn onClick={handleOpenModal}>HiCar에서 구매하기</OnCovenantBtn>
+              <OnCovenantBtn onClick={handleOpenModal}>
+                HiCar에서 구매하기
+              </OnCovenantBtn>
             </CarMainTitleRow>
 
             <CarDataBox>
@@ -107,58 +137,138 @@ export default function CarDetailBox() {
                 </Text>
               </Flex>
               <Flex height="30px" justify="space-between" align="center">
-                <Text typography="t13" color="grey" width="80px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="grey"
+                  width="80px"
+                  textAlign="left"
+                >
                   제조사
                 </Text>
-                <Text typography="t13" color="black" width="100px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="black"
+                  width="100px"
+                  textAlign="left"
+                >
                   {make}
                 </Text>
-                <Text typography="t13" color="grey" width="80px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="grey"
+                  width="80px"
+                  textAlign="left"
+                >
                   모델명
                 </Text>
-                <Text typography="t13" color="black" width="100px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="black"
+                  width="100px"
+                  textAlign="left"
+                >
                   {model}
                 </Text>
               </Flex>
               <Flex height="30px" justify="space-between" align="center">
-                <Text typography="t13" color="grey" width="80px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="grey"
+                  width="80px"
+                  textAlign="left"
+                >
                   차량번호
                 </Text>
-                <Text typography="t13" color="black" width="100px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="black"
+                  width="100px"
+                  textAlign="left"
+                >
                   {carId}
                 </Text>
-                <Text typography="t13" color="grey" width="80px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="grey"
+                  width="80px"
+                  textAlign="left"
+                >
                   주행거리
                 </Text>
-                <Text typography="t13" color="black" width="100px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="black"
+                  width="100px"
+                  textAlign="left"
+                >
                   {addDelimiter(mileage)} km
                 </Text>
               </Flex>
               <Flex height="30px" justify="space-between" align="center">
-                <Text typography="t13" color="grey" width="80px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="grey"
+                  width="80px"
+                  textAlign="left"
+                >
                   연식
                 </Text>
-                <Text typography="t13" color="black" width="100px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="black"
+                  width="100px"
+                  textAlign="left"
+                >
                   {year}
                 </Text>
-                <Text typography="t13" color="grey" width="80px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="grey"
+                  width="80px"
+                  textAlign="left"
+                >
                   색상
                 </Text>
-                <Text typography="t13" color="black" width="100px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="black"
+                  width="100px"
+                  textAlign="left"
+                >
                   <ColorBox color={color} />
                 </Text>
               </Flex>
               <Flex height="30px" justify="space-between" align="center">
-                <Text typography="t13" color="grey" width="80px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="grey"
+                  width="80px"
+                  textAlign="left"
+                >
                   연료타입
                 </Text>
-                <Text typography="t13" color="black" width="100px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="black"
+                  width="100px"
+                  textAlign="left"
+                >
                   {fuel[0].label}
                 </Text>
-                <Text typography="t13" color="grey" width="80px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="grey"
+                  width="80px"
+                  textAlign="left"
+                >
                   변속기
                 </Text>
-                <Text typography="t13" color="black" width="100px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="black"
+                  width="100px"
+                  textAlign="left"
+                >
                   {transmission}
                 </Text>
               </Flex>
@@ -207,13 +317,53 @@ export default function CarDetailBox() {
                 <FaCheckCircle />
                 구매 시｜7일간 타보고 환불가능
               </Div>
+              <OrderBtn onClick={handleOpenPaymentModal}>
+                즉시 결제하기
+              </OrderBtn>
               <DivChat>
                 <RiCustomerService2Fill />
                 챗봇으로 문의하기
               </DivChat>
             </ModalBody>
+            <ModalFooter>
+              <ModalButton onClick={handleCloseModal}>닫기</ModalButton>
+            </ModalFooter>
+          </ModalContent>
+        </ModalOverlay>
+      )}
+
+      {/* 토스 결제 모달 */}
+      {isPaymentModalOpen && (
+        <ModalOverlay onClick={handleClosePaymentModal}>
+          <ModalContent onClick={(e) => e.stopPropagation()}>
+            <ModalHeader>
+              <h2>결제 방식</h2>
+              <CloseButton onClick={handleClosePaymentModal}>×</CloseButton>
+            </ModalHeader>
+            <ModalBody>
+              <Toss
+                onClick={() => {
+                  const tossPayments = window.TossPayments(
+                    process.env.REACT_APP_TOSS_CLIENT_KEY
+                  ); // Replace with your client key
+                  tossPayments
+                    .requestPayment("카드", {
+                      amount: price, // Replace with the actual price
+                      orderId: `order-${Date.now()}`, // Generate unique order ID
+                      orderName: `${make} ${model}`, // Customize order name
+                      successUrl: "http://localhost:3000/success", // Replace with your success URL
+                      failUrl: "http://localhost:3000/fail", // Replace with your fail URL
+                    })
+                    .catch((error) => {
+                      console.error(error);
+                    });
+                }}
+              >
+                toss 결제하기
+              </Toss>
+            </ModalBody>
             {/* <ModalFooter>
-              <ModalButton onClick={handleCloseModal}>확인</ModalButton>
+              <ModalButton onClick={handleClosePaymentModal}>닫기</ModalButton>
             </ModalFooter> */}
           </ModalContent>
         </ModalOverlay>
@@ -221,6 +371,38 @@ export default function CarDetailBox() {
     </FormContainer>
   );
 }
+
+const Toss = styled.button`
+  border: none;
+  font-size: 15px;
+  background-color: #4484ee;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  margin-top: 20px;
+  padding: 15px;
+  width: 100%;
+`;
+
+const OrderBtn = styled.div`
+  border: 1px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  margin-top: 20px;
+  padding: 15px;
+  width: 100%;
+  cursor: pointer;
+
+  svg {
+    margin-right: 8px;
+    font-size: 17px;
+  }
+`;
+
 const MainContainer = styled.div`
   display: flex;
 `;
@@ -469,6 +651,7 @@ const DivChat = styled.div`
   margin-top: 20px;
   padding: 15px;
   width: 100%;
+  cursor: pointer;
 
   svg {
     margin-right: 8px;

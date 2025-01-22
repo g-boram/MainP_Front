@@ -7,7 +7,9 @@ import { css } from "@emotion/react";
 // 자동차 옵션정보 상세보기 폼
 export default function CarDetailOptionForm({ carOptionData }) {
   const optionData = carOptionData[0];
-  const eEmision = CAR_OPTION_EEMISSION.filter((f) => f.value === optionData.eEmission);
+  const eEmision = CAR_OPTION_EEMISSION.filter(
+    (f) => f.value === optionData.eEmission
+  );
 
   return (
     <FormContainer>
@@ -30,18 +32,42 @@ export default function CarDetailOptionForm({ carOptionData }) {
         <InputBox>{eEmision[0].label}</InputBox>
         <Label>튜닝여부</Label>
         <RadioBox>
-          <input id="notTuning" name="tuning" type="radio" checked={optionData.tuning === "0"} readOnly />
+          <input
+            id="notTuning"
+            name="tuning"
+            type="radio"
+            checked={optionData.tuning === "0"}
+            readOnly
+          />
           <label for="notTuning">없음</label>
           <Spacing size={10} />
-          <input id="isTuning" name="tuning" type="radio" checked={optionData.tuning === "1"} readOnly />
+          <input
+            id="isTuning"
+            name="tuning"
+            type="radio"
+            checked={optionData.tuning === "1"}
+            readOnly
+          />
           <label for="isTuning">있음</label>
         </RadioBox>
         <Label>특별이력</Label>
         <RadioBox>
-          <input id="notSpecial" name="special" type="radio" checked={optionData.special === "0"} readOnly />
+          <input
+            id="notSpecial"
+            name="special"
+            type="radio"
+            checked={optionData.special === "0"}
+            readOnly
+          />
           <label for="notSpecial">없음</label>
           <Spacing size={10} />
-          <input id="isSpecial" name="special" type="radio" checked={optionData.special === "1"} readOnly />
+          <input
+            id="isSpecial"
+            name="special"
+            type="radio"
+            checked={optionData.special === "1"}
+            readOnly
+          />
           <label for="isSpecial">있음</label>
         </RadioBox>
       </Row>
@@ -49,18 +75,42 @@ export default function CarDetailOptionForm({ carOptionData }) {
       <Row>
         <Label>용도변경</Label>
         <RadioBox>
-          <input id="notChangeUsed" name="changeUsed" type="radio" checked={optionData.changeUsed === "0"} readOnly />
+          <input
+            id="notChangeUsed"
+            name="changeUsed"
+            type="radio"
+            checked={optionData.changeUsed === "0"}
+            readOnly
+          />
           <label for="notChangeUsed">없음</label>
           <Spacing size={10} />
-          <input id="isChangeUsed" name="changeUsed" type="radio" checked={optionData.changeUsed === "1"} readOnly />
+          <input
+            id="isChangeUsed"
+            name="changeUsed"
+            type="radio"
+            checked={optionData.changeUsed === "1"}
+            readOnly
+          />
           <label for="isChangeUsed">있음</label>
         </RadioBox>
         <Label>사고이력</Label>
         <RadioBox>
-          <input id="notAccident" name="accident" type="radio" checked={optionData.accident === "0"} readOnly />
+          <input
+            id="notAccident"
+            name="accident"
+            type="radio"
+            checked={optionData.accident === "0"}
+            readOnly
+          />
           <label for="notAccident">없음</label>
           <Spacing size={10} />
-          <input id="isAccident" name="accident" type="radio" checked={optionData.accident === "1"} readOnly />
+          <input
+            id="isAccident"
+            name="accident"
+            type="radio"
+            checked={optionData.accident === "1"}
+            readOnly
+          />
           <label for="isAccident">있음</label>
         </RadioBox>
         <Label>단순수리</Label>
