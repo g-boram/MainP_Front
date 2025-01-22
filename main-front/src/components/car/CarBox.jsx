@@ -80,7 +80,7 @@ const CarContainer = styled.div`
   flex-shrink: 0;
   flex-direction: column;
   background-color: white;
-  border-radius: 10px;
+  border-radius: 5px;
   cursor: pointer;
 `;
 
@@ -97,7 +97,7 @@ const ImgWrapper = styled.div`
   align-items: center;
   background-color: #f2f2f2;
   border: 1px solid #eee;
-  border-radius: 10px;
+  border-radius: 5px;
   margin-bottom: 20px;
 
   & img {

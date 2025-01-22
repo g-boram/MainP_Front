@@ -122,7 +122,7 @@ const CarEventList = styled.div`
   margin-bottom: 50px;
   margin-left: 15px;
   gap: 20px;
-  border-radius: 15px;
+  border-radius: 10px;
   box-shadow: 0px 0px 10px -2px #ccc;
 `;
 

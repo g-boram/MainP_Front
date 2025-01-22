@@ -24,7 +24,7 @@ function Badge({ label = "", color = "black", onClickFn }) {
 const Container = styled.div`
   border-radius: 15px;
   min-width: 25px;
-  padding: 4px 12px;
+  padding: 2px 12px;
   margin-right: 10px;
   min-height: 24px;
   display: flex;

@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { isManagerPath } from "../../reduxSlice/isManagerPathSlice";
 import { HEIGHT_LIST } from "../../constants/height";
 import { logout } from "../../reduxSlice/authSlice";
-
+import LogoImg from "../../assert/Logo.png";
 import styled from "@emotion/styled";
 import Flex from "../shared/Flex";
 import BaseButton from "../shared/Button";
@@ -40,7 +40,9 @@ export default function Header() {
       ) : (
         <UserHeaderContainer>
           <HeaderBox>
-            <LogoBox onClick={() => navigate("/")}>Logo</LogoBox>
+            <LogoBox onClick={() => navigate("/")}>
+              <img src={LogoImg} alt="Logo" />
+            </LogoBox>
             <div>
               {user == null ? (
                 <Flex>
@@ -126,11 +128,15 @@ const NavbarContainer = styled.div`
 
 const LogoBox = styled.div`
   margin-left: 20px;
+
   cursor: pointer;
+  width: 60px;
+  height: 60px;
 
   > img {
     width: 100px;
-
+    margin-top: 10px;
+    position: absolute;
     object-fit: contain;
   }
 `;

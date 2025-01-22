@@ -1,50 +1,51 @@
 import styled from "@emotion/styled";
 import PageTopImgBox from "../../../components/shared/PageTopImgBox";
-import BoardSearch from "../../../components/shared/BoardSearch";
 import NoticeBoardRow from "../../../components/board/NoticeBoardRow";
 import CustomPagination from "../../../components/shared/pagination/CustomPagination";
-
 import { PageContainer } from "../../../styles/pageLayoutStyles";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { fetchPagedBoards } from "../../../reduxSlice/boardListSlice";
 import { ClearLoadingOverlay } from "../../../styles/managerLayoutStyles";
 import { ClipLoader } from "react-spinners";
 import { TbClipboardSearch } from "react-icons/tb";
 import { BaseIconBox } from "../../../styles/miniComponentStyles";
 import { setPage, setTotalItems } from "../../../reduxSlice/paginationSlice";
+import { getAllBoardList } from "../../../api/boardApi";
 
 export default function NoticePage() {
   const dispatch = useDispatch();
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [boardList, setBoardList] = useState([]);
   const [currentItems, setCurrentItems] = useState([]);
 
-  const { filteredBoards, isLoading } = useSelector((state) => state.boardList);
   const { currentPage, itemsPerPage } = useSelector((state) => state.pagination);
 
   useEffect(() => {
-    const fetchBoards = async () => {
-      await dispatch(fetchPagedBoards({ page: 0, size: 10, sort: "boardId,desc" }));
+    setIsLoading(true);
+    const allBoardData = async () => {
+      const data = await getAllBoardList();
+      setBoardList(data);
     };
-
-    fetchBoards();
-  }, [dispatch]);
+    allBoardData();
+    setIsLoading(false);
+  }, []);
 
   useEffect(() => {
-    const setNoticeData = filteredBoards.filter((board) => board.category === "notice" && board.status === "ACTIVE");
+    const setNoticeData = boardList.filter((board) => board.category === "notice" && board.status === "ACTIVE");
     dispatch(setTotalItems(setNoticeData.length));
 
     const startIndex = currentPage * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     setCurrentItems(setNoticeData.slice(startIndex, endIndex));
-  }, [currentPage, itemsPerPage, filteredBoards, dispatch]);
+  }, [currentPage, itemsPerPage, boardList, dispatch]);
 
   return (
     <PageContainer>
       <PageTopImgBox
         imgName={"board"}
         title={"공지사항"}
-        desc={"00의 새로운 소식과 각 부분의 다양한 서비스 등을 알려 드립니다."}
+        desc={"HiCar 의 새로운 소식과 각 부분의 다양한 서비스 등을 알려 드립니다."}
       />
 
       <BoardListContainer>
@@ -71,7 +72,7 @@ export default function NoticePage() {
       {currentItems && currentItems.length !== 0 ? (
         <CustomPagination
           currentPage={currentPage}
-          totalItems={filteredBoards.length}
+          totalItems={boardList.length}
           itemsPerPage={itemsPerPage}
           onPageChange={(page) => dispatch(setPage(page))}
         />
@@ -83,7 +84,7 @@ export default function NoticePage() {
 }
 
 const BoardListContainer = styled.div`
-  width: 1000px;
+  width: 1200px;
   min-height: 400px;
   margin: 50px auto;
   display: flex;
