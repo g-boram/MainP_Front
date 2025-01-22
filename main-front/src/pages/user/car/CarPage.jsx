@@ -10,6 +10,7 @@ import { ClipLoader } from "react-spinners";
 import { TbClipboardSearch } from "react-icons/tb";
 import { BaseIconBox } from "../../../styles/miniComponentStyles";
 import Flex from "../../../components/shared/Flex";
+import CarImg from "../../../assert/carPageImg.jpg";
 
 export default function CarPage() {
   const [carData, setCarData] = useState([]);
@@ -42,7 +43,9 @@ export default function CarPage() {
         </ClearLoadingOverlay>
       )}
       <LeftCategoryBox>
-        <LeftTopBox>LeftTopBox</LeftTopBox>
+        <LeftTopBox>
+          <Img src={CarImg}></Img>
+        </LeftTopBox>
         <SideMenuBar setIsLoading={setIsLoading} setCarData={setCarData} />
       </LeftCategoryBox>
       <RightContentBox>
@@ -76,6 +79,13 @@ export default function CarPage() {
   );
 }
 
+const Img = styled.img`
+  width: 300px;
+  height: 200px;
+
+  margin-bottom: 30px;
+`;
+
 const CarListContainer = styled.div`
   min-height: 100%;
   width: 1000px;
@@ -107,7 +117,7 @@ const LeftTopBox = styled.div`
   height: 200px;
   margin-top: 30px;
   margin-bottom: 30px;
-  background-color: #eee;
+  background-color: #000;
 `;
 
 const CarEventList = styled.div`

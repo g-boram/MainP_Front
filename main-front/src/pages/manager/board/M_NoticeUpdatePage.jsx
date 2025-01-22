@@ -7,7 +7,12 @@ import Modal from "../../../components/shared/Modal";
 import Flex from "../../../components/shared/Flex";
 import Spacing from "../../../components/shared/Spacing";
 import Text from "../../../components/shared/Text";
-import { ContentBox, ContentWrapper, ManagerContainer, NavRow } from "../../../styles/managerLayoutStyles";
+import {
+  ContentBox,
+  ContentWrapper,
+  ManagerContainer,
+  NavRow,
+} from "../../../styles/managerLayoutStyles";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { getUpdatedBoardHistory } from "../../../api/boardApi";
@@ -40,7 +45,10 @@ export default function M_NoticeUpdatePage() {
       <LeftNavbar />
       <ContentWrapper>
         <ContentBox>
-          <HeadTitle title={"공지사항 수정"} desc={"공지사항 게시글 수정하기 "}></HeadTitle>
+          <HeadTitle
+            title={"공지사항 수정"}
+            desc={"공지사항 게시글 수정하기 "}
+          ></HeadTitle>
           <NavRow>
             <ModalButton onClick={toggleModal}>수정 History 보기</ModalButton>
             <Spacing size={10} direction={"width"} />

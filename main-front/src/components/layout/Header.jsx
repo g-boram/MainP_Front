@@ -53,9 +53,11 @@ export default function Header() {
                 <LoginUserBox>
                   <Flex>
                     <TextRow>{user.username} 님 환영합니다.</TextRow>
-                    <BaseButton size="small" color="white" height="30px" width="70px" onClick={handleLogout}>
-                      로그아웃
-                    </BaseButton>
+                    <Link to={`/`}>
+                      <BaseButton size="small" color="white" height="30px" width="70px" onClick={handleLogout}>
+                        로그아웃
+                      </BaseButton>
+                    </Link>
                     <Spacing size={10} direction="width" />
                     {user !== null ? (
                       <Link to={`/mypage`}>
@@ -85,6 +87,15 @@ export default function Header() {
     </>
   );
 }
+
+const Img = styled.img`
+  position: absolute;
+  top: -10px;
+
+  @media (max-width: 900px) {
+    display: none;
+  }
+`;
 
 const UserHeaderContainer = styled.div`
   height: auto;

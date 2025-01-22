@@ -15,7 +15,7 @@ export default function CarSellerInfoBox({ id }) {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const res = await getSimpleUser(18);
+      const res = await getSimpleUser(1);
       setSeller(res.data);
     };
     if (id) {
@@ -28,7 +28,13 @@ export default function CarSellerInfoBox({ id }) {
       {seller ? (
         <Container>
           <Flex justify="center" align="flex-start" direction="column">
-            <ImgBox>{seller.imageUrl ? <img src={seller.imageUrl} alt="user" /> : <ImUserTie size={60} />}</ImgBox>
+            <ImgBox>
+              {seller.imageUrl ? (
+                <img src={seller.imageUrl} alt="user" />
+              ) : (
+                <ImUserTie size={60} />
+              )}
+            </ImgBox>
           </Flex>
           <Flex width="60%" direction="column">
             <Text typography="t15" bold>
@@ -57,7 +63,9 @@ export default function CarSellerInfoBox({ id }) {
               <Text typography="t13" color="grey">
                 Phone.
               </Text>
-              <Text typography="t13">{formatPhoneNumber(seller.phoneNumber)}</Text>
+              <Text typography="t13">
+                {formatPhoneNumber(seller.phoneNumber)}
+              </Text>
             </Flex>
             <Spacing size={15} />
             <Flex justify="flex-end">
