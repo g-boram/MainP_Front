@@ -11,6 +11,7 @@ import { TbClipboardSearch } from "react-icons/tb";
 import { BaseIconBox } from "../../../styles/miniComponentStyles";
 import Flex from "../../../components/shared/Flex";
 import CarImg from "../../../assert/carPageImg.jpg";
+import Text from "../../../components/shared/Text";
 
 export default function CarPage() {
   const [carData, setCarData] = useState([]);
@@ -49,6 +50,7 @@ export default function CarPage() {
         <SideMenuBar setIsLoading={setIsLoading} setCarData={setCarData} />
       </LeftCategoryBox>
       <RightContentBox>
+        <HeadTitle>한정특가</HeadTitle>
         {eventCarData && eventCarData.length !== 0 ? (
           <CarEventList>
             {eventCarData.map((car) => (
@@ -105,11 +107,6 @@ const LeftCategoryBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-
-  @media (max-width: 600px) {
-    max-height: 250px;
-    padding-top: ${HEIGHT_LIST.HEADER + HEIGHT_LIST.NAVBAR}px;
-  }
 `;
 
 const LeftTopBox = styled.div`
@@ -118,6 +115,11 @@ const LeftTopBox = styled.div`
   margin-top: 30px;
   margin-bottom: 30px;
   background-color: #000;
+  border-radius: 10px;
+  > img {
+    width: 250px;
+    height: 100%;
+  }
 `;
 
 const CarEventList = styled.div`
@@ -128,12 +130,23 @@ const CarEventList = styled.div`
   justify-content: flex-start;
   align-items: center;
   overflow-x: scroll;
-  margin-top: 30px;
+  margin-top: 10px;
   margin-bottom: 50px;
   margin-left: 15px;
   gap: 20px;
   border-radius: 10px;
   box-shadow: 0px 0px 10px -2px #ccc;
+`;
+
+const HeadTitle = styled.div`
+  height: 40px;
+  width: 100%;
+  font-weight: bold;
+  display: flex;
+  align-items: flex-end;
+  margin-top: 10px;
+  color: #000;
+  padding-left: 10px;
 `;
 
 const CarListBox = styled.div`
