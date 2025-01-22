@@ -1,5 +1,6 @@
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
+import styled from "@emotion/styled";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import styled from "@emotion/styled";
