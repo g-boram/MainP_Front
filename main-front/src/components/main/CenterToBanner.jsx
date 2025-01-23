@@ -3,11 +3,12 @@ import styled from "@emotion/styled";
 import { css, keyframes } from "@emotion/react";
 
 // 이미지 리스트
-import img1 from "../../../../assert/main_slide/centerTo1.png";
-import img2 from "../../../../assert/main_slide/centerTo1.png";
-import img3 from "../../../../assert/main_slide/centerTo1.png";
-import img4 from "../../../../assert/main_slide/centerTo1.png";
-import img5 from "../../../../assert/main_slide/centerTo1.png";
+import img1 from "../../assert/main_slide/centerTo1.png";
+import img2 from "../../assert/main_slide/centerTo1.png";
+import img3 from "../../assert/main_slide/centerTo1.png";
+import img4 from "../../assert/main_slide/centerTo1.png";
+import img5 from "../../assert/main_slide/centerTo1.png";
+import { HEIGHT_LIST } from "../../constants/height";
 
 const images = [
   { src: img1, position: "center" },
@@ -86,8 +87,9 @@ const ImageContainer = styled.div`
   align-items: center;
   position: relative;
   width: 100%;
-  height: 350px;
+  height: 400px;
   overflow: hidden;
+  /* padding-top: ${HEIGHT_LIST.HEADER + HEIGHT_LIST.NAVBAR}px; */
 `;
 
 // 이미지 스타일

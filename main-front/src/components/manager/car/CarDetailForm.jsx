@@ -9,7 +9,7 @@ import CarIconOption from "./CarIconOption";
 import CarDetailInfoBox from "./CarDetailInfoBox";
 import CarSellerInfoBox from "./CarSellerInfoBox";
 import CarDetailTimer from "../../car/CarDetailTimer";
-import BaseButton from "../../shared/Button";
+import LogoImg from "../../../assert/Logo.png";
 import { css } from "@emotion/react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CAR_OPTION_FUELTYPE } from "../../../constants/carOption";
@@ -19,6 +19,7 @@ import { useAlertContext } from "../../../contexts/AlertContextProvider";
 import { toast } from "react-toastify";
 import { deleteCar } from "../../../api/carApi";
 import { MdOutlineImageNotSupported } from "react-icons/md";
+import CarDetailOptionBox from "../../car/CarDetailOptionBox";
 
 export default function CarDetailForm() {
   const location = useLocation();
@@ -86,10 +87,12 @@ export default function CarDetailForm() {
             {/* 오른쪽 스크롤 영역 */}
             <ScrollBox>
               <TopIconRow>
-                <TopRowLeft>
+                <LogoImgBox>
+                  <img src={LogoImg} alt="Logo" />
+                </LogoImgBox>
+                <TopRowRight>
                   {hashTags && hashTags?.length !== 0 ? hashTags.map((tag) => <TagText>#{tag}</TagText>) : <></>}
-                </TopRowLeft>
-                <Flex>right</Flex>
+                </TopRowRight>
               </TopIconRow>
               <CarMainTitleRow>
                 <Flex justify="flex-start">
@@ -107,11 +110,15 @@ export default function CarDetailForm() {
                 </Flex>
                 <Spacing size={30} />
                 <Flex>
-                  <CallBtn>Icon / Tel</CallBtn>
+                  <CallBtn>
+                    <a href={`tel:01058290424`} style={{ textDecoration: "none", color: "#000" }}>
+                      판매자에게 전화하기
+                    </a>
+                  </CallBtn>
                   <Spacing size={10} direction="width" />
-                  <CounselBtn>Icon / Tel</CounselBtn>
+                  <CounselBtn>온라인 견적내기</CounselBtn>
                 </Flex>
-                <OnCovenantBtn>온라인으로 계약하기</OnCovenantBtn>
+                <OnCovenantBtn>HiCar에서 구매하기</OnCovenantBtn>
               </CarMainTitleRow>
 
               <CarDataBox>
@@ -189,31 +196,11 @@ export default function CarDetailForm() {
                 <DescBox>{description}</DescBox>
               </CarDataBox>
               <CarDataBox>
-                <Flex height="60px" justify="space-between" align="center">
-                  <Text typography="t15" bold>
-                    옵션정보
-                  </Text>
-                </Flex>
-                <CarIconOption />
+                <CarDetailOptionBox carOptionData={location.state?.carOptionData[0]} />
                 <Spacing size={40} />
               </CarDataBox>
             </ScrollBox>
           </MainContainer>
-          {/* <Flex justify="center" align="center" height="200px" width="100%">
-            <BaseButton
-              size="small"
-              color="primary"
-              height={"40px"}
-              width={"100px"}
-              onClick={() => navigate("/manager/car/update", { state: { ...location.state } })}
-            >
-              수정
-            </BaseButton>
-            <Spacing size={10} direction="width" />
-            <BaseButton size="small" color="error" height={"40px"} width={"100px"} onClick={() => confirmDelete()}>
-              삭제
-            </BaseButton>
-          </Flex> */}
         </>
       ) : (
         <ClearLoadingOverlay>
@@ -229,7 +216,7 @@ const MainContainer = styled.div`
 
 // 왼쪽
 const FixedBox = styled.div`
-  width: 600px;
+  width: 500px;
   height: 700px;
 `;
 
@@ -241,6 +228,7 @@ const CarImgBox = styled.div`
   justify-content: center;
   display: flex;
   align-items: center;
+  margin-bottom: 10px;
   border-radius: 15px;
   position: relative;
 
@@ -251,12 +239,24 @@ const CarImgBox = styled.div`
   }
 `;
 
+const LogoImgBox = styled.div`
+  display: flex;
+  width: 50px;
+  height: 50px;
+  > img {
+    height: 50px;
+    width: 100%;
+    border-radius: 5px;
+    object-fit: contain;
+  }
+`;
+
 // 오른쪽
 const ScrollBox = styled.div`
   flex: 1;
   height: 700px;
   overflow-y: auto;
-  padding: 10px;
+  padding: 0 30px;
   background-color: #ffffff;
   border-left: 1px solid #eee;
   border-right: 1px solid #eee;
@@ -352,12 +352,12 @@ const OnCovenantBtn = styled.div`
   cursor: pointer;
 `;
 
-const TopRowLeft = styled.div`
+const TopRowRight = styled.div`
   width: 350px;
   max-height: 40px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: flex-end;
   align-items: center;
 `;
 

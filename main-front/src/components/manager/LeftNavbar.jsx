@@ -48,30 +48,49 @@ export default function LeftNavbar() {
           </Text>
         </Flex>
       </UserInfoBox>
-      <LinkMenuBox>
-        <StyledLink to="/manager/users">회원 관리</StyledLink>
-        <StyledLink to="/manager/board/notice">게시판 관리</StyledLink>
-        <SubDescBox>
-          <Desc>- 공지사항</Desc>
-          <Desc>- 이벤트</Desc>
-          <Desc>- FAQ</Desc>
-          <Desc>- 기타</Desc>
-        </SubDescBox>
-        <StyledLink to="/manager/car">자동차 게시글 조회</StyledLink>
-        <StyledLink to="/manager/car/event">자동차 이벤트 등록</StyledLink>
-        <StyledLink to="/manager/repair">자동차 정비 목록</StyledLink>
-        <StyledLink to="/manager/car/sell">온라인 상담신청 조회</StyledLink>
-        <StyledLink to="/manager/seller">Seller 메인 페이지</StyledLink>
-      </LinkMenuBox>
+      {user.role === "ADMIN" ? (
+        <LinkMenuBox>
+          <StyledLink to="/manager">Manager 메인 페이지</StyledLink>
+          <StyledLink to="/manager/users">회원 관리</StyledLink>
+          <StyledLink to="/manager/board/notice">게시판 관리</StyledLink>
+          <SubDescBox>
+            <Desc>- 공지사항</Desc>
+            <Desc>- 이벤트</Desc>
+            <Desc>- FAQ</Desc>
+            <Desc>- 기타</Desc>
+          </SubDescBox>
+          <StyledLink to="/manager/seller">Seller 메인 페이지</StyledLink>
+          <StyledLink to="/manager/car/sell">온라인 상담신청 조회</StyledLink>
+          <StyledLink to="/manager/car">자동차 게시글 조회</StyledLink>
+          <StyledLink to="/manager/car/event">자동차 이벤트 등록</StyledLink>
+          <StyledLink to="/manager/repair">Repair 메인 페이지</StyledLink>
+          <StyledLink to="/manager/repair">자동차 정비 목록</StyledLink>
+        </LinkMenuBox>
+      ) : user.role === "SELLER" ? (
+        <LinkMenuBox>
+          <StyledLink to="/manager/seller">Seller 메인 페이지</StyledLink>
+          <StyledLink to="/manager/car/sell">온라인 상담신청 조회</StyledLink>
+          <StyledLink to="/manager/car">자동차 게시글 조회</StyledLink>
+          <StyledLink to="/manager/car/event">자동차 이벤트 등록</StyledLink>
+        </LinkMenuBox>
+      ) : user.role === "REPAIR" ? (
+        <LinkMenuBox>
+          <StyledLink to="/manager/repair">Repair 메인 페이지</StyledLink>
+          <StyledLink to="/manager/car">자동차 게시글 조회</StyledLink>
+          <StyledLink to="/manager/repair">자동차 정비 목록</StyledLink>
+        </LinkMenuBox>
+      ) : (
+        <></>
+      )}
       <BottomLinkBox>
         <BottomLinkBtn to="/">
           <FaCar size={20} />
           SITE
         </BottomLinkBtn>
-        <BottomLinkBtn to="/manager">
+        {/* <BottomLinkBtn to="/manager">
           <IoHome size={20} />
           MAIN
-        </BottomLinkBtn>
+        </BottomLinkBtn> */}
       </BottomLinkBox>
     </NavContainer>
   );
@@ -100,8 +119,8 @@ const UserInfoBox = styled.div`
 `;
 
 const ImgBox = styled.div`
-  width: 130px;
-  height: 130px;
+  width: 120px;
+  height: 120px;
   display: flex;
   margin-top: 30px;
   justify-content: center;
@@ -112,7 +131,7 @@ const ImgBox = styled.div`
 `;
 const LinkMenuBox = styled.div`
   width: 100%;
-  height: 520px;
+  height: 500px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

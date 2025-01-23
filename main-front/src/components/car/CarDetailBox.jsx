@@ -7,8 +7,8 @@ import addDelimiter from "../../utils/addDelimiter";
 import Badge from "../shared/Badge";
 import CarDetailInfoBox from "../manager/car/CarDetailInfoBox";
 import CarSellerInfoBox from "../manager/car/CarSellerInfoBox";
-import CarIconOption from "../manager/car/CarIconOption";
 import CarDetailTimer from "./CarDetailTimer";
+import LogoImg from "../../assert/Logo.png";
 import { FaCheckCircle } from "react-icons/fa";
 import { RiCustomerService2Fill } from "react-icons/ri";
 import { css } from "@emotion/react";
@@ -18,11 +18,21 @@ import { ClearLoadingOverlay } from "../../styles/managerLayoutStyles";
 import { ClipLoader } from "react-spinners";
 import { MdOutlineImageNotSupported } from "react-icons/md";
 import { useState } from "react";
+import CarDetailOptionBox from "./CarDetailOptionBox";
 
 export default function CarDetailBox() {
   const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  console.log(location);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+
+  const handleOpenPaymentModal = () => {
+    setIsPaymentModalOpen(true);
+  };
+
+  const handleClosePaymentModal = () => {
+    setIsPaymentModalOpen(false);
+  };
+
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -51,6 +61,8 @@ export default function CarDetailBox() {
     hashTags,
   } = location.state;
 
+  console.log(location);
+
   const fuel = CAR_OPTION_FUELTYPE.filter((f) => f.value === fuelType);
 
   return (
@@ -69,10 +81,12 @@ export default function CarDetailBox() {
           {/* 오른쪽 스크롤 영역 */}
           <ScrollBox>
             <TopIconRow>
-              <TopRowLeft>
+              <LogoImgBox>
+                <img src={LogoImg} alt="Logo" />
+              </LogoImgBox>
+              <TopRowRight>
                 {hashTags && hashTags?.length !== 0 ? hashTags.map((tag) => <TagText>#{tag}</TagText>) : <></>}
-              </TopRowLeft>
-              <Flex>right</Flex>
+              </TopRowRight>
             </TopIconRow>
             <CarMainTitleRow>
               <Flex justify="flex-start">
@@ -82,7 +96,7 @@ export default function CarDetailBox() {
                 />
               </Flex>
               <div id="topTitle">
-                {make} {model} {fuel[0].label} {transmission}
+                {make} {model} {fuel[0]?.label} {transmission}
               </div>
               <Flex justify="space-between" align="flex-end">
                 <div id="lPrice">{addDelimiter(price)}</div>
@@ -90,9 +104,13 @@ export default function CarDetailBox() {
               </Flex>
               <Spacing size={30} />
               <Flex>
-                <CallBtn>Icon / Tel</CallBtn>
+                <CallBtn>
+                  <a href={`tel:01058290424`} style={{ textDecoration: "none", color: "#000" }}>
+                    판매자에게 전화하기
+                  </a>
+                </CallBtn>
                 <Spacing size={10} direction="width" />
-                <CounselBtn>Icon / Tel</CounselBtn>
+                <CounselBtn>온라인 견적내기</CounselBtn>
               </Flex>
               <OnCovenantBtn onClick={handleOpenModal}>HiCar에서 구매하기</OnCovenantBtn>
             </CarMainTitleRow>
@@ -172,13 +190,7 @@ export default function CarDetailBox() {
               <DescBox>{description}</DescBox>
             </CarDataBox>
             <CarDataBox>
-              <Flex height="60px" justify="space-between" align="center">
-                <Text typography="t15" bold>
-                  옵션정보
-                </Text>
-              </Flex>
-              <CarIconOption />
-              <Spacing size={40} />
+              <CarDetailOptionBox carOptionData={location.state?.carOptionData[0]} />
             </CarDataBox>
           </ScrollBox>
         </MainContainer>
@@ -203,24 +215,95 @@ export default function CarDetailBox() {
                 <FaCheckCircle />
                 차량확시 시｜ 원하는 곳으로 배송
               </Div>
+              <Spacing size={10} />
               <Div>
                 <FaCheckCircle />
                 구매 시｜7일간 타보고 환불가능
               </Div>
+              <OrderBtn onClick={handleOpenPaymentModal}>즉시 결제하기</OrderBtn>
               <DivChat>
                 <RiCustomerService2Fill />
                 챗봇으로 문의하기
               </DivChat>
             </ModalBody>
-            {/* <ModalFooter>
-              <ModalButton onClick={handleCloseModal}>확인</ModalButton>
-            </ModalFooter> */}
+            <ModalFooter>
+              <ModalButton onClick={handleCloseModal}>닫기</ModalButton>
+            </ModalFooter>
+          </ModalContent>
+        </ModalOverlay>
+      )}
+
+      {/* 토스 결제 모달 */}
+      {isPaymentModalOpen && (
+        <ModalOverlay onClick={handleClosePaymentModal}>
+          <ModalContent onClick={(e) => e.stopPropagation()}>
+            <ModalHeader>
+              <h2>결제 방식</h2>
+              <CloseButton onClick={handleClosePaymentModal}>×</CloseButton>
+            </ModalHeader>
+            <ModalBody>
+              <Toss
+                onClick={() => {
+                  const tossPayments = window.TossPayments(process.env.REACT_APP_TOSS_CLIENT_KEY); // Replace with your client key
+                  tossPayments
+                    .requestPayment("카드", {
+                      amount: price, // Replace with the actual price
+                      orderId: `order-${Date.now()}`, // Generate unique order ID
+                      orderName: `${make} ${model}`, // Customize order name
+                      successUrl: "http://localhost:3000/mypage", // Replace with your success URL
+                      failUrl: "http://localhost:3000/", // Replace with your fail URL
+                    })
+                    .catch((error) => {
+                      console.error(error);
+                    });
+                }}
+              >
+                toss 결제하기
+              </Toss>
+            </ModalBody>
           </ModalContent>
         </ModalOverlay>
       )}
     </FormContainer>
   );
 }
+
+const Toss = styled.button`
+  border: none;
+  font-size: 15px;
+  background-color: #4484ee;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  margin-top: 20px;
+  padding: 15px;
+  width: 100%;
+`;
+
+const OrderBtn = styled.div`
+  border: 1px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  margin-top: 20px;
+  padding: 15px;
+  width: 100%;
+  cursor: pointer;
+
+  svg {
+    margin-right: 8px;
+    font-size: 17px;
+  }
+  :hover {
+    background-color: #000;
+    color: #fff;
+    transition: 1s;
+  }
+`;
+
 const MainContainer = styled.div`
   display: flex;
 `;
@@ -231,6 +314,17 @@ const FixedBox = styled.div`
   height: 700px;
 `;
 
+const LogoImgBox = styled.div`
+  display: flex;
+  width: 50px;
+  height: 50px;
+  > img {
+    height: 50px;
+    width: 100%;
+    border-radius: 5px;
+    object-fit: contain;
+  }
+`;
 const CarImgBox = styled.div`
   background-color: #f4f4f4;
   display: flex;
@@ -254,7 +348,7 @@ const ScrollBox = styled.div`
   flex: 1;
   height: 700px;
   overflow-y: auto;
-  padding: 10px;
+  padding: 0 40px;
   background-color: #ffffff;
   border-left: 1px solid #eee;
   border-right: 1px solid #eee;
@@ -350,12 +444,12 @@ const OnCovenantBtn = styled.div`
   cursor: pointer;
 `;
 
-const TopRowLeft = styled.div`
+const TopRowRight = styled.div`
   width: 350px;
   max-height: 40px;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
   align-items: center;
 `;
 
@@ -469,6 +563,7 @@ const DivChat = styled.div`
   margin-top: 20px;
   padding: 15px;
   width: 100%;
+  cursor: pointer;
 
   svg {
     margin-right: 8px;

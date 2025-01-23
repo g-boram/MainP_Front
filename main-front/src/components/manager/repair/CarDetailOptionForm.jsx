@@ -15,7 +15,7 @@ export default function CarDetailOptionForm({ carOptionData }) {
         <RowLabel>옵션선택</RowLabel>
         <IconContainer>
           {carIcons.map((v, index) => {
-            const isIcon = optionData.optionIcon.includes(index);
+            const isIcon = optionData.optionIcon?.includes(index);
             return (
               <IconBox color={isIcon ? "#c3453c" : "grey"}>
                 {v.icon}

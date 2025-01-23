@@ -11,7 +11,9 @@ export default function BoardRow(board) {
   const dispatch = useDispatch();
 
   const { open } = useAlertContext();
-  const { boardId, category, title, content, createdAt, status, username } = board;
+  const { boardId, category, title, content, createdAt, status, username } =
+    board;
+  // console.log(board);
 
   const handleDetailPage = () => {
     navigate("/manager/board/notice/detail", { state: { ...board } });

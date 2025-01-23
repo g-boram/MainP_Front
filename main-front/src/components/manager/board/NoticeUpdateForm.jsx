@@ -166,11 +166,19 @@ export default function NoticeUpdateForm() {
             <Flex>
               <>
                 <Label>활성화 여부</Label>
-                <BaseButton color={isActive === 1 ? "success" : "grey"} css={activeBtn} onClick={() => setIsActive(1)}>
+                <BaseButton
+                  color={isActive === 1 ? "success" : "grey"}
+                  css={activeBtn}
+                  onClick={() => setIsActive(1)}
+                >
                   활성화
                 </BaseButton>
                 <Spacing size={10} direction="horizontal" />
-                <BaseButton color={isActive === 0 ? "error" : "grey"} css={activeBtn} onClick={() => setIsActive(0)}>
+                <BaseButton
+                  color={isActive === 0 ? "error" : "grey"}
+                  css={activeBtn}
+                  onClick={() => setIsActive(0)}
+                >
                   비활성화
                 </BaseButton>
               </>
@@ -180,7 +188,12 @@ export default function NoticeUpdateForm() {
             <Flex>
               <Label>제목</Label>
               <InputBox>
-                <input name="title" id="title" onChange={handleFormValues} value={formValues.title} />
+                <input
+                  name="title"
+                  id="title"
+                  onChange={handleFormValues}
+                  value={formValues.title}
+                />
               </InputBox>
             </Flex>
             <Spacing size={10} />
@@ -188,7 +201,12 @@ export default function NoticeUpdateForm() {
             <Flex>
               <Label>내용</Label>
               <TextareaBox>
-                <textarea name="content" id="content" onChange={handleFormValues} value={formValues.content} />
+                <textarea
+                  name="content"
+                  id="content"
+                  onChange={handleFormValues}
+                  value={formValues.content}
+                />
               </TextareaBox>
             </Flex>
             <Spacing size={30} />
@@ -206,7 +224,13 @@ export default function NoticeUpdateForm() {
           </Flex>
           <Spacing size={50} />
           <Flex justify={"center"}>
-            <BaseButton size="medium" color="black" height={"40px"} full onClick={confirmUpdate}>
+            <BaseButton
+              size="medium"
+              color="black"
+              height={"40px"}
+              full
+              onClick={confirmUpdate}
+            >
               게시글 수정
             </BaseButton>
           </Flex>

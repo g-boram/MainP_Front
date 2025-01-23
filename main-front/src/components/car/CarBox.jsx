@@ -10,7 +10,6 @@ import { MdOutlineImageNotSupported } from "react-icons/md";
 export default function CarBox(car) {
   const { make, model, fuelType, mileage, price, description, transmission, year, imageUrl, eventName, eventEndTime } =
     car;
-
   const navigate = useNavigate();
   const fuel = CAR_OPTION_FUELTYPE.filter((f) => f.value === fuelType);
 
@@ -57,12 +56,12 @@ export default function CarBox(car) {
       </ImgWrapper>
       <CarWrapper>
         <NameText>
-          {make} {model} {fuel[0].label} {transmission}
+          {make} {model} {fuel[0]?.label} {transmission}
         </NameText>
         <GreyText>
           <div>{year}(년형)</div>
           <div>{addDelimiter(mileage)}km</div>
-          <div>{fuel[0].label}</div>
+          <div>{fuel[0]?.label}</div>
         </GreyText>
         <DescRow>{description}</DescRow>
         <SaleText>{addDelimiter(price)}</SaleText>

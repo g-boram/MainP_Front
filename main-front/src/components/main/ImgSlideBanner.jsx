@@ -7,14 +7,15 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { ClearLoadingOverlay } from "../../../../styles/managerLayoutStyles";
+import { ClearLoadingOverlay } from "../../styles/managerLayoutStyles";
 
-import mainSlideImg1 from "../../../../assert/main_slide/mainSlide1.jpg";
-import mainSlideImg2 from "../../../../assert/main_slide/mainSlide2.jpg";
-import mainSlideImg3 from "../../../../assert/main_slide/mainSlide3.jpg";
-import mainSlideImg4 from "../../../../assert/main_slide/mainSlide4.jpg";
-import mainSlideImg5 from "../../../../assert/main_slide/mainSlide5.jpg";
-import Text from "../../../shared/Text";
+import mainSlideImg1 from "../../assert/main_slide/mainSlide1.jpg";
+import mainSlideImg2 from "../../assert/main_slide/mainSlide2.jpg";
+import mainSlideImg3 from "../../assert/main_slide/mainSlide3.jpg";
+import mainSlideImg4 from "../../assert/main_slide/mainSlide4.jpg";
+import mainSlideImg5 from "../../assert/main_slide/mainSlide5.jpg";
+import Text from "../shared/Text";
+import Flex from "../shared/Flex";
 
 const ImgSlideBanner = () => {
   const navigate = useNavigate();
@@ -34,16 +35,15 @@ const ImgSlideBanner = () => {
     setIsLoading(false);
   }, []);
 
-  if (bannerImage == null || isLoading) {
-    return (
-      <ClearLoadingOverlay>
-        <ClipLoader color="#000" z-index={11} />
-      </ClearLoadingOverlay>
-    );
-  }
-
   return (
-    <>
+    <Flex direction="column">
+      {bannerImage == null || isLoading ? (
+        <ClearLoadingOverlay>
+          <ClipLoader color="#000" z-index={11} />
+        </ClearLoadingOverlay>
+      ) : (
+        <></>
+      )}
       <TitleRow>
         <Text typography="t16" bold>
           이벤트
@@ -67,14 +67,20 @@ const ImgSlideBanner = () => {
           navigation={true}
           modules={[Autoplay, Pagination, Navigation]}
         >
-          {bannerImage.map((image, idx) => (
-            <SwiperSlide>
-              <img src={image.img} alt={image.alt} />
-            </SwiperSlide>
-          ))}
+          {bannerImage ? (
+            bannerImage.map((image, idx) => (
+              <SwiperSlide key={idx}>
+                <img src={image.img} alt={image.alt} />
+              </SwiperSlide>
+            ))
+          ) : (
+            <ClearLoadingOverlay>
+              <ClipLoader color="#000" z-index={11} />
+            </ClearLoadingOverlay>
+          )}
         </Swiper>
       </MainBannerContainer>
-    </>
+    </Flex>
   );
 };
 const TitleRow = styled.div`
@@ -83,6 +89,7 @@ const TitleRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  margin-bottom: 10px;
 `;
 const MainBannerContainer = styled.div`
   display: flex;
