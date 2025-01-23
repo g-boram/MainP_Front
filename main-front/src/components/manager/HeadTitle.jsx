@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import LogoImg from "../../assert/Logo.png";
 import { colorPalette } from "../../styles/colorPalette";
 
 export default function HeadTitle({ title, desc, line }) {
@@ -9,7 +10,11 @@ export default function HeadTitle({ title, desc, line }) {
           <Title>{title ? title : "title"}</Title>
           <Desc>{desc ? desc : "desc"}</Desc>
         </TitleWrapper>
-        <RightWrapper>Right</RightWrapper>
+        <RightWrapper>
+          <LogoImgBox>
+            <img src={LogoImg} alt="Logo" />
+          </LogoImgBox>
+        </RightWrapper>
       </TitleContainer>
       {line ? <NoticeLineWrapper></NoticeLineWrapper> : <></>}
     </>
@@ -50,4 +55,15 @@ const RightWrapper = styled.div`
 const NoticeLineWrapper = styled.div`
   height: 30px;
   background-color: yellow;
+`;
+const LogoImgBox = styled.div`
+  display: flex;
+  width: 50px;
+  height: 50px;
+  > img {
+    height: 50px;
+    width: 100%;
+    border-radius: 5px;
+    object-fit: contain;
+  }
 `;
