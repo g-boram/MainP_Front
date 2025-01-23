@@ -1,17 +1,14 @@
 import styled from "@emotion/styled";
-import { HEIGHT_LIST } from "../../../constants/height";
-import CarSearch from "../../../components/shared/CarSearch";
+import CarImg from "../../../assert/carPageImg.jpg";
+import CarBox from "../../../components/car/CarBox";
 import SideMenuBar from "../../../components/shared/SideMenuBar";
+import { HEIGHT_LIST } from "../../../constants/height";
 import { useEffect, useState } from "react";
 import { getCarListAll } from "../../../api/carApi";
-import CarBox from "../../../components/car/CarBox";
 import { ClearLoadingOverlay } from "../../../styles/managerLayoutStyles";
 import { ClipLoader } from "react-spinners";
 import { TbClipboardSearch } from "react-icons/tb";
 import { BaseIconBox } from "../../../styles/miniComponentStyles";
-import Flex from "../../../components/shared/Flex";
-import CarImg from "../../../assert/carPageImg.jpg";
-import Text from "../../../components/shared/Text";
 
 export default function CarPage() {
   const [carData, setCarData] = useState([]);

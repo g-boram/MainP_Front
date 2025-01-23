@@ -357,7 +357,7 @@ const TopRowRight = styled.div`
   max-height: 40px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: flex-end;
   align-items: center;
 `;
 

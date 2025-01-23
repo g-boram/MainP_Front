@@ -68,8 +68,17 @@ export default function Header() {
                     ) : (
                       <></>
                     )}
+                    <Spacing size={20} direction="width" />
                   </Flex>
-                  {user.role === "ADMIN" ? <ManagerLink to="/manager">관리자 페이지</ManagerLink> : <></>}
+                  {user.role === "ADMIN" ? (
+                    <ManagerLink to="/manager">관리자 페이지</ManagerLink>
+                  ) : user.role === "SELLER" ? (
+                    <ManagerLink to="/manager/seller">관리자 페이지</ManagerLink>
+                  ) : user.role === "REPAIR" ? (
+                    <ManagerLink to="/manager/repair">관리자 페이지</ManagerLink>
+                  ) : (
+                    <></>
+                  )}
                 </LoginUserBox>
               )}
             </div>

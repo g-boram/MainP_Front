@@ -104,30 +104,15 @@ function App() {
           {/* 관리자 페이지 */}
           <Route path="/manager" Component={ManagerPage} />
           <Route path="/manager/board/notice" Component={M_NoticePage} />
-          <Route
-            path="/manager/board/notice/create"
-            Component={M_NoticeCreatePage}
-          />
-          <Route
-            path="/manager/board/notice/detail"
-            Component={M_NoticeDetailPage}
-          />
-          <Route
-            path="/manager/board/notice/update"
-            Component={M_NoticeUpdatePage}
-          />
+          <Route path="/manager/board/notice/create" Component={M_NoticeCreatePage} />
+          <Route path="/manager/board/notice/detail" Component={M_NoticeDetailPage} />
+          <Route path="/manager/board/notice/update" Component={M_NoticeUpdatePage} />
           <Route path="/manager/car" Component={M_CarPage} />
           <Route path="/manager/car/create" Component={M_CarCreatePage} />
           <Route path="/manager/car/detail" Component={M_CarDetailPage} />
           <Route path="/manager/car/event" Component={M_CarEventPage} />
-          <Route
-            path="/manager/car/event/detail"
-            Component={M_CarEventDetailPage}
-          />
-          <Route
-            path="/manager/car/event/update"
-            Component={M_CarEventUpdatePage}
-          />
+          <Route path="/manager/car/event/detail" Component={M_CarEventDetailPage} />
+          <Route path="/manager/car/event/update" Component={M_CarEventUpdatePage} />
           <Route path="/manager/users" Component={M_UsersPage} />
           <Route path="/manager/users/create" Component={M_UsersCreatePage} />
           <Route path="/manager/users/detail" Component={M_UsersDetailPage} />
@@ -154,17 +139,10 @@ function App() {
 
 const LayoutContainer = styled.div`
   position: relative;
-  /* max-width: 1400px; */
   height: 100vh;
   margin: 0 auto;
   padding: 0;
-
-  @media (max-width: 600px) {
-    min-width: 100vw;
-  }
-  @media (min-width: 600px) {
-    /* max-width: 1400px; */
-  }
+  overflow: scroll;
 `;
 
 export default App;

@@ -96,7 +96,7 @@ export default function CarDetailBox() {
                 />
               </Flex>
               <div id="topTitle">
-                {make} {model} {fuel[0].label} {transmission}
+                {make} {model} {fuel[0]?.label} {transmission}
               </div>
               <Flex justify="space-between" align="flex-end">
                 <div id="lPrice">{addDelimiter(price)}</div>
@@ -449,9 +449,8 @@ const TopRowRight = styled.div`
   max-height: 40px;
   display: flex;
   flex-wrap: nowrap;
-  justify-content: flex-start;
+  justify-content: flex-end;
   align-items: center;
-  background-color: #000;
 `;
 
 const TagText = styled.div`

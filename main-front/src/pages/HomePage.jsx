@@ -1,7 +1,10 @@
 import styled from "@emotion/styled";
-import ImgSlideBanner from "../components/manager/user/main/ImgSlideBanner";
-import CenterToBanner from "../components/manager/user/main/CenterToBanner";
+import ImgSlideBanner from "../components/main/ImgSlideBanner";
+import CenterToBanner from "../components/main/CenterToBanner";
 import { HEIGHT_LIST } from "../constants/height";
+import MainCarBox from "../components/main/MainCarBox";
+import MainBoardList from "../components/main/MainBoardList";
+import SideSlideCar from "../components/main/SideSlideCar";
 
 // 메인 페이지
 // : 누구나 볼수있음
@@ -10,14 +13,18 @@ export default function HomePage() {
     <HomeContainer>
       <PageWrapper>
         <CenterToBanner />
-        <ImgSlideBanner />
+        <MainCarBox />
+        <SideSlideCar />
+        <BoardRow>
+          <MainBoardList />
+          <ImgSlideBanner />
+        </BoardRow>
       </PageWrapper>
     </HomeContainer>
   );
 }
 
 const HomeContainer = styled.div`
-  height: 100%;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -27,7 +34,11 @@ const HomeContainer = styled.div`
 const PageWrapper = styled.div`
   width: 1200px;
   height: auto;
+  display: block;
+`;
+const BoardRow = styled.div`
+  /* width: 1200px; */
+  height: auto;
   display: flex;
-  flex-direction: column;
-  /* background-color: #eee; */
+  justify-content: space-between;
 `;
