@@ -17,6 +17,8 @@ export default function CarPage() {
   const [carData, setCarData] = useState([]);
   const [eventCarData, setEventCarData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  
+  // console.log(carData);
 
   useEffect(() => {
     const allData = async () => {

@@ -4,7 +4,6 @@ import styled from "@emotion/styled/macro";
 import { HEIGHT_LIST } from "../../constants/height";
 import HeadTitle from "../../components/manager/HeadTitle";
 import {
-  ContentBox,
   ContentWrapper,
   ManagerContainer,
   NavRow,
@@ -14,13 +13,21 @@ import { FaUserCog } from "react-icons/fa";
 import Flex from "../../components/shared/Flex";
 import Spacing from "../../components/shared/Spacing";
 import { icons } from "../../constants/icons";
+import { Link, useNavigate } from "react-router-dom";
 
-export default function MyPage() {
+export default function MyPage(car) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const sessionUser = JSON.parse(sessionStorage.getItem("user"));
+  const navigate = useNavigate();
+  const a = JSON.parse(sessionStorage.getItem("user"));
+  const nowUserName = a.username;
 
+  const watched = JSON.parse(
+    localStorage.getItem(`selectedCars${nowUserName}`)
+  );
+  console.log(watched);
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -40,15 +47,12 @@ export default function MyPage() {
 
     fetchUser();
   }, []);
-  console.log(sessionUser);
-  console.log(user);
 
   const imageIcon = user && icons.filter((icon) => icon.name === user.imageUrl);
 
   return (
     <CarListContainer>
       <HeadTitle title={"회원정보 상세보기"} desc={"회원정보 상세보기 "} />
-      {loading && <p>Loading...</p>}
       {error && <p>Error: {error.message}</p>}
       {user && (
         <ContentBox>
@@ -117,9 +121,79 @@ export default function MyPage() {
           </FormContainer>
         </ContentBox>
       )}
+      <h2>최근 본 상품</h2>
+      {watched && watched.length > 0 ? (
+        <SelectCar>
+          {watched.map((car, index) => (
+            <div
+              key={index}
+              onClick={() => navigate("/car/detail", { state: { ...car } })}
+            >
+              <RecentCarRow>
+                <CarImgBox>
+                  <CarImg src={car.imageUrl} />
+                </CarImgBox>
+                <TextWrap>
+                  <Text>
+                    {car.make} {car.model}
+                  </Text>
+                  <Text>가격 : {car.price}</Text>
+                </TextWrap>
+              </RecentCarRow>
+            </div>
+          ))}
+        </SelectCar>
+      ) : (
+        <p>최근 본 상품이 없습니다.</p>
+      )}
     </CarListContainer>
   );
 }
+
+const SelectCar = styled.div`
+  display: flex;
+`;
+
+const ContentBox = styled.div`
+  width: 100%;
+  /* min-height: 100vh; */
+  display: flex;
+  flex-direction: column;
+`;
+
+const TextWrap = styled.div`
+  width: 300px;
+  text-align: center;
+  border-top: 1px solid rgb(0, 0, 0, 0.5);
+`;
+
+const Text = styled.p`
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 10px;
+`;
+
+const CarImg = styled.img`
+  width: 100px;
+`;
+
+const CarImgBox = styled.div`
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 200px;
+  margin-bottom: 10px;
+  border-radius: 15px;
+  position: relative;
+
+  > img {
+    width: 100%;
+    border-radius: 15px;
+    object-fit: contain;
+  }
+`;
 
 const CarListContainer = styled.div`
   user-select: none;
@@ -197,4 +271,14 @@ const ActiveRow = styled.div`
   justify-content: center;
   font-size: 12px;
   font-weight: bold;
+`;
+
+const RecentCarRow = styled.div`
+  /* display: flex; */
+  justify-content: space-between;
+  margin-bottom: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  margin-right: 15px;
+  cursor: pointer;
 `;

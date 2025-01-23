@@ -3,9 +3,9 @@ import styled from "@emotion/styled";
 import { css, keyframes } from "@emotion/react";
 
 // 이미지 리스트
-import img1 from "../../../../assert/main_slide/centerTo1.png";
-import img2 from "../../../../assert/main_slide/centerTo1.png";
-import img3 from "../../../../assert/main_slide/centerTo1.png";
+import img1 from "../../../../assert/main_slide/centerTo4.png";
+import img2 from "../../../../assert/main_slide/centerTo2.png";
+import img3 from "../../../../assert/main_slide/centerTo3.png";
 import img4 from "../../../../assert/main_slide/centerTo1.png";
 import img5 from "../../../../assert/main_slide/centerTo1.png";
 
@@ -37,7 +37,12 @@ const CenterToBanner = () => {
   return (
     <ImageContainer>
       {images.map((image, idx) => (
-        <Image key={idx} src={image.src} position={image.position} isVisible={visibleImages.includes(image)} />
+        <Image
+          key={idx}
+          src={image.src}
+          position={image.position}
+          isVisible={visibleImages.includes(image)}
+        />
       ))}
     </ImageContainer>
   );
@@ -53,7 +58,7 @@ const fadeInCenter = keyframes`
   }
   to {
     opacity: 1;
-    transform: scale(1.6);
+    transform: scale(1.4);
   }
 `;
 
@@ -64,7 +69,7 @@ const fadeInLeft = keyframes`
   }
   to {
     opacity: 0.8;
-    transform: translateX(0); 
+    transform: translateX(); 
   }
 `;
 
@@ -93,10 +98,19 @@ const ImageContainer = styled.div`
 // 이미지 스타일
 const Image = styled.img`
   position: absolute;
-  width: 250px;
+  width: 270px;
   height: 250px;
   object-fit: cover;
   opacity: 0;
+
+  &:nth-of-type(2) {
+    width: 350px;
+  }
+
+  &:nth-of-type(3) {
+    width: 300px;
+    height: 280px;
+  }
 
   ${({ position }) =>
     position === "center" &&
@@ -108,14 +122,14 @@ const Image = styled.img`
   ${({ position }) =>
     position === "left" &&
     css`
-      left: 250px;
+      left: 200px;
       animation: ${fadeInLeft} 2s ease-in-out forwards;
     `}
 
   ${({ position }) =>
     position === "right" &&
     css`
-      right: 250px;
+      right: 196px;
       animation: ${fadeInRight} 2s ease-in-out forwards;
     `}
 

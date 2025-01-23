@@ -8,8 +8,21 @@ import { useEffect, useState } from "react";
 import { MdOutlineImageNotSupported } from "react-icons/md";
 
 export default function CarBox(car) {
-  const { make, model, fuelType, mileage, price, description, transmission, year, imageUrl, eventName, eventEndTime } =
-    car;
+  const {
+    make,
+    model,
+    fuelType,
+    mileage,
+    price,
+    description,
+    transmission,
+    year,
+    imageUrl,
+    eventName,
+    eventEndTime,
+  } = car;
+  const a = JSON.parse(sessionStorage.getItem("user"));
+  const nowUserName = a.username;
 
   const navigate = useNavigate();
   const fuel = CAR_OPTION_FUELTYPE.filter((f) => f.value === fuelType);
@@ -42,19 +55,36 @@ export default function CarBox(car) {
   }, []);
 
   return (
-    <CarContainer onClick={() => navigate("/car/detail", { state: { ...car } })}>
+    <CarContainer
+      onClick={() => {
+        const existingCars =
+          JSON.parse(localStorage.getItem(`selectedCars${nowUserName}`)) || [];
+        existingCars.push(car);
+        localStorage.setItem(
+          `selectedCars${nowUserName}`,
+          JSON.stringify(existingCars)
+        );
+        navigate("/car/detail", { state: { ...car } });
+      }}
+    >
       <ImgWrapper>
-        {imageUrl ? <img src={imageUrl} alt="carImg" /> : <MdOutlineImageNotSupported size={30} color="#ddd" />}
+        {imageUrl ? (
+          <img src={imageUrl} alt="carImg" />
+        ) : (
+          <MdOutlineImageNotSupported size={30} color="#ddd" />
+        )}
         {eventName ? (
           <Container>
             <TfiTimer size={18} color="#fff" />
             <div id="eventName">{eventName}</div>
-            {timeLeft.days} 일 {timeLeft.hours} 시간 {timeLeft.minutes} 분 {timeLeft.seconds} 초
+            {timeLeft.days} 일 {timeLeft.hours} 시간 {timeLeft.minutes} 분{" "}
+            {timeLeft.seconds} 초
           </Container>
         ) : (
           <></>
         )}
       </ImgWrapper>
+
       <CarWrapper>
         <NameText>
           {make} {model} {fuel[0].label} {transmission}

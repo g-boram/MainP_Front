@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "@emotion/styled";
 import Spacing from "../shared/Spacing";
 import Flex from "../shared/Flex";
@@ -24,6 +24,8 @@ export default function CarDetailBox() {
   const location = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const sessionUser = JSON.parse(sessionStorage.getItem("user")) || [];
+  // const nowUsername = sessionUser.username;
 
   const handleOpenPaymentModal = () => {
     setIsPaymentModalOpen(true);
@@ -61,8 +63,6 @@ export default function CarDetailBox() {
     hashTags,
   } = location.state;
 
-  console.log(location);
-
   const fuel = CAR_OPTION_FUELTYPE.filter((f) => f.value === fuelType);
 
   return (
@@ -71,9 +71,20 @@ export default function CarDetailBox() {
         <MainContainer>
           {/* 왼쪽 고정 영역 */}
           <FixedBox>
-            {eventName ? <CarDetailTimer eventEndTime={eventEndTime} eventName={eventName} /> : <></>}
+            {eventName ? (
+              <CarDetailTimer
+                eventEndTime={eventEndTime}
+                eventName={eventName}
+              />
+            ) : (
+              <></>
+            )}
             <CarImgBox>
-              {imageUrl ? <img src={imageUrl} alt="carImg" /> : <MdOutlineImageNotSupported size={50} color="#ddd" />}
+              {imageUrl ? (
+                <img src={imageUrl} alt="carImg" />
+              ) : (
+                <MdOutlineImageNotSupported size={50} color="#ddd" />
+              )}
             </CarImgBox>
             <CarDetailInfoBox />
             <CarSellerInfoBox id={sellerId} />
@@ -85,7 +96,11 @@ export default function CarDetailBox() {
                 <img src={LogoImg} alt="Logo" />
               </LogoImgBox>
               <TopRowRight>
-                {hashTags && hashTags?.length !== 0 ? hashTags.map((tag) => <TagText>#{tag}</TagText>) : <></>}
+                {hashTags && hashTags?.length !== 0 ? (
+                  hashTags.map((tag) => <TagText>#{tag}</TagText>)
+                ) : (
+                  <></>
+                )}
               </TopRowRight>
             </TopIconRow>
             <CarMainTitleRow>
@@ -96,7 +111,7 @@ export default function CarDetailBox() {
                 />
               </Flex>
               <div id="topTitle">
-                {make} {model} {fuel[0].label} {transmission}
+                {make} {model} {fuel[0]?.label} {transmission}
               </div>
               <Flex justify="space-between" align="flex-end">
                 <div id="lPrice">{addDelimiter(price)}</div>
@@ -105,14 +120,19 @@ export default function CarDetailBox() {
               <Spacing size={30} />
               <Flex>
                 <CallBtn>
-                  <a href={`tel:01058290424`} style={{ textDecoration: "none", color: "#000" }}>
+                  <a
+                    href={`tel:01058290424`}
+                    style={{ textDecoration: "none", color: "#000" }}
+                  >
                     판매자에게 전화하기
                   </a>
                 </CallBtn>
                 <Spacing size={10} direction="width" />
                 <CounselBtn>온라인 견적내기</CounselBtn>
               </Flex>
-              <OnCovenantBtn onClick={handleOpenModal}>HiCar에서 구매하기</OnCovenantBtn>
+              <OnCovenantBtn onClick={handleOpenModal}>
+                HiCar에서 구매하기
+              </OnCovenantBtn>
             </CarMainTitleRow>
 
             <CarDataBox>
@@ -125,58 +145,138 @@ export default function CarDetailBox() {
                 </Text>
               </Flex>
               <Flex height="30px" justify="space-between" align="center">
-                <Text typography="t13" color="grey" width="80px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="grey"
+                  width="80px"
+                  textAlign="left"
+                >
                   제조사
                 </Text>
-                <Text typography="t13" color="black" width="100px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="black"
+                  width="100px"
+                  textAlign="left"
+                >
                   {make}
                 </Text>
-                <Text typography="t13" color="grey" width="80px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="grey"
+                  width="80px"
+                  textAlign="left"
+                >
                   모델명
                 </Text>
-                <Text typography="t13" color="black" width="100px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="black"
+                  width="100px"
+                  textAlign="left"
+                >
                   {model}
                 </Text>
               </Flex>
               <Flex height="30px" justify="space-between" align="center">
-                <Text typography="t13" color="grey" width="80px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="grey"
+                  width="80px"
+                  textAlign="left"
+                >
                   차량번호
                 </Text>
-                <Text typography="t13" color="black" width="100px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="black"
+                  width="100px"
+                  textAlign="left"
+                >
                   {carId}
                 </Text>
-                <Text typography="t13" color="grey" width="80px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="grey"
+                  width="80px"
+                  textAlign="left"
+                >
                   주행거리
                 </Text>
-                <Text typography="t13" color="black" width="100px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="black"
+                  width="100px"
+                  textAlign="left"
+                >
                   {addDelimiter(mileage)} km
                 </Text>
               </Flex>
               <Flex height="30px" justify="space-between" align="center">
-                <Text typography="t13" color="grey" width="80px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="grey"
+                  width="80px"
+                  textAlign="left"
+                >
                   연식
                 </Text>
-                <Text typography="t13" color="black" width="100px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="black"
+                  width="100px"
+                  textAlign="left"
+                >
                   {year}
                 </Text>
-                <Text typography="t13" color="grey" width="80px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="grey"
+                  width="80px"
+                  textAlign="left"
+                >
                   색상
                 </Text>
-                <Text typography="t13" color="black" width="100px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="black"
+                  width="100px"
+                  textAlign="left"
+                >
                   <ColorBox color={color} />
                 </Text>
               </Flex>
               <Flex height="30px" justify="space-between" align="center">
-                <Text typography="t13" color="grey" width="80px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="grey"
+                  width="80px"
+                  textAlign="left"
+                >
                   연료타입
                 </Text>
-                <Text typography="t13" color="black" width="100px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="black"
+                  width="100px"
+                  textAlign="left"
+                >
                   {fuel[0].label}
                 </Text>
-                <Text typography="t13" color="grey" width="80px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="grey"
+                  width="80px"
+                  textAlign="left"
+                >
                   변속기
                 </Text>
-                <Text typography="t13" color="black" width="100px" textAlign="left">
+                <Text
+                  typography="t13"
+                  color="black"
+                  width="100px"
+                  textAlign="left"
+                >
                   {transmission}
                 </Text>
               </Flex>
@@ -190,7 +290,9 @@ export default function CarDetailBox() {
               <DescBox>{description}</DescBox>
             </CarDataBox>
             <CarDataBox>
-              <CarDetailOptionBox carOptionData={location.state?.carOptionData[0]} />
+              <CarDetailOptionBox
+                carOptionData={location.state?.carOptionData[0]}
+              />
             </CarDataBox>
           </ScrollBox>
         </MainContainer>
@@ -220,7 +322,9 @@ export default function CarDetailBox() {
                 <FaCheckCircle />
                 구매 시｜7일간 타보고 환불가능
               </Div>
-              <OrderBtn onClick={handleOpenPaymentModal}>즉시 결제하기</OrderBtn>
+              <OrderBtn onClick={handleOpenPaymentModal}>
+                즉시 결제하기
+              </OrderBtn>
               <DivChat>
                 <RiCustomerService2Fill />
                 챗봇으로 문의하기
@@ -244,7 +348,9 @@ export default function CarDetailBox() {
             <ModalBody>
               <Toss
                 onClick={() => {
-                  const tossPayments = window.TossPayments(process.env.REACT_APP_TOSS_CLIENT_KEY); // Replace with your client key
+                  const tossPayments = window.TossPayments(
+                    process.env.REACT_APP_TOSS_CLIENT_KEY
+                  ); // Replace with your client key
                   tossPayments
                     .requestPayment("카드", {
                       amount: price, // Replace with the actual price
@@ -280,6 +386,7 @@ const Toss = styled.button`
   margin-top: 20px;
   padding: 15px;
   width: 100%;
+  cursor: pointer;
 `;
 
 const OrderBtn = styled.div`
