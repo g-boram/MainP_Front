@@ -8,8 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { isManagerPath } from "../../reduxSlice/isManagerPathSlice";
 import { HEIGHT_LIST } from "../../constants/height";
 import { logout } from "../../reduxSlice/authSlice";
-import Logo from "../../assert/Logo.png";
-
+import LogoImg from "../../assert/Logo.png";
 import styled from "@emotion/styled";
 import Flex from "../shared/Flex";
 import BaseButton from "../shared/Button";
@@ -42,7 +41,7 @@ export default function Header() {
         <UserHeaderContainer>
           <HeaderBox>
             <LogoBox onClick={() => navigate("/")}>
-              <Img src={Logo} />
+              <img src={LogoImg} alt="Logo" />
             </LogoBox>
             <div>
               {user == null ? (
@@ -55,13 +54,7 @@ export default function Header() {
                   <Flex>
                     <TextRow>{user.username} 님 환영합니다.</TextRow>
                     <Link to={`/`}>
-                      <BaseButton
-                        size="small"
-                        color="white"
-                        height="30px"
-                        width="70px"
-                        onClick={handleLogout}
-                      >
+                      <BaseButton size="small" color="white" height="30px" width="70px" onClick={handleLogout}>
                         로그아웃
                       </BaseButton>
                     </Link>
@@ -146,11 +139,15 @@ const NavbarContainer = styled.div`
 
 const LogoBox = styled.div`
   margin-left: 20px;
+
   cursor: pointer;
+  width: 60px;
+  height: 60px;
 
   > img {
     width: 100px;
-
+    margin-top: 10px;
+    position: absolute;
     object-fit: contain;
   }
 `;

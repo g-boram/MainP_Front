@@ -35,7 +35,7 @@ const Row = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 0 0 0 30px;
-  box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0px 2px 2px rgba(193, 193, 193, 0.2);
 
   ${({ height, width, bgColor }) => css`
     height: ${height};

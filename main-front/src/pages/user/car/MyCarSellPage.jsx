@@ -56,14 +56,14 @@ const SellButton2 = styled.div`
   align-items: center;
   justify-content: center;
   padding: 10px;
-  border-radius: 8px;
+  border-radius: 5px;
   color: #000;
   box-sizing: border-box;
-  width: 155px;
-  font-weight: 600;
+  width: 250px;
+  font-weight: 700;
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.3);
-  font-size: 14px;
+  font-size: 16px;
 
   svg {
     font-size: 10px;
@@ -93,8 +93,9 @@ const SellContainer = styled.div`
 `;
 
 const TopText = styled.h3`
-  line-height: 25px;
+  line-height: 30px;
   font-weight: 800;
+  width: 150px;
 `;
 
 const SellButton = styled.div`
@@ -103,13 +104,13 @@ const SellButton = styled.div`
   align-items: center;
   justify-content: center;
   padding: 10px;
-  border-radius: 8px;
+  border-radius: 5px;
   color: #fff;
   box-sizing: border-box;
-  width: 155px;
-  font-weight: 600;
+  width: 250px;
+  font-weight: 700;
   background-color: #d72e36;
-  font-size: 14px;
+  font-size: 16px;
 
   svg {
     font-size: 10px;

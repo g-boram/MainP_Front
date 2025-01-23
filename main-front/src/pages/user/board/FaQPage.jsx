@@ -14,31 +14,35 @@ import { ClipLoader } from "react-spinners";
 import { TbClipboardSearch } from "react-icons/tb";
 import { BaseIconBox } from "../../../styles/miniComponentStyles";
 import { setPage, setTotalItems } from "../../../reduxSlice/paginationSlice";
+import { getAllBoardList } from "../../../api/boardApi";
 
 export default function QnAPage() {
   const dispatch = useDispatch();
 
-  const [currentItems, setCurrentItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [boardList, setBoardList] = useState([]);
 
-  const { filteredBoards, isLoading } = useSelector((state) => state.boardList);
+  const [currentItems, setCurrentItems] = useState([]);
   const { currentPage, itemsPerPage } = useSelector((state) => state.pagination);
 
   useEffect(() => {
-    const fetchBoards = async () => {
-      await dispatch(fetchPagedBoards({ page: 0, size: 10, sort: "boardId,desc" }));
+    setIsLoading(true);
+    const allBoardData = async () => {
+      const data = await getAllBoardList();
+      setBoardList(data);
     };
-
-    fetchBoards();
-  }, [dispatch]);
+    allBoardData();
+    setIsLoading(false);
+  }, []);
 
   useEffect(() => {
-    const setNoticeData = filteredBoards.filter((board) => board.category === "faq" && board.status === "ACTIVE");
+    const setNoticeData = boardList.filter((board) => board.category === "faq" && board.status === "ACTIVE");
     dispatch(setTotalItems(setNoticeData.length));
 
     const startIndex = currentPage * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     setCurrentItems(setNoticeData.slice(startIndex, endIndex));
-  }, [currentPage, itemsPerPage, filteredBoards, dispatch]);
+  }, [currentPage, itemsPerPage, boardList, dispatch]);
 
   return (
     <PageContainer>
@@ -66,7 +70,7 @@ export default function QnAPage() {
       </BoardListContainer>
       <CustomPagination
         currentPage={currentPage}
-        totalItems={filteredBoards.length}
+        totalItems={boardList.length}
         itemsPerPage={itemsPerPage}
         onPageChange={(page) => dispatch(setPage(page))}
       />

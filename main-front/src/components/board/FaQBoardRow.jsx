@@ -1,20 +1,12 @@
 import styled from "@emotion/styled";
 import Flex from "../shared/Flex";
 import Badge from "../shared/Badge";
-import { useNavigate } from "react-router-dom";
 import { colorPalette } from "../../styles/colorPalette";
 import { useState } from "react";
 import { FaAngleUp, FaAngleDown } from "react-icons/fa";
 
-export default function QnABoardRow({
-  boardId,
-  title,
-  content,
-  createdAt,
-  imageUrl,
-}) {
-  // const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false); // 토글 상태 관리
+export default function QnABoardRow({ title, content, createdAt }) {
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleContent = (e) => {
     e.stopPropagation();
@@ -22,7 +14,6 @@ export default function QnABoardRow({
   };
 
   return (
-    // onClick={() => navigate(`/board/faq/detail/${boardId}`)}
     <BoardRowWrapper>
       <Flex justify={"space-between"} align={"flex-start"} direction="column">
         <Flex align="center">
@@ -30,9 +21,7 @@ export default function QnABoardRow({
           <div id="title" onClick={toggleContent}>
             {title}
           </div>
-          <ToggleButton onClick={toggleContent}>
-            {isOpen ? <FaAngleDown /> : <FaAngleUp />}
-          </ToggleButton>
+          <ToggleButton onClick={toggleContent}>{isOpen ? <FaAngleDown /> : <FaAngleUp />}</ToggleButton>
         </Flex>
         {isOpen && <div id="content">{content}</div>}
       </Flex>
@@ -77,9 +66,10 @@ const BoardRowWrapper = styled.div`
   #content {
     font-size: 12px;
     color: ${colorPalette.fontDarkGrey};
-    padding: 10px 0;
+    padding: 30px 60px;
     overflow: hidden;
     white-space: pre-line;
+    transition: 1s;
 
     @media (max-width: 600px) {
       margin-left: 5px;

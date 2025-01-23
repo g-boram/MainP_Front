@@ -2,6 +2,17 @@ import axios from "axios";
 import { SERVER_URL } from "../constants/urlList";
 import { fetchPagedBoards } from "../reduxSlice/boardListSlice";
 
+// 전체 게시판 조회
+export const getAllBoardList = async () => {
+  try {
+    const response = await axios.get(`${SERVER_URL.LOCAL}/board/all`);
+
+    return response.data;
+  } catch (error) {
+    throw error.response ? error.response.data : error;
+  }
+};
+
 // 게시판 수정
 export const updateBoard = async (formData) => {
   try {
