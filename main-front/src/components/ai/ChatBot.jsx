@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled/macro";
 import { RiCustomerService2Line } from "react-icons/ri";
+import { ClipLoader } from "react-spinners";
+import { RiSendPlaneFill } from "react-icons/ri";
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([]);
@@ -82,29 +84,30 @@ const Chatbot = () => {
         <>
           <Overlay onClick={toggleChatVisibility} />
           <ChatbotContainer>
-            <Title>질문</Title>
+            <Title>Chat AI</Title>
             <ChatContainer>
-              <Message>
-                믿음 중고차 HiCar 채팅 상담 입니다! 무엇이든 물어보세요 !
-              </Message>
+              <Message>믿음 중고차 HiCar 채팅 상담 입니다! 무엇이든 물어보세요 !</Message>
               {messages.map((msg, index) => (
                 <Message key={index} sender={msg.sender}>
-                  <strong>{msg.sender === "user" ? "You" : "Bot"}:</strong>{" "}
-                  {msg.content}
+                  <strong>{msg.sender === "user" ? "You" : "Bot"}:</strong> {msg.content}
                 </Message>
               ))}
-              {loading && <LoadingText>Loading...</LoadingText>}
+              {loading && (
+                <LoadingText>
+                  <ClipLoader color="#000" z-index={11} />
+                </LoadingText>
+              )}
             </ChatContainer>
             <InputContainer>
               <Input
                 type="text"
-                placeholder="Type your message here..."
+                placeholder="message here"
                 value={userInput}
                 onChange={(e) => setUserInput(e.target.value)}
                 onKeyDown={handleKeyDown}
               />
               <SendButton onClick={handleSendMessage} disabled={loading}>
-                Send
+                <RiSendPlaneFill />
               </SendButton>
             </InputContainer>
           </ChatbotContainer>
@@ -183,16 +186,14 @@ const ChatContainer = styled.div`
 `;
 
 const Message = styled.div`
-  background-color: ${(props) =>
-    props.sender === "user" ? "#007bff" : "#e9ecef"};
+  background-color: ${(props) => (props.sender === "user" ? "#007bff" : "#e9ecef")};
   color: ${(props) => (props.sender === "user" ? "#fff" : "#495057")};
   padding: 10px;
   border-radius: 10px;
   margin: 10px 0;
   max-width: 75%;
   word-wrap: break-word;
-  align-self: ${(props) =>
-    props.sender === "user" ? "flex-end" : "flex-start"};
+  align-self: ${(props) => (props.sender === "user" ? "flex-end" : "flex-start")};
   font-size: 16px;
 `;
 

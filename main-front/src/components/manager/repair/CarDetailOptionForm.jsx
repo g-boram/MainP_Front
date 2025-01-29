@@ -27,7 +27,7 @@ export default function CarDetailOptionForm({ carOptionData }) {
       </Row>
       <Row>
         <Label>배출가스</Label>
-        <InputBox>{eEmision[0].label}</InputBox>
+        <InputBox>{eEmision[0]?.label}</InputBox>
         <Label>튜닝여부</Label>
         <RadioBox>
           <input id="notTuning" name="tuning" type="radio" checked={optionData.tuning === "0"} readOnly />

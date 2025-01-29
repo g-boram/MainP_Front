@@ -216,7 +216,7 @@ const MainContainer = styled.div`
 
 // 왼쪽
 const FixedBox = styled.div`
-  width: 500px;
+  width: 600px;
   height: 700px;
 `;
 

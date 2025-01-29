@@ -94,7 +94,7 @@ export default function RepairCarDetailForm() {
               <Label>제조 연도</Label>
               <InputBox>{location.state.year}</InputBox>
               <Label>연료 종류</Label>
-              <InputBox>{fuel[0].label}</InputBox>
+              <InputBox>{fuel[0]?.label}</InputBox>
               <Label>변속기 종류</Label>
               <InputBox>{location.state.transmission}</InputBox>
             </Row>
@@ -109,7 +109,7 @@ export default function RepairCarDetailForm() {
             </HighRow>
           </FormContainer>
           <TitleRow>차량 옵션</TitleRow>
-          <CarDetailOptionForm carOptionData={location.state.carOptionData} />
+          <CarDetailOptionForm carOptionData={location.state?.carOptionData} />
 
           <Spacing size={80} />
           <Flex justify={"center"}>

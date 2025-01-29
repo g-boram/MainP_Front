@@ -10,10 +10,12 @@ import { MdOutlineImageNotSupported } from "react-icons/md";
 export default function CarBox(car) {
   const { make, model, fuelType, mileage, price, description, transmission, year, imageUrl, eventName, eventEndTime } =
     car;
+
   const navigate = useNavigate();
   const fuel = CAR_OPTION_FUELTYPE.filter((f) => f.value === fuelType);
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  const [recentProducts, setRecentProducts] = useState([]);
 
   function calculateTimeLeft() {
     const endTime = new Date(eventEndTime).getTime(); // 종료 시간
@@ -44,11 +46,11 @@ export default function CarBox(car) {
     <CarContainer onClick={() => navigate("/car/detail", { state: { ...car } })}>
       <ImgWrapper>
         {imageUrl ? <img src={imageUrl} alt="carImg" /> : <MdOutlineImageNotSupported size={30} color="#ddd" />}
-        {eventName ? (
+        {eventName !== "" ? (
           <Container>
             <TfiTimer size={18} color="#fff" />
             <div id="eventName">{eventName}</div>
-            {timeLeft.days} 일 {timeLeft.hours} 시간 {timeLeft.minutes} 분 {timeLeft.seconds} 초
+            {timeLeft?.days} 일 {timeLeft?.hours} 시간 {timeLeft?.minutes} 분 {timeLeft?.seconds} 초
           </Container>
         ) : (
           <></>

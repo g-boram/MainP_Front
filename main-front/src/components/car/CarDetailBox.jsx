@@ -12,16 +12,20 @@ import LogoImg from "../../assert/Logo.png";
 import { FaCheckCircle } from "react-icons/fa";
 import { RiCustomerService2Fill } from "react-icons/ri";
 import { css } from "@emotion/react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { CAR_OPTION_FUELTYPE } from "../../constants/carOption";
 import { ClearLoadingOverlay } from "../../styles/managerLayoutStyles";
 import { ClipLoader } from "react-spinners";
 import { MdOutlineImageNotSupported } from "react-icons/md";
 import { useState } from "react";
 import CarDetailOptionBox from "./CarDetailOptionBox";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 export default function CarDetailBox() {
+  const { user } = useSelector((state) => state.auth);
   const location = useLocation();
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
@@ -34,7 +38,12 @@ export default function CarDetailBox() {
   };
 
   const handleOpenModal = () => {
-    setIsModalOpen(true);
+    if (user) {
+      setIsModalOpen(true);
+    } else {
+      toast.error("로그인 후 이용가능합니다!");
+      navigate("/signin");
+    }
   };
 
   const handleCloseModal = () => {
@@ -60,8 +69,6 @@ export default function CarDetailBox() {
     eventEndTime,
     hashTags,
   } = location.state;
-
-  console.log(location);
 
   const fuel = CAR_OPTION_FUELTYPE.filter((f) => f.value === fuelType);
 
@@ -244,14 +251,14 @@ export default function CarDetailBox() {
             <ModalBody>
               <Toss
                 onClick={() => {
-                  const tossPayments = window.TossPayments(process.env.REACT_APP_TOSS_CLIENT_KEY); // Replace with your client key
+                  const tossPayments = window.TossPayments(process.env.REACT_APP_TOSS_CLIENT_KEY);
                   tossPayments
                     .requestPayment("카드", {
-                      amount: price, // Replace with the actual price
-                      orderId: `order-${Date.now()}`, // Generate unique order ID
-                      orderName: `${make} ${model}`, // Customize order name
-                      successUrl: "http://localhost:3000/mypage", // Replace with your success URL
-                      failUrl: "http://localhost:3000/", // Replace with your fail URL
+                      amount: price,
+                      orderId: `order-${Date.now()}`,
+                      orderName: `${make} ${model}`,
+                      successUrl: "http://localhost:3000/buy/success",
+                      failUrl: "http://localhost:3000/buy/fail",
                     })
                     .catch((error) => {
                       console.error(error);

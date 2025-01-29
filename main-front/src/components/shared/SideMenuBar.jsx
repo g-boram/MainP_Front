@@ -39,7 +39,7 @@ export default function SideMenuBar({ setIsLoading, setCarData }) {
       fuelType: fuelType.value,
       transmission: transmission.value,
     };
-    console.log("filter: ", data);
+
     setIsLoading(true);
     try {
       const response = await getFilterCarList(data);
