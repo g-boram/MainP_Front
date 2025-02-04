@@ -27,12 +27,12 @@ export default function BuySuccessPage() {
           paymentKey,
           amount,
         });
-        console.log("Data sent successfully:", response.data);
+        console.log("success:", response.data);
       } catch (error) {
-        console.error("Error sending data:", error);
+        console.error("Error:", error);
       } finally {
         const timer = setTimeout(() => {
-          navigate("/mypage"); // Replace with your desired route
+          navigate("/mypage");
         }, 2000);
         return () => clearTimeout(timer);
       }

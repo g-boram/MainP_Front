@@ -58,6 +58,9 @@ function Form({ onSubmit }) {
     }));
   }, []);
 
+  const errors = useMemo(() => validate(formValues, isCheckEmail), [formValues, isCheckEmail]);
+  const isValidate = Object.keys(errors).length === 0;
+
   const confirmRegister = () => {
     open({
       title: "회원가입",
@@ -81,10 +84,6 @@ function Form({ onSubmit }) {
       toast.error(err.message);
     }
   };
-
-  // error값을 가지고있음
-  const errors = useMemo(() => validate(formValues, isCheckEmail), [formValues, isCheckEmail]);
-  const isValidate = Object.keys(errors).length === 0;
 
   const selectStyle = {
     container: (containerStyles) => ({
