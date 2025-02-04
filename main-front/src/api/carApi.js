@@ -70,3 +70,32 @@ export const deleteCar = async (carId) => {
     throw error.response ? error.response.data : error;
   }
 };
+
+// 토스 결제정보 전송
+export const sendBuyCar = async (data) => {
+  try {
+    const response = await axios.post(`${SERVER_URL.LOCAL}/buy/success`, data);
+    return response;
+  } catch (error) {
+    throw error.response ? error.response.data : error;
+  }
+};
+// 토스 결제정보 가져오기
+export const getBuyCar = async () => {
+  try {
+    const setData = [];
+    const response = await axios.get(`${SERVER_URL.LOCAL}/buy/order`);
+    const uniqueData = response.data.filter((v) => {
+      if (setData.includes(v.orderId)) {
+        return false; // 중복된 orderId는 제외
+      } else {
+        setData.push(v.orderId); // 새로운 orderId는 추가
+        return true;
+      }
+    });
+
+    return uniqueData;
+  } catch (error) {
+    throw error.response ? error.response.data : error;
+  }
+};

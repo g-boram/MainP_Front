@@ -114,6 +114,7 @@ const CarSellChart = ({ carSellData, isLoading, sellerItem }) => {
     acc[curr.region] = (acc[curr.region] || 0) + 1;
     return acc;
   }, {}); // 지역별 카운트 집계
+
   const regions = Object.keys(regionCounts); // 지역명 목록
   const counts = Object.values(regionCounts); // 각 지역별 개수 목록
   const regionsColors = counts.map(() => makeRandomColor());

@@ -5,6 +5,7 @@ import { HEIGHT_LIST } from "../constants/height";
 import MainCarBox from "../components/main/MainCarBox";
 import MainBoardList from "../components/main/MainBoardList";
 import SideSlideCar from "../components/main/SideSlideCar";
+import Spacing from "../components/shared/Spacing";
 
 // 메인 페이지
 // : 누구나 볼수있음
@@ -14,7 +15,9 @@ export default function HomePage() {
       <PageWrapper>
         <CenterToBanner />
         <MainCarBox />
+        <Spacing size={30} />
         <SideSlideCar />
+        <Spacing size={30} />
         <BoardRow>
           <MainBoardList />
           <ImgSlideBanner />

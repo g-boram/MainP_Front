@@ -33,7 +33,7 @@ export default function CarDetailOptionBox({ carOptionData }) {
       <Spacing size={10} />
       <Row>
         <Label>배출가스</Label>
-        <InputBox>{eEmision[0].label}</InputBox>
+        <InputBox>{eEmision[0]?.label}</InputBox>
         <Label>튜닝여부</Label>
         <RadioBox>
           <InputBox>{carOptionData.tuning === "0" ? "없음" : "있음"}</InputBox>

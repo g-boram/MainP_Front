@@ -14,14 +14,14 @@ export default function CarSellPage() {
   const { open } = useAlertContext();
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
-  console.log(user);
+
   const [isLoading, setIsLoading] = useState(false);
   const [selectedColor, setSelectedColor] = useState(""); // 차량 색상 상태
   const [specialNotes, setSpecialNotes] = useState(""); // 차량 특이사항 상태
   const [formData, setFormData] = useState({
-    username: user.username,
-    orderUserId: user.id,
-    email: user.email,
+    username: user?.username,
+    orderUserId: user?.id,
+    email: user?.email,
     region: "",
     phone: "",
     time: "",

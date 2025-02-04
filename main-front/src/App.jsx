@@ -51,6 +51,7 @@ import M_CarEventUpdatePage from "./pages/manager/car/M_CarEventUpdatePage";
 import M_CarEventDetailPage from "./pages/manager/car/M_CarEventDetailPage";
 import M_CarSellPage from "./pages/manager/carSell/M_CarSellPage";
 import M_SellerPage from "./pages/manager/main/M_SellerPage";
+import BuySuccessPage from "./pages/user/BuySuccessPage";
 
 function App() {
   return (
@@ -100,6 +101,7 @@ function App() {
           <Route path="/carsellestimate" Component={CarSellEstimate} />
           <Route path="/carsell" Component={CarSellPage} />
           <Route path="/company" Component={CompanyPage} />
+          <Route path="/buy/success" Component={BuySuccessPage} />
 
           {/* 관리자 페이지 */}
           <Route path="/manager" Component={ManagerPage} />
